@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import util.PropertyHandler;
+
 public class Connector {
 	private static final String CONFIG_PROPERTIES = "config.properties";
 
@@ -23,8 +25,9 @@ public class Connector {
 	private static final String USER_PASSWORD_SEPARATOR = "&";
 
 	public void executeQuery(String query) {
-
-		Properties properties = getProperties();
+		
+		PropertyHandler ph = new PropertyHandler();
+		Properties properties = ph.getProperties(CONFIG_PROPERTIES);
 
 		String database = properties.getProperty(DATABASE_PROPERTY);
 		String user = properties.getProperty(USER_PROPERTY);
@@ -67,25 +70,5 @@ public class Connector {
 		Connection connection = DriverManager.getConnection("jdbc:mysql://" + database + DATABASE_USER_SEPARATOR
 				+ "user=" + user + USER_PASSWORD_SEPARATOR + "password=" + password);
 		return connection;
-	}
-
-	private Properties getProperties() {
-		Properties properties = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream(CONFIG_PROPERTIES);
-			properties.load(input);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return properties;
 	}
 }
