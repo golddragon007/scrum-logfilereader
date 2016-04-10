@@ -4,18 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import util.PropertyHandler;
 
 public class Parser {
 
 	private static final String DATE_PROPERTY = "date";
+	private static final String COMPONENTANDPORT_PROPERTY = "componentAndPort";
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
 	
 	private void applyRules() {
 		PropertyHandler ph = new PropertyHandler();
 		Properties properties = ph.getProperties(REGEXP_PATTERNS_PROPERTIES);
 		RegexpPatterns.datePattern = properties.getProperty(DATE_PROPERTY);
+		RegexpPatterns.componentAndPortPattern=properties.getProperty(COMPONENTANDPORT_PROPERTY);
 	}
 	
 	public void parse(String relativePath) {
@@ -31,6 +35,15 @@ public class Parser {
 					if(isTimerOperation(words[3])) {
 						parseTimer(words);
 					}
+				}
+				if(isVerdictOperation(words[3]))
+				{
+					String sourceOfOperation = words[2];
+					String operationType = words[3];
+					String miscText = words[5];
+					String verdict = words[7];
+					parseComponentAndPort(words[4]);
+					
 				}
 			}
 		} catch (IOException e) {
@@ -53,6 +66,15 @@ public class Parser {
 			duration = words[7];
 		}
 	}
+	
+	private void parseComponentAndPort(String word){
+		String componentName = null, portNumber = null;
+		Pattern p = Pattern.compile(RegexpPatterns.componentAndPortPattern);
+		Matcher m = p.matcher(word);
+		componentName=m.group(0);
+		portNumber=m.group(1);
+		
+	}
 
 	private boolean isTimerStarted(String word) {
 		return word.equals("Start");
@@ -73,4 +95,8 @@ public class Parser {
 	public boolean matchesDate(String date) {
 		return date.matches(RegexpPatterns.datePattern);
 	}
+	
+	private boolean isVerdictOperation(String words){
+		return words.equals("VERDICTOP");
+	} 
 }
