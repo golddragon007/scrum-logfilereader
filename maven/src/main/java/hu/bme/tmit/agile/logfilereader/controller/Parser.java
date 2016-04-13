@@ -45,6 +45,21 @@ public class Parser {
 					parseComponentAndPort(words[4]);
 					
 				}
+				
+				if(isCreatedComponent(words[6], words[7])) {
+					String componentReference = words[10].substring(0, words[10].length()-1);
+					if(isComponentType(words[13])) {
+						String componentType = words[13];
+						String testcaseName = words[16].substring(0, words[16].length()-1);
+						String processID = words[19].substring(0, words[19].length()-1);
+					}
+					
+				}
+				
+				if(isTerminatingComponent(words[5], words[6])) {
+					String componentTye = words[8].substring(0, words[8].length()-1);		
+				}
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,4 +114,19 @@ public class Parser {
 	private boolean isVerdictOperation(String words){
 		return words.equals("VERDICTOP");
 	} 
+	
+	private boolean isCreatedComponent(String words1, String words2) {
+		return (words1.equals("was") && words2.equals("created."));
+	}
+	
+	private boolean isTerminatingComponent(String words1, String words2) {
+		return (words1.equals("Terminating") && words2.equals("component"));
+	}
+	
+	private boolean isComponentType(String words) {
+		if(words.equals("type:"))
+			return false;
+		else
+			return true;
+	}
 }
