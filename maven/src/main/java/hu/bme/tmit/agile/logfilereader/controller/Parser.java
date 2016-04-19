@@ -26,40 +26,41 @@ public class Parser {
 		applyRules();
 		try {
 			for (String line : Files.readAllLines((new File(relativePath).toPath()))) {
-				String words[] = line.split(" ");
-				if(matchesDate(words[0])) {
-					String dateString = words[0];
-					String timeString = words[1];
+				String parts[] = line.split(" ");
+				if(matchesDate(parts[0])) {
+					String dateString = parts[0];
+					String timeString = parts[1];
 //					Date date = parseDate(dateString, timeString);
-					String sender = words[2];
-					if(isTimerOperation(words[3])) {
-						parseTimer(words);
+					String sender = parts[2];
+					if(isTimerOperation(parts[3])) {
+						parseTimer(parts);
+					}
+					// úgyis akkor kell csekkolni csak, ha az eleje dátum, és egyszerre nem állhat fent max egy
+					else if(parts.length >= 20 && isCreatedComponent(parts[6], parts[7])) {
+						String componentReference = parts[10].substring(0, parts[10].length()-1);
+						if(isComponentType(parts[13])) {
+							String componentType = parts[13];
+							String testcaseName = parts[16].substring(0, parts[16].length()-1);
+							String processID = parts[19].substring(0, parts[19].length()-1);
+						}
+					}
+//					ez így szar pl.
+//					2014/Oct/24 19:53:07.322255 2464 VERDICTOP - Final verdict of PTC: pass reason: "Life is beautiful!"
+//					miatt
+					else if(parts.length >= 8 && isVerdictOperation(parts[3]))
+					{
+						String sourceOfOperation = parts[2];	// így már ez sem kell
+						String operationType = parts[3];
+						String miscText = parts[5];
+						String verdict = parts[7];
+//						parseComponentAndPort(parts[4]);
+						
+					}
+					else if(parts.length >= 9 && isTerminatingComponent(parts[5], parts[6])) {
+						String componentTye = parts[8].substring(0, parts[8].length()-1);		
 					}
 				}
-				if(isVerdictOperation(words[3]))
-				{
-					String sourceOfOperation = words[2];
-					String operationType = words[3];
-					String miscText = words[5];
-					String verdict = words[7];
-					parseComponentAndPort(words[4]);
-					
-				}
-				
-				if(isCreatedComponent(words[6], words[7])) {
-					String componentReference = words[10].substring(0, words[10].length()-1);
-					if(isComponentType(words[13])) {
-						String componentType = words[13];
-						String testcaseName = words[16].substring(0, words[16].length()-1);
-						String processID = words[19].substring(0, words[19].length()-1);
-					}
-					
-				}
-				
-				if(isTerminatingComponent(words[5], words[6])) {
-					String componentTye = words[8].substring(0, words[8].length()-1);		
-				}
-				
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
