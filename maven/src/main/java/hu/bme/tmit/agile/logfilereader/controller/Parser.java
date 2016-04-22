@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.Properties;
 
+import hu.bme.tmit.agile.logfilereader.model.CreatedComponent;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
+import hu.bme.tmit.agile.logfilereader.model.TerminatingComponent;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 import util.PropertyHandler;
@@ -44,14 +46,15 @@ public class Parser {
 					} else if (parts.length >= 8 && isVerdictOperation(parts[3])) {
 						VerdictOperation vo = VerdictParser.parseVerdict(parts);
 					} else if (parts.length >= 20 && isCreatedComponent(parts[6], parts[7])) {
-						String componentReference = parts[10].substring(0, parts[10].length() - 1);
 						if (isComponentType(parts[13])) {
-							String componentType = parts[13];
-							String testcaseName = parts[16].substring(0, parts[16].length() - 1);
-							String processID = parts[19].substring(0, parts[19].length() - 1);
+							CreatedComponent cc = CreatedComponentParser.parseCreated(parts);
+							cc.setTimestamp(timestamp);
+							cc.setSender(sender);
 						}
 					} else if (parts.length >= 9 && isTerminatingComponent(parts[5], parts[6])) {
-						String componentTye = parts[8].substring(0, parts[8].length() - 1);
+						TerminatingComponent tc = TerminatingComponentParser.parseTerminating(parts);
+						tc.setTimestamp(timestamp);
+						tc.setSender(sender);
 					}
 				}
 			}
