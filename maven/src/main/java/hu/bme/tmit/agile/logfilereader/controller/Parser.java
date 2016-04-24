@@ -18,7 +18,7 @@ public class Parser {
 
 	private static final String DATE_PROPERTY = "date";
 	private static final String TIME_PROPERTY = "time";
-	private static final String COMPONENT_AND_PORT_PROPERTY = "componentAndPort";
+	private static final String VERDICT_PROPERTY = "verdictData";
 
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
 
@@ -27,7 +27,7 @@ public class Parser {
 		Properties properties = ph.getProperties(REGEXP_PATTERNS_PROPERTIES);
 		RegexpPatterns.datePattern = properties.getProperty(DATE_PROPERTY);
 		RegexpPatterns.timePattern = properties.getProperty(TIME_PROPERTY);
-		RegexpPatterns.componentAndPortPattern = properties.getProperty(COMPONENT_AND_PORT_PROPERTY);
+		RegexpPatterns.verdictData = properties.getProperty(VERDICT_PROPERTY);
 	}
 
 	public void parse(String relativePath) {
@@ -43,8 +43,22 @@ public class Parser {
 						TimerOperation to = TimerParser.parseTimer(parts);
 						to.setSender(sender);
 						to.setTimestamp(timestamp);
-					} else if (parts.length >= 8 && isVerdictOperation(parts[3])) {
-						VerdictOperation vo = VerdictParser.parseVerdict(parts);
+					} else if (parts.length >= 7 && isVerdictOperation(parts[3])) {
+						String backOfLine=null;
+						for(int i=4; i<parts.length; i++)
+						{
+							backOfLine+=(parts[i]+" ");
+							
+						}
+						
+						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
+						vo.setTimestamp(timestamp);
+						vo.setSender(sender);
+						if(vo.getComponentName()== null)
+						{
+							
+						}
+						
 					} else if (parts.length >= 20 && isCreatedComponent(parts[6], parts[7])) {
 						if (isComponentType(parts[13])) {
 							CreatedComponent cc = CreatedComponentParser.parseCreated(parts);

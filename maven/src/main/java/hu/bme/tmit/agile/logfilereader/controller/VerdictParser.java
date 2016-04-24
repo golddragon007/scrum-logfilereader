@@ -8,26 +8,29 @@ import util.RegexpPatterns;
 
 public class VerdictParser {
 
-	// ez így szar pl.
-	// 2014/Oct/24 19:53:07.322255 2464 VERDICTOP - Final
-	// verdict of PTC: pass reason: "Life is beautiful!"
-	// miatt
-	public static VerdictOperation parseVerdict(String[] parts) {
-		String operationType = parts[3];
-		String miscText = parts[5];
-		String verdict = parts[7];
-		// parseComponentAndPort(parts[4]); bugos
-		return new VerdictOperation();
-	}
 
-	private static void parseComponentAndPort(String word) {
-		String componentName = null, portNumber = null;
-		Pattern p = Pattern.compile(RegexpPatterns.componentAndPortPattern);
-		Matcher m = p.matcher(word);
+	public static VerdictOperation parseVerdict(String parts) {
+		String componentName=null, miscText=null, verdict=null;
+		int portNumber;
+
+		Pattern p = Pattern.compile(RegexpPatterns.verdictData);
+		
+		Matcher m = p.matcher(parts);
+		VerdictOperation vo = new VerdictOperation();
+		
 		if (m.matches()) {
-			componentName = m.group(0);
-			portNumber = m.group(1);
+			componentName = m.group(1);
+			portNumber = Integer.parseInt(m.group(2));
+			miscText = m.group(3);
+			verdict = m.group(4);
+			
+			vo.setComponentName(componentName);
+			vo.setPortNumber(portNumber);
+			vo.setMiscText(miscText);
+			vo.setVerdict(verdict);
 		}
+		
+		return (vo);
 	}
 
 }
