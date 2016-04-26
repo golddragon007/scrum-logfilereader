@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 
 import util.PropertyHandler;
@@ -26,6 +29,8 @@ public class Parser {
 	private static final String VERDICT_PROPERTY = "verdictData";
 
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
+	
+	private List<TtcnEvent> eventList = new ArrayList<TtcnEvent>();
 
 	private void applyParsingRules() {
 		PropertyHandler ph = new PropertyHandler();
@@ -50,6 +55,7 @@ public class Parser {
 						TimerOperation to = TimerParser.parseTimer(parts);
 						to.setSender(sender);
 						to.setTimestamp(timestamp);
+						eventList.add(to);
 					} else if (parts.length >= 7 && isVerdictOperation(parts[3])) {
 						String backOfLine=null;
 						for(int i=4; i<parts.length; i++)
@@ -61,6 +67,7 @@ public class Parser {
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo.setTimestamp(timestamp);
 						vo.setSender(sender);
+						eventList.add(vo);
 						if(vo.getComponentName()== null)
 						{
 							
@@ -71,17 +78,23 @@ public class Parser {
 							CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, CREATED_COMPONENT);
 							ctc.setTimestamp(timestamp);
 							ctc.setSender(sender);
+							eventList.add(ctc);
 						}
 					} else if (parts.length >= 9 && isTerminatingComponent(parts[5], parts[6])) {
 						CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, TERMINATED_COMPONENT);
 						ctc.setTimestamp(timestamp);
 						ctc.setSender(sender);
+						eventList.add(ctc);
 					} else if (parts.length >=13 && isSentOnOperation(parts[5],parts[6])) {
 						Message m = MessageParser.parseSent(parts);
 						m.setTimestamp(timestamp); 
+						eventList.add(m);
+
 					} else if (parts.length >=17 && isReceiveOperationOn(parts[5],parts[6],parts[7])) {
 						Message m = MessageParser.parseReceive(parts);
 						m.setTimestamp(timestamp);
+						eventList.add(m);
+
 			}
 				}
 			}
@@ -125,6 +138,14 @@ public class Parser {
 	
 	private boolean isReceiveOperationOn(String words1, String words2,String words3) {
 		return (words1.equals("Receive") && words2.equals("operation") && words3.equals("on"));
+	}
+
+	public List<TtcnEvent> getEventList() {
+		return eventList;
+	}
+
+	public void setEventList(List<TtcnEvent> eventList) {
+		this.eventList = eventList;
 	}
 	
 }
