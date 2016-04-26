@@ -24,6 +24,11 @@ public class Parser {
 	private static final String DATE_PROPERTY = "date";
 	private static final String TIME_PROPERTY = "time";
 	private static final String VERDICT_PROPERTY = "verdictData";
+	private static final String SEND_MESSAGE_PROPERTY = "verdictData";
+	private static final String RECEIVED_MESSAGE_PROPERTY = "verdictData";
+	private static boolean isparam= false;
+	private static String message=null;
+	private Message m;
 
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
 
@@ -33,7 +38,8 @@ public class Parser {
 		RegexpPatterns.datePattern = properties.getProperty(DATE_PROPERTY);
 		RegexpPatterns.timePattern = properties.getProperty(TIME_PROPERTY);
 		RegexpPatterns.verdictData = properties.getProperty(VERDICT_PROPERTY);
-		
+		RegexpPatterns.sentPattern = properties.getProperty(SEND_MESSAGE_PROPERTY);
+		RegexpPatterns.receivePattern = properties.getProperty(RECEIVED_MESSAGE_PROPERTY);
 		
 	}
 
@@ -44,6 +50,10 @@ public class Parser {
 			for (String line : Files.readAllLines((new File(relativePath).toPath()))) {
 				String parts[] = line.split(" ");
 				if (matchesDate(parts[0])) {
+					if(isparam){
+						m.setParam(message);
+						isparam=false;
+					}
 					LogTimestamp timestamp = TimestampParser.parse(parts);
 					String sender = parts[2];
 					if (isTimerOperation(parts[3])) {
@@ -77,12 +87,16 @@ public class Parser {
 						ctc.setTimestamp(timestamp);
 						ctc.setSender(sender);
 					} else if (parts.length >=13 && isSentOnOperation(parts[5],parts[6])) {
-						Message m = MessageParser.parseSent(parts);
+						isparam=true;
+						m = MessageParser.parseSent(parts);
 						m.setTimestamp(timestamp); 
 					} else if (parts.length >=17 && isReceiveOperationOn(parts[5],parts[6],parts[7])) {
-						Message m = MessageParser.parseReceive(parts);
+						isparam=true;
+						m = MessageParser.parseReceive(parts);
 						m.setTimestamp(timestamp);
 			}
+				}else if(isparam){
+					message.concat(line);
 				}
 			}
 		} catch (IOException e) {

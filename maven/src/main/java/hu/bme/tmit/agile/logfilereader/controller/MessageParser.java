@@ -13,7 +13,7 @@ public class MessageParser {
 		m.setDestination(parts[9]);
 		m.setName(parts[10]);
 		m.setEventType(MessageType.Send);
-
+		
 		return m;
 
 	}
