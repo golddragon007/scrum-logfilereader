@@ -27,7 +27,7 @@ public class VerdictParser {
 			vo.setComponentName(componentName);
 			vo.setPortNumber(portNumber);
 			vo.setMiscText(miscText);
-			vo.setVerdictType((verdict.equals("pass"))? VerdictType.Pass:((verdict.equals("fail"))? VerdictType.Fail: VerdictType.Inconclusive));
+			vo.setVerdictType((verdict.contains("pass"))? VerdictType.Pass:((verdict.contains("fail"))? VerdictType.Fail: VerdictType.Inconclusive));
 		}
 		
 		return (vo);

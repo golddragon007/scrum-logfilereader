@@ -50,9 +50,11 @@ public class Parser {
 
 	public void parse(String relativePath) {
 		applyParsingRules();
+		File file = new File(relativePath);
+		String fileName = file.getName();
 
 		try {
-			for (String line : Files.readAllLines((new File(relativePath).toPath()))) {
+			for (String line : Files.readAllLines(file.toPath())) {
 				String parts[] = line.split(" ");
 				if (matchesDate(parts[0])) {
 					if(isparam){
@@ -65,6 +67,7 @@ public class Parser {
 					String sender = parts[2];
 					if (isTimerOperation(parts[3])) {
 						TimerOperation to = TimerParser.parseTimer(parts);
+						to.setFileName(fileName);
 						to.setSender(sender);
 						to.setTimestamp(timestamp);
 						eventList.add(to);
@@ -78,8 +81,9 @@ public class Parser {
 						
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo.setTimestamp(timestamp);
+						vo.setFileName(fileName);
 						vo.setSender(sender);
-						//eventList.add(vo);
+						eventList.add(vo);
 						if(vo.getComponentName()== null)
 						{
 							
@@ -90,26 +94,30 @@ public class Parser {
 							CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, CREATED_COMPONENT);
 							ctc.setTimestamp(timestamp);
 							ctc.setSender(sender);
+							ctc.setFileName(fileName);
 							eventList.add(ctc);
 						}
 					} else if (parts.length >= 9 && isTerminatingComponent(parts[5], parts[6])) {
 						CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, TERMINATED_COMPONENT);
 						ctc.setTimestamp(timestamp);
 						ctc.setSender(sender);
+						ctc.setFileName(fileName);
 						eventList.add(ctc);
 					} else if (parts.length >=13 && isSentOnOperation(parts[5],parts[6])) {
 						isparam=true;
 						m = MessageParser.parseSent(parts);
-						m.setTimestamp(timestamp); 
+						m.setTimestamp(timestamp);
+						m.setFileName(fileName);
 						eventList.add(m);
 
 					} else if (parts.length >=17 && isReceiveOperationOn(parts[5],parts[6],parts[7])) {
 						isparam=true;
 						m = MessageParser.parseReceive(parts);
 						m.setTimestamp(timestamp);
+						m.setFileName(fileName);
 						eventList.add(m);
 
-			}
+					}
 				}else if(isparam){
 					message+=line;
 					message+="\n";
@@ -132,7 +140,7 @@ public class Parser {
 	}
 
 	private boolean isVerdictOperation(String words, String words2) {
-		return words.equals("VERDICTOP") && !words2.contains("setverdict");
+		return words.equals("VERDICTOP") && words2.equals("getverdict:");
 	}
 
 	private boolean isCreatedComponent(String words1, String words2) {
