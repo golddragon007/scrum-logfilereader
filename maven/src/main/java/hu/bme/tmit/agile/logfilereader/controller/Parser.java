@@ -9,8 +9,10 @@ import java.util.Properties;
 
 import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
+import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
@@ -74,7 +76,13 @@ public class Parser {
 						CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, TERMINATED_COMPONENT);
 						ctc.setTimestamp(timestamp);
 						ctc.setSender(sender);
-					}
+					} else if (parts.length >=13 && isSentOnOperation(parts[5],parts[6])) {
+						Message m = MessageParser.parseSent(parts);
+						m.setTimestamp(timestamp); 
+					} else if (parts.length >=17 && isReceiveOperationOn(parts[5],parts[6],parts[7])) {
+						Message m = MessageParser.parseReceive(parts);
+						m.setTimestamp(timestamp);
+			}
 				}
 			}
 		} catch (IOException e) {
@@ -110,4 +118,13 @@ public class Parser {
 		else
 			return true;
 	}
+	
+	private boolean isSentOnOperation(String words1, String words2) {
+		return (words1.equals("Sent") && words2.equals("on"));
+	}
+	
+	private boolean isReceiveOperationOn(String words1, String words2,String words3) {
+		return (words1.equals("Receive") && words2.equals("operation") && words3.equals("on"));
+	}
+	
 }
