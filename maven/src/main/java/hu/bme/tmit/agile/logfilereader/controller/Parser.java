@@ -56,7 +56,7 @@ public class Parser {
 						to.setSender(sender);
 						to.setTimestamp(timestamp);
 						eventList.add(to);
-					} else if (parts.length >= 7 && isVerdictOperation(parts[3])) {
+					} else if (parts.length >= 7 && isVerdictOperation(parts[3], parts[5])) {
 						String backOfLine=null;
 						for(int i=4; i<parts.length; i++)
 						{
@@ -113,8 +113,8 @@ public class Parser {
 		return date.matches(RegexpPatterns.datePattern);
 	}
 
-	private boolean isVerdictOperation(String words) {
-		return words.equals("VERDICTOP");
+	private boolean isVerdictOperation(String words, String words2) {
+		return words.equals("VERDICTOP") && !words2.contains("setverdict");
 	}
 
 	private boolean isCreatedComponent(String words1, String words2) {
