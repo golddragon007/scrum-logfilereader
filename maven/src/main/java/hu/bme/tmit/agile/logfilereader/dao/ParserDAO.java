@@ -52,6 +52,26 @@ public void saveTtcnEvent(TtcnEvent event) {
 			ConnectionUtils.closeResource(connection);
 		}
 	}else if(event instanceof CreatedTerminatedComponent) {
+		try {
+			pstmt = connection.prepareStatement("insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, filename) values (?,?,?,?,?,?)");
+			pstmt.setString(1, ((CreatedTerminatedComponent) event).getEventType().name());
+			pstmt.setInt(2, ((CreatedTerminatedComponent) event).getProcessID());
+			//TODO Timestamp conversion
+			
+			pstmt.setInt(3, ((CreatedTerminatedComponent) event).getComponentReference());
+			pstmt.setString(4, ((CreatedTerminatedComponent) event).getTestcaseName());
+			pstmt.setDate(5, new java.sql.Date(20));
+			pstmt.setString(6, ((CreatedTerminatedComponent) event).getFileName());
+			
+			pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			System.out.println("Error while inserting message into database : " + e.getMessage());
+		    e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(pstmt);
+			ConnectionUtils.closeResource(connection);
+		}
 
 	}else if(event instanceof TimerOperation) {
 		try {
@@ -67,7 +87,7 @@ public void saveTtcnEvent(TtcnEvent event) {
 			pstmt.executeUpdate();
 		
 		} catch (SQLException e) {
-			System.out.println("Error while inserting message into database : " + e.getMessage());
+			System.out.println("Error while inserting timer into database : " + e.getMessage());
 		    e.printStackTrace();
 		} finally {
 			ConnectionUtils.closeResource(pstmt);
