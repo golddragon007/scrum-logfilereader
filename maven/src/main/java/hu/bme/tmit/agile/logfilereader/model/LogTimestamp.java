@@ -33,4 +33,9 @@ public class LogTimestamp {
 		return dt.getYear() + "." + dt.getMonthOfYear() + "." + dt.getDayOfMonth() + " " + dt.getHourOfDay() + ":"
 				+ dt.getMinuteOfHour() + ":" + dt.getSecondOfMinute() + "." + micro;
 	}
+	
+	public String toStringDateTime() {
+		return dt.getYear() + "." + dt.getMonthOfYear() + "." + dt.getDayOfMonth() + " " + dt.getHourOfDay() + ":"
+				+ dt.getMinuteOfHour() + ":" + dt.getSecondOfMinute();
+	}
 }

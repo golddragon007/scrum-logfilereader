@@ -13,7 +13,6 @@ public class Message extends TtcnEvent{
 	
 	private Long pkid;
 	private String param;
-	private LogTimestamp timestamp;
 	private String destination;
 	private String name;
 	private String port;
@@ -31,12 +30,6 @@ public class Message extends TtcnEvent{
 	}
 	public void setParam(String param) {
 		this.param = param;
-	}
-	public LogTimestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(LogTimestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 	
 	public String getName() {

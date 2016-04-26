@@ -1,6 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.dao;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -38,7 +39,7 @@ public void saveTtcnEvent(TtcnEvent event) {
 			pstmt.setString(4, ((Message) event).getDestination());
 			pstmt.setString(5, ((Message) event).getParam());
 			//TODO Timestamp conversion
-			pstmt.setDate(6,new java.sql.Date(20));
+			pstmt.setString(6, ((Message) event).getTimestampString());
 			pstmt.setInt(7, ((Message) event).getTimestamp().getMicro());
 			pstmt.setString(8, ((Message) event).getEventType().name());
 			pstmt.setString(9, ((Message) event).getFileName());
@@ -54,16 +55,17 @@ public void saveTtcnEvent(TtcnEvent event) {
 		}
 	}else if(event instanceof CreatedTerminatedComponent) {
 		try {
-			pstmt = connection.prepareStatement("insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, filename,component_type) values (?,?,?,?,?,?,?)");
+			pstmt = connection.prepareStatement("insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, microsec, filename,component_type) values (?,?,?,?,?,?,?,?)");
 			pstmt.setString(1, ((CreatedTerminatedComponent) event).getCompType().name());
 			pstmt.setInt(2, ((CreatedTerminatedComponent) event).getProcessID());
 			//TODO Timestamp conversion
 			
 			pstmt.setInt(3, ((CreatedTerminatedComponent) event).getComponentReference());
 			pstmt.setString(4, ((CreatedTerminatedComponent) event).getTestcaseName());
-			pstmt.setDate(5, new java.sql.Date(20));
-			pstmt.setString(6, ((CreatedTerminatedComponent) event).getFileName());
-			pstmt.setString(7, ((CreatedTerminatedComponent) event).getComponentType());
+			pstmt.setString(5, ((CreatedTerminatedComponent) event).getTimestampString());
+			pstmt.setInt(6, ((CreatedTerminatedComponent) event).getTimestamp().getMicro());
+			pstmt.setString(7, ((CreatedTerminatedComponent) event).getFileName());
+			pstmt.setString(8, ((CreatedTerminatedComponent) event).getComponentType());
 
 			
 			pstmt.executeUpdate();
@@ -78,14 +80,15 @@ public void saveTtcnEvent(TtcnEvent event) {
 
 	}else if(event instanceof TimerOperation) {
 		try {
-			pstmt = connection.prepareStatement("insert into timer_event (name, owner, timestamp, event_type, duration, filename) values (?,?,?,?,?,?)");
+			pstmt = connection.prepareStatement("insert into timer_event (name, owner, timestamp, microsec, event_type, duration, filename) values (?,?,?,?,?,?,?)");
 			pstmt.setString(1, ((TimerOperation) event).getName());
 			pstmt.setString(2, ((TimerOperation) event).getSender());
 			//TODO Timestamp conversion
-			pstmt.setDate(3,new java.sql.Date(20));
-			pstmt.setString(4, ((TimerOperation) event).getEventType().name());
-			pstmt.setDouble(5, ((TimerOperation) event).getDuration());
-			pstmt.setString(6, ((TimerOperation) event).getFileName());
+			pstmt.setString(3, ((TimerOperation) event).getTimestampString());
+			pstmt.setInt(4, ((TimerOperation) event).getTimestamp().getMicro());
+			pstmt.setString(5, ((TimerOperation) event).getEventType().name());
+			pstmt.setDouble(6, ((TimerOperation) event).getDuration());
+			pstmt.setString(7, ((TimerOperation) event).getFileName());
 			
 			pstmt.executeUpdate();
 		
@@ -99,13 +102,14 @@ public void saveTtcnEvent(TtcnEvent event) {
 
 	}else if(event instanceof VerdictOperation) {
 		try {
-			pstmt = connection.prepareStatement("insert into verdict_event (port, owner, timestamp, event_type, filename) values (?,?,?,?,?)");
+			pstmt = connection.prepareStatement("insert into verdict_event (port, owner, timestamp, microsec, event_type, filename) values (?,?,?,?,?,?)");
 			pstmt.setInt(1, ((VerdictOperation) event).getPortNumber());
 			pstmt.setString(2, ((VerdictOperation) event).getSender());
 			//TODO Timestamp conversion
-			pstmt.setDate(3,new java.sql.Date(20));
-			pstmt.setString(4, ((VerdictOperation) event).getVerdictType().name());
-			pstmt.setString(5, ((VerdictOperation) event).getFileName());
+			pstmt.setString(3, ((VerdictOperation) event).getTimestampString());
+			pstmt.setInt(4, ((VerdictOperation) event).getTimestamp().getMicro());
+			pstmt.setString(5, ((VerdictOperation) event).getVerdictType().name());
+			pstmt.setString(6, ((VerdictOperation) event).getFileName());
 			
 			pstmt.executeUpdate();
 		

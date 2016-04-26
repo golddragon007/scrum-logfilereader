@@ -13,6 +13,10 @@ abstract public class TtcnEvent {
 	public void setTimestamp(LogTimestamp timestamp) {
 		this.timestamp = timestamp;
 	}
+	
+	public String getTimestampString() {
+		return timestamp.toStringDateTime();
+	} 
 
 	public String getSender() {
 		return sender;
