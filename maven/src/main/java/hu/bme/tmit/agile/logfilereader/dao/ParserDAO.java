@@ -54,9 +54,8 @@ public void saveTtcnEvent(TtcnEvent event) {
 		}
 	}else if(event instanceof CreatedTerminatedComponent) {
 		try {
-			pstmt = connection.prepareStatement("insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, filename) values (?,?,?,?,?,?)");
+			pstmt = connection.prepareStatement("insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, filename,component_type) values (?,?,?,?,?,?,?)");
 			pstmt.setString(1, ((CreatedTerminatedComponent) event).getCompType().name());
-			System.out.println(((CreatedTerminatedComponent) event).getCompType().name());
 			pstmt.setInt(2, ((CreatedTerminatedComponent) event).getProcessID());
 			//TODO Timestamp conversion
 			
@@ -64,6 +63,8 @@ public void saveTtcnEvent(TtcnEvent event) {
 			pstmt.setString(4, ((CreatedTerminatedComponent) event).getTestcaseName());
 			pstmt.setDate(5, new java.sql.Date(20));
 			pstmt.setString(6, ((CreatedTerminatedComponent) event).getFileName());
+			pstmt.setString(7, ((CreatedTerminatedComponent) event).getComponentType());
+
 			
 			pstmt.executeUpdate();
 		
