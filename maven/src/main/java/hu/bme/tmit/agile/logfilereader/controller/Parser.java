@@ -30,7 +30,7 @@ public class Parser {
 	private static final String SEND_MESSAGE_PROPERTY = "verdictData";
 	private static final String RECEIVED_MESSAGE_PROPERTY = "verdictData";
 	private static boolean isparam= false;
-	private static String message=null;
+	private static String message="";
 	private Message m;
 
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
@@ -58,6 +58,8 @@ public class Parser {
 					if(isparam){
 						m.setParam(message);
 						isparam=false;
+						//System.out.println(message);
+						message="";
 					}
 					LogTimestamp timestamp = TimestampParser.parse(parts);
 					String sender = parts[2];
@@ -109,7 +111,9 @@ public class Parser {
 
 			}
 				}else if(isparam){
-					message.concat(line);
+					message+=line;
+					message+="\n";
+					//System.out.println(message);
 				}
 			}
 		} catch (IOException e) {
