@@ -13,6 +13,7 @@ import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.Message.MessageType;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation.EventType;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
@@ -24,6 +25,10 @@ public class App {
 //		Connector conn = new Connector();
 //		conn.executeQuery(QUERY);
 		
+		Parser parser = new Parser();
+		ParserDAO dao = new ParserDAO();
+
+		
 		Message m1 = new Message();
 		m1.setDestination("hc");
 		m1.setEventType(MessageType.Send);
@@ -34,7 +39,6 @@ public class App {
 		m1.setSender("mtc");
 		m1.setTimestamp(new LogTimestamp(2005, 07, 2, 4, 53, 53, 5444));
 		
-		ParserDAO dao = new ParserDAO();
 //		dao.saveTtcnEvent(m1);
 		
 		TimerOperation to = new TimerOperation();
@@ -45,13 +49,13 @@ public class App {
 		to.setSender("mtc");
 		to.setTimestamp(new LogTimestamp(2005, 07, 2, 4, 53, 53, 55555));
 		
-		dao.saveTtcnEvent(to);
+		//dao.saveTtcnEvent(to);
 		
 		VerdictOperation vo = new VerdictOperation();
 		vo.setSender("mtc");
 		vo.setVerdictType(VerdictType.Pass);
 		
-		dao.saveTtcnEvent(vo);
+		//dao.saveTtcnEvent(vo);
 		
 		
 		CreatedTerminatedComponent cc1 = new CreatedTerminatedComponent();
@@ -63,10 +67,12 @@ public class App {
 		cc1.setTestcaseName("random");
 		cc1.setTimestamp(new LogTimestamp(2005, 07, 2, 4, 53, 53, 5444));
 		
-		dao.saveTtcnEvent(cc1);
+		//dao.saveTtcnEvent(cc1);
 
-		Parser parser = new Parser();
 		parser.parse("logs/WCG100200010.txt");
-		System.out.println("asdasdasd");
+		for (TtcnEvent event : parser.getEventList()) {
+			dao.saveTtcnEvent(event);
+		}
+		
 	}
 }

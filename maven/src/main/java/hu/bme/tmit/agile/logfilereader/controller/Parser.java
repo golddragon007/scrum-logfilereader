@@ -79,7 +79,7 @@ public class Parser {
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo.setTimestamp(timestamp);
 						vo.setSender(sender);
-						eventList.add(vo);
+						//eventList.add(vo);
 						if(vo.getComponentName()== null)
 						{
 							
