@@ -2,13 +2,13 @@ package hu.bme.tmit.agile.logfilereader.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.Properties;
 
-import hu.bme.tmit.agile.logfilereader.model.CreatedComponent;
+import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
-import hu.bme.tmit.agile.logfilereader.model.TerminatingComponent;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 import util.PropertyHandler;
@@ -16,6 +16,9 @@ import util.RegexpPatterns;
 
 public class Parser {
 
+	public static final String CREATED_COMPONENT = "Created";
+	public static final String TERMINATED_COMPONENT = "Terminated";
+	
 	private static final String DATE_PROPERTY = "date";
 	private static final String TIME_PROPERTY = "time";
 	private static final String VERDICT_PROPERTY = "verdictData";
@@ -28,6 +31,8 @@ public class Parser {
 		RegexpPatterns.datePattern = properties.getProperty(DATE_PROPERTY);
 		RegexpPatterns.timePattern = properties.getProperty(TIME_PROPERTY);
 		RegexpPatterns.verdictData = properties.getProperty(VERDICT_PROPERTY);
+		
+		
 	}
 
 	public void parse(String relativePath) {
@@ -61,14 +66,14 @@ public class Parser {
 						
 					} else if (parts.length >= 20 && isCreatedComponent(parts[6], parts[7])) {
 						if (isComponentType(parts[13])) {
-							CreatedComponent cc = CreatedComponentParser.parseCreated(parts);
-							cc.setTimestamp(timestamp);
-							cc.setSender(sender);
+							CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, CREATED_COMPONENT);
+							ctc.setTimestamp(timestamp);
+							ctc.setSender(sender);
 						}
 					} else if (parts.length >= 9 && isTerminatingComponent(parts[5], parts[6])) {
-						TerminatingComponent tc = TerminatingComponentParser.parseTerminating(parts);
-						tc.setTimestamp(timestamp);
-						tc.setSender(sender);
+						CreatedTerminatedComponent ctc = CreatedTerminatedComponentParser.parse(parts, TERMINATED_COMPONENT);
+						ctc.setTimestamp(timestamp);
+						ctc.setSender(sender);
 					}
 				}
 			}

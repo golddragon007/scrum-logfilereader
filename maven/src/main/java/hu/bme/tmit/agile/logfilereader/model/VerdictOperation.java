@@ -1,8 +1,17 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
 public class VerdictOperation extends TtcnEvent {
+	
+	public enum VerdictType {
+		Fail("fail"), Pass("pass"), Inconclusive("inconclusive");
+		private String type;
+
+		VerdictType(String str) {
+			type = str;
+		};
+	}
+	VerdictType verdictType;
 	private String miscText;
-	private String verdict;
 	private String componentName;
 	private int portNumber;
 	
@@ -12,11 +21,11 @@ public class VerdictOperation extends TtcnEvent {
 	public void setMiscText(String text){
 		this.miscText=text;
 	}
-	public String getVerdict(){
-		return this.verdict;
+	public VerdictType getVerdictType(){
+		return this.verdictType;
 	}
-	public void setVerdict(String verdict){
-		this.verdict=verdict;
+	public void setVerdictType(VerdictType verdictType) {
+		this.verdictType = verdictType;
 	}
 	public String getComponentName(){
 		return componentName;
@@ -30,5 +39,6 @@ public class VerdictOperation extends TtcnEvent {
 	public void setPortNumber(int port){
 		this.portNumber=port;
 	}
+
 	
 }

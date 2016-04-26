@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 import util.RegexpPatterns;
 
 public class VerdictParser {
@@ -23,11 +24,10 @@ public class VerdictParser {
 			portNumber = Integer.parseInt(m.group(2));
 			miscText = m.group(3);
 			verdict = m.group(4);
-			
 			vo.setComponentName(componentName);
 			vo.setPortNumber(portNumber);
 			vo.setMiscText(miscText);
-			vo.setVerdict(verdict);
+			vo.setVerdictType((verdict.equals("pass"))? VerdictType.Pass:((verdict.equals("fail"))? VerdictType.Fail: VerdictType.Inconclusive));
 		}
 		
 		return (vo);
