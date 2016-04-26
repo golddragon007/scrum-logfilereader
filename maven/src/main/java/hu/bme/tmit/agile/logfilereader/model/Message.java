@@ -2,11 +2,11 @@ package hu.bme.tmit.agile.logfilereader.model;
 
 public class Message extends TtcnEvent{
 	
-	public enum EventType {
+	public enum MessageType {
 		Send("Send"), Receive("Receive");
 		private String type;
 
-		EventType(String str) {
+		MessageType(String str) {
 			type = str;
 		};
 	}
@@ -17,7 +17,7 @@ public class Message extends TtcnEvent{
 	private String destination;
 	private String name;
 	private String port;
-	private EventType eventType;
+	private MessageType messageType;
 	
 	
 	public Long getPkid() {
@@ -57,11 +57,11 @@ public class Message extends TtcnEvent{
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
-	public EventType getEventType() {
-		return eventType;
+	public MessageType getEventType() {
+		return messageType;
 	}
-	public void setEventType(EventType eventType) {
-		this.eventType = eventType;
+	public void setEventType(MessageType eventType) {
+		this.messageType = eventType;
 	}
 	
 }

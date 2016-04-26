@@ -1,7 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.controller;
 
 import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent;
-import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent.EventType;
+import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent.ComponentType;
 
 public class CreatedTerminatedComponentParser {
 
@@ -20,7 +20,7 @@ public class CreatedTerminatedComponentParser {
 			ctc.setTestcaseName(testcaseName);
 			ctc.setProcessID(processID);
 
-			ctc.setEventType(EventType.Created);
+			ctc.setCompType(ComponentType.Create);
 		}
 
 		
@@ -28,7 +28,7 @@ public class CreatedTerminatedComponentParser {
 			String componentType = removeLastCharacter(parts[8]);
 
 			ctc.setComponentType(componentType);
-			ctc.setEventType(EventType.Terminated);
+			ctc.setCompType(ComponentType.Terminate);
 		}
 		
 		return ctc;

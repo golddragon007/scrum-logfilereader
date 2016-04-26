@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent.ComponentType;
 import hu.bme.tmit.agile.logfilereader.model.CreatedTerminatedComponent;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
 import hu.bme.tmit.agile.logfilereader.model.Message;
@@ -54,7 +55,8 @@ public void saveTtcnEvent(TtcnEvent event) {
 	}else if(event instanceof CreatedTerminatedComponent) {
 		try {
 			pstmt = connection.prepareStatement("insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, filename) values (?,?,?,?,?,?)");
-			pstmt.setString(1, ((CreatedTerminatedComponent) event).getEventType().name());
+			pstmt.setString(1, ((CreatedTerminatedComponent) event).getCompType().name());
+			System.out.println(((CreatedTerminatedComponent) event).getCompType().name());
 			pstmt.setInt(2, ((CreatedTerminatedComponent) event).getProcessID());
 			//TODO Timestamp conversion
 			
@@ -66,7 +68,7 @@ public void saveTtcnEvent(TtcnEvent event) {
 			pstmt.executeUpdate();
 		
 		} catch (SQLException e) {
-			System.out.println("Error while inserting message into database : " + e.getMessage());
+			System.out.println("Error while inserting component into database : " + e.getMessage());
 		    e.printStackTrace();
 		} finally {
 			ConnectionUtils.closeResource(pstmt);
@@ -96,8 +98,8 @@ public void saveTtcnEvent(TtcnEvent event) {
 
 	}else if(event instanceof VerdictOperation) {
 		try {
-			pstmt = connection.prepareStatement("insert into verdict_event (name, owner, timestamp, event_type, filename) values (?,?,?,?,?,?)");
-			pstmt.setString(1, ((VerdictOperation) event).getComponentName());
+			pstmt = connection.prepareStatement("insert into verdict_event (port, owner, timestamp, event_type, filename) values (?,?,?,?,?)");
+			pstmt.setInt(1, ((VerdictOperation) event).getPortNumber());
 			pstmt.setString(2, ((VerdictOperation) event).getSender());
 			//TODO Timestamp conversion
 			pstmt.setDate(3,new java.sql.Date(20));
@@ -107,7 +109,7 @@ public void saveTtcnEvent(TtcnEvent event) {
 			pstmt.executeUpdate();
 		
 		} catch (SQLException e) {
-			System.out.println("Error while inserting message into database : " + e.getMessage());
+			System.out.println("Error while inserting verdict into database : " + e.getMessage());
 		    e.printStackTrace();
 		} finally {
 			ConnectionUtils.closeResource(pstmt);

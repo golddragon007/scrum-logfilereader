@@ -1,5 +1,5 @@
 package hu.bme.tmit.agile.logfilereader.controller;
-import hu.bme.tmit.agile.logfilereader.model.Message.*;
+import hu.bme.tmit.agile.logfilereader.model.Message.MessageType;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 
 public class MessageParser {
@@ -12,7 +12,7 @@ public class MessageParser {
 		m.setPort(parts[7]);
 		m.setDestination(parts[9]);
 		m.setName(parts[10]);
-		m.setEventType(EventType.Send);
+		m.setEventType(MessageType.Send);
 
 		return m;
 
@@ -26,7 +26,7 @@ public class MessageParser {
 		m.setPort(parts[9]);
 		m.setSender(parts[13]);
 		m.setName(parts[14]);
-		m.setEventType(EventType.Receive);
+		m.setEventType(MessageType.Receive);
 		
 		return m;
 
