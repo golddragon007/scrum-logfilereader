@@ -10,8 +10,8 @@ import util.RegexpPatterns;
 public class VerdictParser {
 
 	public static VerdictOperation parseVerdict(String parts) {
-		String componentName = null, miscText = null, verdict = null;
-		int portNumber;
+		String componentName = "", miscText = "", verdict = "";
+		int portNumber=0;
 
 		Pattern p = Pattern.compile(RegexpPatterns.verdictPattern);
 		Matcher m = p.matcher(parts);
@@ -28,6 +28,13 @@ public class VerdictParser {
 			vo.setMiscText(miscText);
 			vo.setVerdictType((verdict.contains("pass")) ? VerdictType.Pass
 					: ((verdict.contains("fail")) ? VerdictType.Fail : VerdictType.Inconclusive));
+		}
+		else
+		{
+			vo.setComponentName("");
+			vo.setPortNumber(0);
+			vo.setMiscText("");
+			vo.setVerdictType(VerdictType.Inconclusive);
 		}
 		return vo;
 	}

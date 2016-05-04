@@ -25,9 +25,9 @@ public class Parser {
 	private static final String DATE_PROPERTY = "date";
 	private static final String TIME_PROPERTY = "time";
 	private static final String VERDICT_PROPERTY = "verdict";
-	// WTF??
-	private static final String SENT_MESSAGE_PROPERTY = "verdict";
-	private static final String RECEIVED_MESSAGE_PROPERTY = "verdict";
+
+	private static final String SENT_MESSAGE_PROPERTY = "sent";
+	private static final String RECEIVED_MESSAGE_PROPERTY = "recive";
 
 	private static boolean isMessageParam = false;
 	private static String messageParam = "";
@@ -68,7 +68,7 @@ public class Parser {
 						to = (TimerOperation) setTtcnEventParams(fileName, timestamp, sender, to);
 						eventList.add(to);
 					} else if (parts.length >= 7 && EventIdentifier.isVerdictOperation(parts[3], parts[5])) {
-						String backOfLine = null;
+						String backOfLine = "";
 						for (int i = 4; i < parts.length; i++) {
 							backOfLine += (parts[i] + " ");
 
@@ -77,10 +77,7 @@ public class Parser {
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo = (VerdictOperation) setTtcnEventParams(fileName, timestamp, sender, vo);
 						eventList.add(vo);
-						System.out.println(vo.getComponentName());
-						if (vo.getComponentName() == null) {
-							// TODO sokszor null-lal kezdodik
-						}
+						
 
 					} else if (parts.length >= 20 && EventIdentifier.isCreatedComponent(parts[6], parts[7])) {
 						if (EventIdentifier.isComponentType(parts[13])) {

@@ -61,6 +61,7 @@ public class App {
 
 		// dao.saveTtcnEvent(cc1);
 
+		//parser.parse("logs/WCG100200016.txt");
 		parser.parse("logs/WCG100200010.txt");
 		// for (TtcnEvent event : parser.getEventList()) {
 		// dao.saveTtcnEvent(event);
