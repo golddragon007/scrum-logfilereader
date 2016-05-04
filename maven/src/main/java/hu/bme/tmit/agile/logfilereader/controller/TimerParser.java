@@ -6,6 +6,10 @@ import util.Utils;
 
 public class TimerParser {
 
+	private static final String TIMER_STARTED = "Start";
+	private static final String TIMER_STOPPED = "Stop";
+	private static final String TIMEOUT = "Timeout";
+
 	public static TimerOperation parseTimer(String[] words) {
 		String name = null;
 		double duration = 0;
@@ -29,14 +33,14 @@ public class TimerParser {
 	}
 
 	private static boolean isTimerStarted(String word) {
-		return word.equals("Start");
+		return word.equals(TIMER_STARTED);
 	}
 
 	private static boolean isTimerStopped(String word) {
-		return word.equals("Stop");
+		return word.equals(TIMER_STOPPED);
 	}
 
 	private static boolean isTimeout(String word) {
-		return word.equals("Timeout");
+		return word.equals(TIMEOUT);
 	}
 }

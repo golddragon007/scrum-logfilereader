@@ -15,7 +15,7 @@ public class ParserTest {
 
 	Parser parser = new Parser();
 	String date = new String("2014/Oct/24");
-	String dateParts[];
+	String dateParts[], yearPattern, monthPattern, dayPattern;
 
 	private static final String DATE_PROPERTY = "date";
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
@@ -30,31 +30,29 @@ public class ParserTest {
 	public void setUp() {
 		dateParts = date.split("/");
 		applyRules();
+		String datePatternParts[] = RegexpPatterns.datePattern.split("/");
+		yearPattern = datePatternParts[0];
+		monthPattern = datePatternParts[1];
+		dayPattern = datePatternParts[2];
 	}
 
 	@Test
 	public void matchesYear() {
-		assertTrue(dateParts[0].matches("[1-2]\\d\\d\\d"));
+		assertTrue(dateParts[0].matches(yearPattern));
 	}
 
 	@Test
 	public void matchesMonth() {
-		assertTrue(dateParts[1].matches("\\D\\D\\D"));
+		assertTrue(dateParts[1].matches(monthPattern));
 	}
 
 	@Test
 	public void matchesDay() {
-		assertTrue(dateParts[2].matches("[0-3]\\d"));
-	}
-
-	@Test
-	public void matchesDate() {
-		assertTrue(date.matches("[1-2]\\d\\d\\d/\\D\\D\\D/[0-3]\\d"));
+		assertTrue(dateParts[2].matches(dayPattern));
 	}
 
 	@Test
 	public void matchesDateFromProperties() {
 		assertTrue(EventIdentifier.matchesDate(date));
 	}
-
 }

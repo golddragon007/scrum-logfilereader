@@ -25,11 +25,12 @@ public class Parser {
 	private static final String DATE_PROPERTY = "date";
 	private static final String TIME_PROPERTY = "time";
 	private static final String VERDICT_PROPERTY = "verdict";
+	// WTF??
 	private static final String SENT_MESSAGE_PROPERTY = "verdict";
 	private static final String RECEIVED_MESSAGE_PROPERTY = "verdict";
 
-	private static boolean isParam = false;
-	private static String message = "";
+	private static boolean isMessageParam = false;
+	private static String messageParam = "";
 	private Message m;
 
 	private List<TtcnEvent> eventList = new ArrayList<TtcnEvent>();
@@ -43,7 +44,6 @@ public class Parser {
 		RegexpPatterns.verdictPattern = properties.getProperty(VERDICT_PROPERTY);
 		RegexpPatterns.sentMessagePattern = properties.getProperty(SENT_MESSAGE_PROPERTY);
 		RegexpPatterns.receivedMessagePattern = properties.getProperty(RECEIVED_MESSAGE_PROPERTY);
-
 	}
 
 	public void parse(String relativePath) {
@@ -55,11 +55,11 @@ public class Parser {
 			for (String line : Files.readAllLines(file.toPath())) {
 				String parts[] = line.split(" ");
 				if (EventIdentifier.matchesDate(parts[0])) {
-					if (isParam) {
-						m.setParam(message);
-						isParam = false;
+					if (isMessageParam) {
+						m.setParam(messageParam);
+						isMessageParam = false;
 						// System.out.println(message);
-						message = "";
+						messageParam = "";
 					}
 					LogTimestamp timestamp = TimestampParser.parse(parts);
 					String sender = parts[2];
@@ -77,8 +77,9 @@ public class Parser {
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo = (VerdictOperation) setTtcnEventParams(fileName, timestamp, sender, vo);
 						eventList.add(vo);
+						System.out.println(vo.getComponentName());
 						if (vo.getComponentName() == null) {
-							// sokszor null-lal kezdődik, ez todo
+							// TODO sokszor null-lal kezdodik
 						}
 
 					} else if (parts.length >= 20 && EventIdentifier.isCreatedComponent(parts[6], parts[7])) {
@@ -92,27 +93,26 @@ public class Parser {
 						ce = (ComponentEvent) setTtcnEventParams(fileName, timestamp, sender, ce);
 						eventList.add(ce);
 					} else if (parts.length >= 13 && EventIdentifier.isSentMessage(parts[5], parts[6])) {
-						isParam = true;
+						isMessageParam = true;
 						m = MessageParser.parseSentMessage(parts);
 						m.setTimestamp(timestamp);
 						m.setFileName(fileName);
 						eventList.add(m);
 
 					} else if (parts.length >= 17 && EventIdentifier.isReceivedMessage(parts[5], parts[6], parts[7])) {
-						isParam = true;
+						isMessageParam = true;
 						m = MessageParser.parseReceivedMessage(parts);
 						m.setTimestamp(timestamp);
 						m.setFileName(fileName);
 						eventList.add(m);
 
 					}
-				} else if (isParam) {
-					message += line;
-					message += "\n";
+				} else if (isMessageParam) {
+					messageParam += line;
+					messageParam += "\n";
 					// System.out.println(message);
 				}
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {

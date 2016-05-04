@@ -9,7 +9,6 @@ import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.Message.MessageType;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation.EventType;
-import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 
@@ -36,7 +35,7 @@ public class App {
 		// dao.saveTtcnEvent(m1);
 
 		TimerOperation to = new TimerOperation();
-		to.setDuration(333);
+		to.setDuration(0.56);
 		to.setEventType(EventType.Start);
 		to.setFileName("test1.txt");
 		to.setName("valamitimer");
@@ -63,9 +62,9 @@ public class App {
 		// dao.saveTtcnEvent(cc1);
 
 		parser.parse("logs/WCG100200010.txt");
-		for (TtcnEvent event : parser.getEventList()) {
-			dao.saveTtcnEvent(event);
-		}
+		// for (TtcnEvent event : parser.getEventList()) {
+		// dao.saveTtcnEvent(event);
+		// }
 
 	}
 }
