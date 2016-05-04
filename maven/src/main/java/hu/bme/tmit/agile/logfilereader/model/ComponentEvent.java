@@ -1,7 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
-public class CreatedTerminatedComponent extends TtcnEvent {
-	
+public class ComponentEvent extends TtcnEvent {
+
 	public enum ComponentType {
 		Create("create"), Terminate("terminate");
 		private String type;
@@ -11,12 +11,11 @@ public class CreatedTerminatedComponent extends TtcnEvent {
 		};
 	}
 
+	public ComponentType compType;
 	private int processID;
 	private int componentReference;
 	private String componentType;
 	private String testcaseName;
-	
-	public ComponentType compType;
 
 	public int getProcessID() {
 		return processID;
@@ -49,7 +48,7 @@ public class CreatedTerminatedComponent extends TtcnEvent {
 	public void setTestcaseName(String testcaseName) {
 		this.testcaseName = testcaseName;
 	}
-	
+
 	public ComponentType getCompType() {
 		return compType;
 	}
@@ -57,6 +56,11 @@ public class CreatedTerminatedComponent extends TtcnEvent {
 	public void setCompType(ComponentType eventType) {
 		this.compType = eventType;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return timestamp.toString() + " " + sender + " " + fileName + " " + processID + " " + componentReference + " "
+				+ componentType + " " + compType + " " + testcaseName;
+	}
+
 }

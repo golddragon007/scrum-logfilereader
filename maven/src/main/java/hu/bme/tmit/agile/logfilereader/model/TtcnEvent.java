@@ -15,7 +15,7 @@ abstract public class TtcnEvent {
 	}
 	
 	public String getTimestampString() {
-		return timestamp.toStringDateTime();
+		return timestamp.toDateTimeString();
 	} 
 
 	public String getSender() {

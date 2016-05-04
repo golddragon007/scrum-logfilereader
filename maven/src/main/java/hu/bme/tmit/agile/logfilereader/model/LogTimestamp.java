@@ -28,14 +28,13 @@ public class LogTimestamp {
 		this.micro = micro;
 	}
 
-	@Override
-	public String toString() {
-		return dt.getYear() + "." + dt.getMonthOfYear() + "." + dt.getDayOfMonth() + " " + dt.getHourOfDay() + ":"
-				+ dt.getMinuteOfHour() + ":" + dt.getSecondOfMinute() + "." + micro;
-	}
-	
-	public String toStringDateTime() {
+	public String toDateTimeString() {
 		return dt.getYear() + "." + dt.getMonthOfYear() + "." + dt.getDayOfMonth() + " " + dt.getHourOfDay() + ":"
 				+ dt.getMinuteOfHour() + ":" + dt.getSecondOfMinute();
+	}
+
+	@Override
+	public String toString() {
+		return toDateTimeString() + "." + micro;
 	}
 }

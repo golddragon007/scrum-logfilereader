@@ -38,4 +38,9 @@ public class TimerOperation extends TtcnEvent {
 	public void setEventType(EventType eventType) {
 		this.eventType = eventType;
 	}
+
+	@Override
+	public String toString() {
+		return timestamp.toString() + " " + sender + " " + fileName + " " + eventType + " " + name + " " + duration;
+	}
 }

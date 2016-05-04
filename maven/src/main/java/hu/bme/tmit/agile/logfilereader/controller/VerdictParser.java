@@ -9,28 +9,26 @@ import util.RegexpPatterns;
 
 public class VerdictParser {
 
-
 	public static VerdictOperation parseVerdict(String parts) {
-		String componentName=null, miscText=null, verdict=null;
+		String componentName = null, miscText = null, verdict = null;
 		int portNumber;
 
-		Pattern p = Pattern.compile(RegexpPatterns.verdictData);
-		
+		Pattern p = Pattern.compile(RegexpPatterns.verdictPattern);
 		Matcher m = p.matcher(parts);
 		VerdictOperation vo = new VerdictOperation();
-		
+
 		if (m.matches()) {
 			componentName = m.group(1);
 			portNumber = Integer.parseInt(m.group(2));
 			miscText = m.group(3);
 			verdict = m.group(4);
+
 			vo.setComponentName(componentName);
 			vo.setPortNumber(portNumber);
 			vo.setMiscText(miscText);
-			vo.setVerdictType((verdict.contains("pass"))? VerdictType.Pass:((verdict.contains("fail"))? VerdictType.Fail: VerdictType.Inconclusive));
+			vo.setVerdictType((verdict.contains("pass")) ? VerdictType.Pass
+					: ((verdict.contains("fail")) ? VerdictType.Fail : VerdictType.Inconclusive));
 		}
-		
-		return (vo);
+		return vo;
 	}
-
 }

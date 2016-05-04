@@ -2,6 +2,7 @@ package hu.bme.tmit.agile.logfilereader.controller;
 
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation.EventType;
+import util.Utils;
 
 public class TimerParser {
 
@@ -10,25 +11,21 @@ public class TimerParser {
 		double duration = 0;
 		TimerOperation to = new TimerOperation();
 		if (isTimerStarted(words[5])) {
-			name = removeLastCharacter(words[7]);
+			name = Utils.removeLastCharacter(words[7]);
 			duration = Double.parseDouble(words[8]);
 			to.setEventType(EventType.Start);
 		} else if (isTimerStopped(words[5])) {
-			name = removeLastCharacter(words[7]);
+			name = Utils.removeLastCharacter(words[7]);
 			duration = Double.parseDouble(words[8]);
 			to.setEventType(EventType.Stop);
 		} else if (isTimeout(words[5])) {
-			name = removeLastCharacter(words[6]);
+			name = Utils.removeLastCharacter(words[6]);
 			duration = Double.parseDouble(words[7]);
 			to.setEventType(EventType.Timeout);
 		}
 		to.setName(name);
 		to.setDuration(duration);
 		return to;
-	}
-
-	private static String removeLastCharacter(String word) {
-		return word.substring(0, word.length() - 1);
 	}
 
 	private static boolean isTimerStarted(String word) {
