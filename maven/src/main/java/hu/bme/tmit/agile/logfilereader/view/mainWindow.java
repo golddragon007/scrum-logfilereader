@@ -68,8 +68,13 @@ public class mainWindow {
 		JMenuItem mntmLoadFromDatabase = new JMenuItem("Load from database");
 		mnFile.add(mntmLoadFromDatabase);
 		
-		JMenu mnExit = new JMenu("Exit");
-		menuBar.add(mnExit);
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		mnFile.add(mntmExit);
 	}
 
 }
