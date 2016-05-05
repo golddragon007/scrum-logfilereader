@@ -77,13 +77,13 @@ public class Parser {
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo = (VerdictOperation) setTtcnEventParams(fileName, timestamp, sender, vo);
 						eventList.add(vo);
-						
 
 					} else if (parts.length >= 20 && EventIdentifier.isCreatedComponent(parts[6], parts[7])) {
 						if (EventIdentifier.isComponentType(parts[13])) {
 							ComponentEvent ce = CreatedComponentParser.parseCreatedComponent(parts);
 							ce = (ComponentEvent) setTtcnEventParams(fileName, timestamp, sender, ce);
 							eventList.add(ce);
+							System.out.println(ce.toString());
 						}
 					} else if (parts.length >= 9 && EventIdentifier.isTerminatedComponent(parts[5], parts[6])) {
 						ComponentEvent ce = TerminatedComponentParser.parseTerminatedComponent(parts);

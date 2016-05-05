@@ -3,7 +3,7 @@ package hu.bme.tmit.agile.logfilereader;
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
-import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentType;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.Message.MessageType;
@@ -53,7 +53,7 @@ public class App {
 		ComponentEvent ce = new ComponentEvent();
 		ce.setComponentReference(123123);
 		ce.setComponentType("asdasd");
-		ce.setCompType(ComponentType.Create);
+		ce.setCompType(ComponentEventType.Create);
 		ce.setFileName("test1.txt");
 		ce.setSender("mtc");
 		ce.setTestcaseName("random");

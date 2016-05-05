@@ -1,7 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.controller;
 
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
-import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentType;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 import util.Utils;
 
 public class CreatedComponentParser {
@@ -18,7 +18,7 @@ public class CreatedComponentParser {
 		ce.setComponentType(componentType);
 		ce.setTestcaseName(testcaseName);
 		ce.setProcessID(processID);
-		ce.setCompType(ComponentType.Create);
+		ce.setCompType(ComponentEventType.Create);
 
 		return ce;
 	}

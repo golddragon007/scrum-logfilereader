@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import hu.bme.tmit.agile.logfilereader.controller.CreatedComponentParser;
 import hu.bme.tmit.agile.logfilereader.controller.TerminatedComponentParser;
-import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentType;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 
 public class testCreatedComponentParser {
 	
@@ -18,7 +18,7 @@ public class testCreatedComponentParser {
 		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getComponentType(), "SipClientComponent.sipClientComponent");
 		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getTestcaseName(), "WCG100200010");
 		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getProcessID(), 17927);		
-		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getCompType(), ComponentType.Create);
+		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getCompType(), ComponentEventType.Create);
 	}
 
 }
