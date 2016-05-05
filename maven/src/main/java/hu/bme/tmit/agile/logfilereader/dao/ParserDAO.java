@@ -49,17 +49,18 @@ public class ParserDAO {
 		} else if (event instanceof ComponentEvent) {
 			try {
 				pstmt = connection.prepareStatement(
-						"insert into component_event (event_type, process_id, component_ref, testcase_name, timestamp, microsec, filename,component_type) values (?,?,?,?,?,?,?,?)");
-				pstmt.setString(1, ((ComponentEvent) event).getCompType().name());
-				pstmt.setInt(2, ((ComponentEvent) event).getProcessID());
+						"insert into component_event (event_type, name, process_id, component_ref, testcase_name, timestamp, microsec, filename, component_type) values (?,?,?,?,?,?,?,?,?)");
+				pstmt.setString(1, ((ComponentEvent) event).getComponentEventType().name());
+				pstmt.setString(2, ((ComponentEvent) event).getSender());
+				pstmt.setInt(3, ((ComponentEvent) event).getProcessID());
 				// TODO Timestamp conversion
 
-				pstmt.setInt(3, ((ComponentEvent) event).getComponentReference());
-				pstmt.setString(4, ((ComponentEvent) event).getTestcaseName());
-				pstmt.setString(5, ((ComponentEvent) event).getTimestampString());
-				pstmt.setInt(6, ((ComponentEvent) event).getTimestamp().getMicro());
-				pstmt.setString(7, ((ComponentEvent) event).getFileName());
-				pstmt.setString(8, ((ComponentEvent) event).getComponentType());
+				pstmt.setInt(4, ((ComponentEvent) event).getComponentReference());
+				pstmt.setString(5, ((ComponentEvent) event).getTestcaseName());
+				pstmt.setString(6, ((ComponentEvent) event).getTimestampString());
+				pstmt.setInt(7, ((ComponentEvent) event).getTimestamp().getMicro());
+				pstmt.setString(8, ((ComponentEvent) event).getFileName());
+				pstmt.setString(9, ((ComponentEvent) event).getComponentType());
 
 				pstmt.executeUpdate();
 

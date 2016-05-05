@@ -49,11 +49,11 @@ public class ComponentEvent extends TtcnEvent {
 		this.testcaseName = testcaseName;
 	}
 
-	public ComponentEventType getCompType() {
+	public ComponentEventType getComponentEventType() {
 		return cet;
 	}
 
-	public void setCompType(ComponentEventType eventType) {
+	public void setComponentEventType(ComponentEventType eventType) {
 		this.cet = eventType;
 	}
 

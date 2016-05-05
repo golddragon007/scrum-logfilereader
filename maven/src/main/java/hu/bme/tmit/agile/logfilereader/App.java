@@ -53,7 +53,7 @@ public class App {
 		ComponentEvent ce = new ComponentEvent();
 		ce.setComponentReference(123123);
 		ce.setComponentType("asdasd");
-		ce.setCompType(ComponentEventType.Create);
+		ce.setComponentEventType(ComponentEventType.Create);
 		ce.setFileName("test1.txt");
 		ce.setSender("mtc");
 		ce.setTestcaseName("random");

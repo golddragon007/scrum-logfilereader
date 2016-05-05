@@ -10,7 +10,7 @@ public class TerminatedComponentParser {
 		ComponentEvent ce = new ComponentEvent();
 		String componentType = Utils.removeLastCharacter(parts[8]);
 		ce.setComponentType(componentType);
-		ce.setCompType(ComponentEventType.Terminate);
+		ce.setComponentEventType(ComponentEventType.Terminate);
 		return ce;
 	}
 }

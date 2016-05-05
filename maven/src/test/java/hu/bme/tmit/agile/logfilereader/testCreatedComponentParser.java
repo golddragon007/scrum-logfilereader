@@ -18,7 +18,7 @@ public class testCreatedComponentParser {
 		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getComponentType(), "SipClientComponent.sipClientComponent");
 		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getTestcaseName(), "WCG100200010");
 		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getProcessID(), 17927);		
-		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getCompType(), ComponentEventType.Create);
+		assertEquals(CreatedComponentParser.parseCreatedComponent(testParts).getComponentEventType(), ComponentEventType.Create);
 	}
 
 }

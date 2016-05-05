@@ -18,7 +18,7 @@ public class CreatedComponentParser {
 		ce.setComponentType(componentType);
 		ce.setTestcaseName(testcaseName);
 		ce.setProcessID(processID);
-		ce.setCompType(ComponentEventType.Create);
+		ce.setComponentEventType(ComponentEventType.Create);
 
 		return ce;
 	}

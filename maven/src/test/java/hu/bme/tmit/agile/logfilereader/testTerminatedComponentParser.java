@@ -15,7 +15,7 @@ public class testTerminatedComponentParser {
 		String testString = "2014/Oct/24 19:53:07.338123 2456 PARALLEL - Terminating component type SipClientComponent.sipClientComponent.";
 		String testParts[] = testString.split(" ");
 		assertEquals(TerminatedComponentParser.parseTerminatedComponent(testParts).getComponentType(), "SipClientComponent.sipClientComponent");
-		assertEquals(TerminatedComponentParser.parseTerminatedComponent(testParts).getCompType(), ComponentEventType.Terminate);
+		assertEquals(TerminatedComponentParser.parseTerminatedComponent(testParts).getComponentEventType(), ComponentEventType.Terminate);
 	}
 
 }
