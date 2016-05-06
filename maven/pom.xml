@@ -45,5 +45,15 @@
   <artifactId>joda-time</artifactId>
   <version>2.9.3</version>
 </dependency>
+<dependency>
+	<groupId>org.apache.xmlgraphics</groupId>
+	<artifactId>batik-swing</artifactId>
+	<version>1.7</version>
+</dependency>
+<dependency>
+	<groupId>com.github.jeluard</groupId>
+	<artifactId>maven-plantuml-plugin</artifactId>
+	<version>7940</version>
+</dependency>
   </dependencies>
 </project>

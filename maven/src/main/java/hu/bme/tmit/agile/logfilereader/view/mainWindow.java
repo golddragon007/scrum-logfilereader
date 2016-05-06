@@ -3,17 +3,59 @@ package hu.bme.tmit.agile.logfilereader.view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+
+import hu.bme.tmit.agile.logfilereader.controller.Parser;
+import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
+import hu.bme.tmit.agile.logfilereader.model.Message;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
+import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
+import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
+import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
+import org.apache.batik.util.XMLResourceDescriptor;
+import org.w3c.dom.svg.SVGDocument;
+import org.apache.batik.swing.svg.GVTTreeBuilderAdapter;
+import org.apache.batik.swing.svg.GVTTreeBuilderEvent;
 
 public class mainWindow {
 
 	private JFrame frame;
+	private JMenu menuFile = new JMenu("File");
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenuItem menuitemOpenFile = new JMenuItem("Open file");
+	private JMenuItem menuitemLoadFromDatabase = new JMenuItem("Load from database");
+	private JMenuItem menuitemExit = new JMenuItem("Exit");
+	private JPanel statusPanel = new JPanel();
+	private JLabel statusLabel = new JLabel();
+	
+	private String fileName;
+
+	private JSVGCanvas svgCanvas = new JSVGCanvas();
 
 	/**
 	 * Launch the application.
@@ -42,39 +84,134 @@ public class mainWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Parser and sequence drawer");
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JMenuBar menuBar = new JMenuBar();
+
 		frame.setJMenuBar(menuBar);
-		
-		JMenu mnFile = new JMenu("File");
-		menuBar.add(mnFile);
-		
-		JMenuItem mntmOpen = new JMenuItem("Open file");
-		mntmOpen.addActionListener(new ActionListener() {
+
+		menuBar.add(menuFile);
+
+		menuFile.add(menuitemOpenFile);
+		menuFile.add(menuitemLoadFromDatabase);
+		menuFile.add(menuitemExit);
+
+		menuitemOpenFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final JFileChooser jFileChooser = new JFileChooser();
 				int returnVal = jFileChooser.showOpenDialog(frame);
-				if(returnVal == JFileChooser.APPROVE_OPTION) {
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = jFileChooser.getSelectedFile();
-					// TODO
-		        }
+					fileName = file.getName().toString();
+
+					try {
+						// Parse file
+						Parser parser = new Parser();
+						parser.parse(file.getAbsolutePath());
+
+						/*
+						 * for (TtcnEvent event : parser.getEventList()) {
+						 * dao.saveTtcnEvent(event); }
+						 */
+
+						// Egyszeru pelda a kirajzolasra
+						
+						String source = "@startuml\n";
+						
+						// teszt kirajzolas miatt 20 sor
+						int limit = 15;
+						int i = 0;
+
+						for (TtcnEvent event : parser.getEventList()) {
+							if(event instanceof Message && i < limit) {
+								if(!event.getSender().contains(":")) {
+									source += event.getSender() + " -> " + ((Message) event).getDestination() + " : " + "Simple message \n";
+									i++;
+								}
+							}
+						}
+
+						source += "@enduml\n";
+
+						SourceStringReader reader = new SourceStringReader(source);
+						final ByteArrayOutputStream os = new ByteArrayOutputStream();
+						// Write the first image to "os"
+						String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+						os.close();
+
+						// The XML is stored into svg
+						final String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
+
+						String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
+						SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
+						SVGDocument document = factory.createSVGDocument("",
+								new ByteArrayInputStream(svg.getBytes("UTF-8")));
+
+						svgCanvas.setSVGDocument(document);
+
+						// svgCanvas.setDocument(svg);
+						// svgCanvas.setURI(file.toURL().toString());
+
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				} else {
+					statusLabel.setText("Open command cancelled by user.");
+				}
 			}
 		});
-		mnFile.add(mntmOpen);
-		
-		JMenuItem mntmLoadFromDatabase = new JMenuItem("Load from database");
-		mnFile.add(mntmLoadFromDatabase);
-		
-		JMenuItem mntmExit = new JMenuItem("Exit");
-		mntmExit.addActionListener(new ActionListener() {
+
+		menuitemLoadFromDatabase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO load from DB
+			}
+		});
+
+		menuitemExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		mnFile.add(mntmExit);
-	}
 
+		statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		frame.getContentPane().add(statusPanel, BorderLayout.SOUTH);
+		statusPanel.setPreferredSize(new Dimension(frame.getWidth(), 16));
+		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
+		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		statusPanel.add(statusLabel);
+
+		frame.add(svgCanvas, BorderLayout.CENTER);
+
+		// Set the JSVGCanvas listeners.
+		svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
+			public void documentLoadingStarted(SVGDocumentLoaderEvent e) {
+				statusLabel.setText("Document Loading...");
+			}
+
+			public void documentLoadingCompleted(SVGDocumentLoaderEvent e) {
+				statusLabel.setText("Document Loaded.");
+			}
+		});
+
+		svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
+			public void gvtBuildStarted(GVTTreeBuilderEvent e) {
+				statusLabel.setText("Build Started...");
+			}
+
+			public void gvtBuildCompleted(GVTTreeBuilderEvent e) {
+				statusLabel.setText("Build Done.");
+				//frame.pack();
+			}
+		});
+
+		svgCanvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
+			public void gvtRenderingPrepare(GVTTreeRendererEvent e) {
+				statusLabel.setText("Rendering Started...");
+			}
+
+			public void gvtRenderingCompleted(GVTTreeRendererEvent e) {
+				statusLabel.setText(fileName + " " + "parse done.");
+			}
+		});
+	}
 }
