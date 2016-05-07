@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -30,6 +31,7 @@ import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
 import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
+import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
 import hu.bme.tmit.agile.logfilereader.dao.DatabaseLoader;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import util.PlantUmlConverter;
@@ -143,15 +145,39 @@ public class LogParserWindow {
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					DatabaseLoader dl = new DatabaseLoader();
-					TreeSet<TtcnEvent> ts = dl.getTimerOperations("WCG100200010.txt");
-					// SVGDocument document = PlantUmlConverter.convert(ts);
-					// svgCanvas.setSVGDocument(document);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				ParserDAO pdao = new ParserDAO(); 
+				Object[] possibilities = pdao.getSavedFileNames();
+				
+				if (possibilities.length > 0) {
+					String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "File name:",
+					                    "Load from DB",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    possibilities,
+					                    possibilities[0]);
+	
+					//If a string was returned, say so.
+					if ((s != null) && (s.length() > 0)) {
+						try {
+							SVGDocument document = PlantUmlConverter.convert(pdao.loadTtcnEvent(s));
+							svgCanvas.setSVGDocument(document);
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+						
+					    return;
+					}
+	
+					//If you're here, the return value was null/empty.
 				}
-
+				else {
+					JOptionPane.showMessageDialog(frame,
+						    "There's no saved file(s) found!",
+						    "Load from DB",
+						    JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}

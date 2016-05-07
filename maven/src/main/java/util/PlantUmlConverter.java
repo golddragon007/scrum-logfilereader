@@ -35,13 +35,13 @@ public class PlantUmlConverter {
 		for (TtcnEvent event : eventSet) {
 			if (event instanceof Message) {
 				if (!event.getSender().contains(":")) {
-					plantUmlString += event.getSender() + " -> " + ((Message) event).getDestination() + " : "
+					plantUmlString += "\"" + event.getSender() + "\" -> \"" + ((Message) event).getDestination() + "\" : "
 							+ "Simple message \n";
 					i++;
 				}
 			}
 			if (event instanceof VerdictOperation) {
-				plantUmlString += event.getSender() + " -> " + event.getSender() + " : "
+				plantUmlString += "\"" + event.getSender() + "\" -> \"" + event.getSender() + "\" : "
 						+ ((VerdictOperation) event).getVerdictType().toString() + "\n";
 				i++;
 			}
