@@ -11,20 +11,20 @@ public class Message extends TtcnEvent {
 		};
 	}
 
-	private Long pkid;
+	//private Long pkid;
 	private String param;
 	private String destination;
 	private String name;
 	private String port;
 	private MessageType messageType;
 
-	public Long getPkid() {
+	/*public Long getPkid() {
 		return pkid;
 	}
 
 	public void setPkid(Long pkid) {
 		this.pkid = pkid;
-	}
+	}*/
 
 	public String getParam() {
 		return param;

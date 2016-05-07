@@ -1,14 +1,28 @@
 package hu.bme.tmit.agile.logfilereader.dao;
 
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+//import com.mysql.jdbc.Statement;
 
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
+import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
+import hu.bme.tmit.agile.logfilereader.model.Message.MessageType;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
+import hu.bme.tmit.agile.logfilereader.model.TimerOperation.EventType;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
+import util.Utils;
 
 public class ParserDAO {
 
@@ -119,4 +133,152 @@ public class ParserDAO {
 		}
 	}
 
+	public void loadMessage() {
+		Statement stmt = null;
+		Connection connection = ConnectionUtils.getConnection();
+		try {
+			stmt = connection.createStatement();
+			String sql = "SELECT * FROM message_event";
+		    ResultSet rs = stmt.executeQuery(sql);
+		    ArrayList<Message> mlist = new ArrayList<Message>();
+		    while(rs.next()) {
+		    	Message temp = new Message();
+		         temp.setId(rs.getInt("id"));
+		         temp.setName(rs.getString("name"));
+		         temp.setPort(rs.getString("port"));
+		         temp.setSender(rs.getString("source"));
+		         temp.setDestination(rs.getString("destination"));
+		         temp.setParam(rs.getString("param"));
+		        // temp.setTimestamp((LogTimestamp) rs.getObject("timestamp"));
+		         temp.setMicro(rs.getInt("microsec"));
+		         String a = rs.getString("event_type");
+		         if (a.equals("receive"))
+		        	 temp.setEventType(MessageType.Receive);
+		         else if (a.equals("send"))
+		        	 temp.setEventType(MessageType.Send);
+		         
+		         temp.setFileName(rs.getString("filename"));
+		         System.out.println(temp.getEventType());
+		         mlist.add(temp);
+		      }
+		      rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Error while selecting message from database : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(stmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		}
+	public void loadComponent() {
+		Statement stmt = null;
+		Connection connection = ConnectionUtils.getConnection();
+		try {
+			stmt = connection.createStatement();
+			String sql = "SELECT * FROM component_event";
+		    ResultSet rs = stmt.executeQuery(sql);
+		    ArrayList<ComponentEvent> clist = new ArrayList<ComponentEvent>();
+		    while(rs.next()) {
+		    	ComponentEvent temp = new ComponentEvent();
+		    	 temp.setId(rs.getInt("id"));
+		    	 temp.setName(rs.getString("name"));
+		         temp.setComponentEventType((ComponentEventType) rs.getObject("event_type"));
+		         temp.setProcessID(rs.getInt("process_id"));
+		         temp.setComponentReference(rs.getInt("component_ref"));
+		         temp.setTestcaseName(rs.getString("testcase_name"));
+		         //temp.setTimestamp((LogTimestamp) rs.getObject("timestamp"));
+		         temp.setMicro(rs.getInt("microsec"));
+		         temp.setFileName("filename");
+		         String a = rs.getString("event_type");
+		         if (a.equals("create"))
+		        	 temp.setComponentEventType(ComponentEventType.Create);
+		         else if (a.equals("terminate"))
+		        	 temp.setComponentEventType(ComponentEventType.Terminate);
+		         
+		         clist.add(temp);
+		      }
+		      rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Error while selecting component from database : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(stmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		}
+	public void loadTimer() {
+		Statement stmt = null;
+		Connection connection = ConnectionUtils.getConnection();
+		try {
+			stmt = connection.createStatement();
+			String sql = "SELECT * FROM timer_event";
+		    ResultSet rs = stmt.executeQuery(sql);
+		    ArrayList<TimerOperation> tlist = new ArrayList<TimerOperation>();
+		    while(rs.next()) {
+		    	TimerOperation temp = new TimerOperation();
+		    	 temp.setId(rs.getInt("id"));
+		    	 temp.setName(rs.getString("name"));
+		         temp.setOwner( rs.getString("owner"));
+		         //temp.setTimestamp((LogTimestamp) rs.getObject("timestamp"));
+		         temp.setMicro(rs.getInt("microsec"));
+		         String a = rs.getString("event_type");
+		         if (a.equals("start"))
+		        	 temp.setEventType(EventType.Start);
+		         else if (a.equals("stop"))
+		        	 temp.setEventType(EventType.Stop);
+		         else if (a.equals("timeout"))
+		        	 temp.setEventType(EventType.Timeout);
+		         temp.setDuration(rs.getDouble("duration"));
+		         temp.setFileName("filename");
+		         tlist.add(temp);
+		      }
+		      rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Error while selecting timer from database : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(stmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		}
+	public void loadVerdict() {
+		Statement stmt = null;
+		Connection connection = ConnectionUtils.getConnection();
+		try {
+			stmt = connection.createStatement();
+			String sql = "SELECT * FROM verdict_event";
+		    ResultSet rs = stmt.executeQuery(sql);
+		    ArrayList<VerdictOperation> vlist = new ArrayList<VerdictOperation>();
+		    while(rs.next()) {
+		    	VerdictOperation temp = new VerdictOperation();
+		    	 temp.setId(rs.getInt("id"));
+		    	// temp.setTimestamp((LogTimestamp) rs.getObject("timestamp"));
+		         temp.setMicro(rs.getInt("microsec"));
+		         temp.setPortNumber(rs.getInt("port"));
+		         temp.setOwner( rs.getString("owner"));
+		         String a = rs.getString("event_type");
+		         if (a.equals("pass"))
+		        	 temp.setVerdictType(VerdictType.Pass);
+		         else if (a.equals("fail"))
+		        	 temp.setVerdictType(VerdictType.Fail);
+		         else if (a.equals("inconclusive"))
+		        	 temp.setVerdictType(VerdictType.Inconclusive);
+		         temp.setFileName("filename");
+		         vlist.add(temp);
+		         
+		      }
+		      rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Error while selecting verdict from database : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(stmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		}	
+	
 }

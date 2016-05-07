@@ -14,6 +14,7 @@ public class TimerOperation extends TtcnEvent {
 	private String name;
 	private double duration;
 	EventType eventType;
+	private String owner;
 
 	public String getName() {
 		return name;
@@ -42,5 +43,13 @@ public class TimerOperation extends TtcnEvent {
 	@Override
 	public String toString() {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + eventType + " " + name + " " + duration;
+	}
+	
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	
+	public String getOwner() {
+		return owner;
 	}
 }

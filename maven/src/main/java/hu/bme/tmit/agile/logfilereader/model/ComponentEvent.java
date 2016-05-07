@@ -16,6 +16,7 @@ public class ComponentEvent extends TtcnEvent {
 	private int componentReference;
 	private String componentType;
 	private String testcaseName;
+	private String name;
 
 	public int getProcessID() {
 		return processID;
@@ -62,4 +63,13 @@ public class ComponentEvent extends TtcnEvent {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + processID + " " + componentReference + " "
 				+ componentType + " " + cet + " " + testcaseName;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

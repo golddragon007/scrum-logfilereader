@@ -15,6 +15,7 @@ public class VerdictOperation extends TtcnEvent {
 	private String miscText;
 	private String componentName;
 	private int portNumber;
+	private String owner;
 
 	public String getMiscText() {
 		return miscText;
@@ -52,5 +53,13 @@ public class VerdictOperation extends TtcnEvent {
 	public String toString() {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + verdictType + " " + miscText + " "
 				+ componentName + " " + portNumber;
+	}
+	
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 }

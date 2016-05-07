@@ -2,6 +2,7 @@ package hu.bme.tmit.agile.logfilereader.controller;
 
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.Message.MessageType;
+import util.Utils;
 
 public class MessageParser {
 
@@ -22,7 +23,7 @@ public class MessageParser {
 
 		m.setDestination(parts[2]);
 		m.setPort(parts[9]);
-		m.setSender(parts[13]);
+		m.setSender(Utils.removeLastCharacter(parts[13]));
 		m.setName(parts[14]);
 		m.setEventType(MessageType.Receive);
 
