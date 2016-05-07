@@ -161,8 +161,7 @@ public class LogParserWindow {
 					//If a string was returned, say so.
 					if ((s != null) && (s.length() > 0)) {
 						try {
-							String plantUmlString = PlantUmlConverter.convert(pdao.loadTtcnEvent(s));
-							SVGDocument document = getSvgDocument(plantUmlString);
+							SVGDocument document = PlantUmlConverter.convert(pdao.loadTtcnEvent(s));
 							svgCanvas.setSVGDocument(document);
 						} catch (IOException ex) {
 							ex.printStackTrace();
