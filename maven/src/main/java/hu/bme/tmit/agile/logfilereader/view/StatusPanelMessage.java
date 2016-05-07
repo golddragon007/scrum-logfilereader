@@ -9,5 +9,6 @@ public interface StatusPanelMessage {
 	public static final String BUILDING = "Building...";
 	public static final String PARSE_DONE = " parse done.";
 	public static final String RENDERING = "Rendering...";
+	public static final String HINT =  "Hint: zoom: shift + mouse right click, move: shift + mouse left click.";
 
 }

@@ -130,10 +130,6 @@ public class LogParserWindow {
 						SVGDocument document = getSvgDocument(plantUmlString);
 						svgCanvas.setSVGDocument(document);
 
-						// kell??
-						// svgCanvas.setDocument(svg);
-						// svgCanvas.setURI(file.toURL().toString());
-
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -159,8 +155,7 @@ public class LogParserWindow {
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		// Write the first image to "os"
-		// ez kell vegul???
-		String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
 		os.close();
 
 		// The XML is stored into svg
@@ -240,7 +235,7 @@ public class LogParserWindow {
 
 			@Override
 			public void gvtRenderingCompleted(GVTTreeRendererEvent e) {
-				statusLabel.setText(fileName + StatusPanelMessage.PARSE_DONE);
+				statusLabel.setText(fileName + StatusPanelMessage.PARSE_DONE + StatusPanelMessage.HINT);
 			}
 		});
 	}
