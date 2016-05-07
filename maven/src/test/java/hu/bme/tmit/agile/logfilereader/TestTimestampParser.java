@@ -1,4 +1,4 @@
-package hu.bme.tmit.agile.logfilereader.controller;
+package hu.bme.tmit.agile.logfilereader;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,15 +7,16 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 
+import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import util.EventIdentifier;
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
-public class ParserTest {
+public class TestTimestampParser {
 
-	Parser parser = new Parser();
-	String date = new String("2014/Oct/24");
-	String dateParts[], yearPattern, monthPattern, dayPattern;
+	private Parser parser = new Parser();
+	private final String date = "2014/Oct/24";
+	private String dateParts[], yearPattern, monthPattern, dayPattern;
 
 	private static final String DATE_PROPERTY = "date";
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
