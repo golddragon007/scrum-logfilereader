@@ -14,6 +14,9 @@ import org.w3c.dom.svg.SVGDocument;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
 
 public class PlantUmlConverter {
 
@@ -52,7 +55,9 @@ public class PlantUmlConverter {
 	}
 
 	private static SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
+		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
 		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
 		os.close();
 		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
