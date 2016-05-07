@@ -1,14 +1,20 @@
 package hu.bme.tmit.agile.logfilereader.dao;
 
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
+import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
 
 public class ParserDAO {
 
@@ -117,6 +123,133 @@ public class ParserDAO {
 				ConnectionUtils.closeResource(connection);
 			}
 		}
+	}
+	
+
+	/**
+	 * Get saved file names from component_event table.
+	 */
+	public Object[] getSavedFileNames() {
+		ArrayList<String> l = new ArrayList<String>();
+		Connection connection = ConnectionUtils.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		
+		try {
+			pstmt = connection.prepareStatement("SELECT filename FROM component_event GROUP BY filename ORDER BY filename");
+			res = pstmt.executeQuery();
+			
+			while (res.next()) {
+				final ResultSet rs = res;
+				l.add(rs.getString("filename"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error while inserting verdict into database : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(pstmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		
+		return l.toArray();
+	}
+
+
+	/**
+	 * Load message from database.
+	 * 
+	 * @param fileName
+	 *            FileName to be loaded.
+	 */
+	public TreeSet<TtcnEvent> loadTtcnEvent(String fileName) {
+		TreeSet<TtcnEvent> eventSet = new TreeSet<TtcnEvent>();
+		
+		Connection connection = ConnectionUtils.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		
+		// INFO: timestamp WTF: normally it reads 2014-10-24 19:53:04.0, so we need to substring it.
+
+		try {
+			pstmt = connection.prepareStatement("SELECT * FROM component_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			res = pstmt.executeQuery();
+			
+			while (res.next()) {
+				final ResultSet rs = res;
+				eventSet.add(new ComponentEvent() { { 
+					setComponentReference(rs.getInt("component_ref"));
+					setComponentType(rs.getString("component_type"));
+					setTestcaseName(rs.getString("testcase_name"));
+					setProcessID(rs.getInt("process_id"));
+					setFileName(rs.getString("filename"));
+					setSender(rs.getString("name"));
+					setTimestamp(new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
+					setComponentEventType(ComponentEventType.fromString(rs.getString("event_type")));
+				} });
+			}
+			ConnectionUtils.closeResource(pstmt);
+			
+			pstmt = connection.prepareStatement("SELECT * FROM message_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			res = pstmt.executeQuery();
+			
+			while (res.next()) {
+				final ResultSet rs = res;
+				eventSet.add(new Message() { { 
+					setPort(rs.getString("port"));
+					setDestination(rs.getString("destination"));
+					setParam(rs.getString("param"));
+					setSender(rs.getString("source"));
+					setFileName(rs.getString("filename"));
+					setName(rs.getString("name"));
+					setTimestamp(new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
+					setEventType(MessageType.fromString(rs.getString("event_type")));
+				} });
+			}
+			ConnectionUtils.closeResource(pstmt);
+			
+			pstmt = connection.prepareStatement("SELECT * FROM timer_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			res = pstmt.executeQuery();
+			
+			while (res.next()) {
+				final ResultSet rs = res;
+				eventSet.add(new TimerOperation() { { 
+					setDuration(rs.getDouble("duration"));
+					setSender(rs.getString("owner"));
+					setFileName(rs.getString("filename"));
+					setName(rs.getString("name"));
+					setTimestamp(new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
+					setEventType(EventType.fromString(rs.getString("event_type")));
+				} });
+			}
+			ConnectionUtils.closeResource(pstmt);
+			
+			pstmt = connection.prepareStatement("SELECT * FROM verdict_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			res = pstmt.executeQuery();
+			
+			while (res.next()) {
+				final ResultSet rs = res;
+				eventSet.add(new VerdictOperation() { { 
+					setPortNumber(rs.getInt("port"));
+					setFileName(rs.getString("filename"));
+					setSender(rs.getString("owner"));
+					setTimestamp(new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
+					setVerdictType(VerdictType.fromString(rs.getString("event_type")));
+				} });
+			}
+			// Last pstmt closer is in the final!
+		} catch (SQLException e) {
+			System.out.println("Error while inserting verdict into database : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			ConnectionUtils.closeResource(pstmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		
+		return eventSet;
 	}
 
 }

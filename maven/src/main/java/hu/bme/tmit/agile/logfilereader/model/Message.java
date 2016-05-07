@@ -1,5 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
+
 public class Message extends TtcnEvent {
 
 	public enum MessageType {
@@ -9,6 +11,18 @@ public class Message extends TtcnEvent {
 		MessageType(String str) {
 			type = str;
 		};
+		
+		//From String method will return you the Enum for the provided input string
+	    public static MessageType fromString(String parameterName) {
+	        if (parameterName != null) {
+	            for (MessageType objType : MessageType.values()) {
+	                if (parameterName.equalsIgnoreCase(objType.type)) {
+	                    return objType;
+	                }
+	            }
+	        }
+	        return null;
+	    }
 	}
 
 	private Long pkid;

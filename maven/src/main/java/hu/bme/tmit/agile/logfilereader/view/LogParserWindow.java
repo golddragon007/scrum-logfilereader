@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -35,6 +36,7 @@ import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
+import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -175,7 +177,40 @@ public class LogParserWindow {
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO load from DB
+				ParserDAO pdao = new ParserDAO(); 
+				Object[] possibilities = pdao.getSavedFileNames();
+				
+				if (possibilities.length > 0) {
+					String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "File name:",
+					                    "Load from DB",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    possibilities,
+					                    possibilities[0]);
+	
+					//If a string was returned, say so.
+					if ((s != null) && (s.length() > 0)) {
+						try {
+							String plantUmlString = PlantUmlConverter.convert(pdao.loadTtcnEvent(s));
+							SVGDocument document = getSvgDocument(plantUmlString);
+							svgCanvas.setSVGDocument(document);
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+						
+					    return;
+					}
+	
+					//If you're here, the return value was null/empty.
+				}
+				else {
+					JOptionPane.showMessageDialog(frame,
+						    "There's no saved file(s) found!",
+						    "Load from DB",
+						    JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}

@@ -1,5 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
+
 public class TimerOperation extends TtcnEvent {
 
 	public enum EventType {
@@ -9,6 +11,18 @@ public class TimerOperation extends TtcnEvent {
 		EventType(String str) {
 			type = str;
 		};
+
+		//From String method will return you the Enum for the provided input string
+	    public static EventType fromString(String parameterName) {
+	        if (parameterName != null) {
+	            for (EventType objType : EventType.values()) {
+	                if (parameterName.equalsIgnoreCase(objType.type)) {
+	                    return objType;
+	                }
+	            }
+	        }
+	        return null;
+	    }
 	}
 
 	private String name;

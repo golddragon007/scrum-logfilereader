@@ -1,5 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
+
 public class VerdictOperation extends TtcnEvent {
 
 	public enum VerdictType {
@@ -9,6 +11,18 @@ public class VerdictOperation extends TtcnEvent {
 		VerdictType(String str) {
 			type = str;
 		};
+
+		//From String method will return you the Enum for the provided input string
+	    public static VerdictType fromString(String parameterName) {
+	        if (parameterName != null) {
+	            for (VerdictType objType : VerdictType.values()) {
+	                if (parameterName.equalsIgnoreCase(objType.type)) {
+	                    return objType;
+	                }
+	            }
+	        }
+	        return null;
+	    }
 	}
 
 	VerdictType verdictType;

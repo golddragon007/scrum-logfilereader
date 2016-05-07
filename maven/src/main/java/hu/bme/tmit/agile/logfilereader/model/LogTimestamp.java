@@ -12,6 +12,20 @@ public class LogTimestamp {
 		this.micro = micro;
 	}
 
+	public LogTimestamp(String dateTime, int micro) {
+		String[] parts = dateTime.split("[-\\ :]");
+		
+		this.dt = new DateTime(
+				Integer.parseInt(parts[0]),
+				Integer.parseInt(parts[1]),
+				Integer.parseInt(parts[2]),
+				Integer.parseInt(parts[3]),
+				Integer.parseInt(parts[4]),
+				Integer.parseInt(parts[5])
+		);
+		this.micro = micro;
+	}
+
 	public DateTime getDt() {
 		return dt;
 	}

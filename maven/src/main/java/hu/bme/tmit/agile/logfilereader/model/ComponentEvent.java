@@ -9,6 +9,18 @@ public class ComponentEvent extends TtcnEvent {
 		ComponentEventType(String str) {
 			type = str;
 		};
+		
+		//From String method will return you the Enum for the provided input string
+	    public static ComponentEventType fromString(String parameterName) {
+	        if (parameterName != null) {
+	            for (ComponentEventType objType : ComponentEventType.values()) {
+	                if (parameterName.equalsIgnoreCase(objType.type)) {
+	                    return objType;
+	                }
+	            }
+	        }
+	        return null;
+	    }
 	}
 
 	public ComponentEventType cet;
