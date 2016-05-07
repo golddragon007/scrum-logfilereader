@@ -120,6 +120,10 @@ public class LogParserWindow {
 						parser.parse(selectedFile.getAbsolutePath());
 						SVGDocument document = PlantUmlConverter.convert(parser.getEventSet());
 						svgCanvas.setSVGDocument(document);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -140,6 +144,25 @@ public class LogParserWindow {
 		return null;
 	}
 
+<<<<<<< HEAD
+=======
+	private SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+		SourceStringReader reader = new SourceStringReader(plantUmlString);
+		final ByteArrayOutputStream os = new ByteArrayOutputStream();
+		// Write the first image to "os"
+		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+		os.close();
+
+		// The XML is stored into svg
+		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
+
+		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
+		SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
+		SVGDocument document = factory.createSVGDocument("", new ByteArrayInputStream(svg.getBytes(ENCODING)));
+		return document;
+	}
+
+>>>>>>> origin/master
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

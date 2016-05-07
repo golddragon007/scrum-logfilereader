@@ -26,7 +26,7 @@ public class PlantUmlConverter {
 
 	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
 		String plantUmlString = "@startuml\n";
-		int limit = 15;
+		int limit = 50;
 		int i = 0;
 
 		for (TtcnEvent event : eventSet) {
