@@ -12,7 +12,7 @@ import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
-public class TestVerdictParser {
+public class VerdictParserTest {
 	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
 	private static final String VERDICT_PROPERTY = "verdict";
 

@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
+import java.util.TreeSet;
 
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
 import hu.bme.tmit.agile.logfilereader.model.LogTimestamp;
@@ -33,7 +32,7 @@ public class Parser {
 	private static String messageParam = "";
 	private Message m;
 
-	private List<TtcnEvent> eventList = new ArrayList<TtcnEvent>();
+	private TreeSet<TtcnEvent> eventSet = new TreeSet<TtcnEvent>();
 
 	private void applyParsingRules() {
 		PropertyHandler ph = new PropertyHandler();
@@ -66,7 +65,7 @@ public class Parser {
 					if (EventIdentifier.isTimerOperation(parts[3])) {
 						TimerOperation to = TimerParser.parseTimer(parts);
 						to = (TimerOperation) setTtcnEventParams(fileName, timestamp, sender, to);
-						eventList.add(to);
+						eventSet.add(to);
 					} else if (parts.length >= 7 && EventIdentifier.isVerdictOperation(parts[3], parts[5])) {
 						String backOfLine = "";
 						for (int i = 4; i < parts.length; i++) {
@@ -76,31 +75,31 @@ public class Parser {
 
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo = (VerdictOperation) setTtcnEventParams(fileName, timestamp, sender, vo);
-						eventList.add(vo);
+						eventSet.add(vo);
 
 					} else if (parts.length >= 20 && EventIdentifier.isCreatedComponent(parts[6], parts[7])) {
 						if (EventIdentifier.isComponentType(parts[13])) {
 							ComponentEvent ce = CreatedComponentParser.parseCreatedComponent(parts);
 							ce = (ComponentEvent) setTtcnEventParams(fileName, timestamp, sender, ce);
-							eventList.add(ce);
+							eventSet.add(ce);
 						}
 					} else if (parts.length >= 9 && EventIdentifier.isTerminatedComponent(parts[5], parts[6])) {
 						ComponentEvent ce = TerminatedComponentParser.parseTerminatedComponent(parts);
 						ce = (ComponentEvent) setTtcnEventParams(fileName, timestamp, sender, ce);
-						eventList.add(ce);
+						eventSet.add(ce);
 					} else if (parts.length >= 13 && EventIdentifier.isSentMessage(parts[5], parts[6])) {
 						isMessageParam = true;
 						m = MessageParser.parseSentMessage(parts);
 						m.setTimestamp(timestamp);
 						m.setFileName(fileName);
-						eventList.add(m);
+						eventSet.add(m);
 
 					} else if (parts.length >= 17 && EventIdentifier.isReceivedMessage(parts[5], parts[6], parts[7])) {
 						isMessageParam = true;
 						m = MessageParser.parseReceivedMessage(parts);
 						m.setTimestamp(timestamp);
 						m.setFileName(fileName);
-						eventList.add(m);
+						eventSet.add(m);
 
 					}
 				} else if (isMessageParam) {
@@ -123,7 +122,7 @@ public class Parser {
 		return event;
 	}
 
-	public List<TtcnEvent> getEventList() {
-		return eventList;
+	public TreeSet<TtcnEvent> getEventSet() {
+		return eventSet;
 	}
 }

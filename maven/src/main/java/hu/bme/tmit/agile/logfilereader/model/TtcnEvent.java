@@ -1,6 +1,6 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
-abstract public class TtcnEvent {
+public abstract class TtcnEvent implements Comparable<TtcnEvent> {
 
 	protected LogTimestamp timestamp;
 	protected String sender;
@@ -13,10 +13,10 @@ abstract public class TtcnEvent {
 	public void setTimestamp(LogTimestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
 	public String getTimestampString() {
 		return timestamp.toDateTimeString();
-	} 
+	}
 
 	public String getSender() {
 		return sender;
@@ -34,5 +34,13 @@ abstract public class TtcnEvent {
 		this.fileName = fileName;
 	}
 
-	
+	public int compareTo(TtcnEvent te) {
+		if (getTimestamp().isEqual(te.getTimestamp())) {
+			return 0;
+		}
+		if (getTimestamp().isBefore(te.getTimestamp())) {
+			return -1;
+		}
+		return 1;
+	}
 }

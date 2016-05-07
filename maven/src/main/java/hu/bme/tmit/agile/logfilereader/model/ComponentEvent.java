@@ -62,5 +62,4 @@ public class ComponentEvent extends TtcnEvent {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + processID + " " + componentReference + " "
 				+ componentType + " " + cet + " " + testcaseName;
 	}
-
 }

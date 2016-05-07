@@ -12,7 +12,7 @@ import util.EventIdentifier;
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
-public class TestTimestampParser {
+public class TimestampParserTest {
 
 	private Parser parser = new Parser();
 	private final String date = "2014/Oct/24";

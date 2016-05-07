@@ -7,7 +7,7 @@ import org.junit.Test;
 import hu.bme.tmit.agile.logfilereader.controller.CreatedComponentParser;
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 
-public class TestCreatedComponentParser {
+public class CreatedComponentParserTest {
 
 	@Test
 	public void testCreatedComponent() {

@@ -37,4 +37,25 @@ public class LogTimestamp {
 	public String toString() {
 		return toDateTimeString() + "." + micro;
 	}
+
+	public boolean isEqual(LogTimestamp lt) {
+		if (dt.isEqual(lt.getDt())) {
+			return micro == lt.getMicro();
+		}
+		return false;
+	}
+
+	public boolean isBefore(LogTimestamp lt) {
+		if (dt.isEqual(lt.getDt())) {
+			return micro < lt.getMicro();
+		}
+		return dt.isBefore(lt.getDt());
+	}
+
+	public boolean isAfter(LogTimestamp lt) {
+		if (dt.isEqual(lt.getDt())) {
+			return micro > lt.getMicro();
+		}
+		return dt.isAfter(lt.getDt());
+	}
 }

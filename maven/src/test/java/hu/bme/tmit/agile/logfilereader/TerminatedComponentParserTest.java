@@ -7,7 +7,7 @@ import org.junit.Test;
 import hu.bme.tmit.agile.logfilereader.controller.TerminatedComponentParser;
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 
-public class TestTerminatedComponentParser {
+public class TerminatedComponentParserTest {
 
 	@Test
 	public void testTerminatedComponent() {
