@@ -1,6 +1,15 @@
 package util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.TreeSet;
+
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.util.XMLResourceDescriptor;
+import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
@@ -8,7 +17,14 @@ import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 
 public class PlantUmlConverter {
 
-	public static String convert(TreeSet<TtcnEvent> eventSet) {
+	private static final String ENCODING = "UTF-8";
+
+	public static SVGDocument convert(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
+		String plantUmlString = getPlantUmlString(eventSet);
+		return getSvgDocument(plantUmlString);
+	}
+
+	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
 		String plantUmlString = "@startuml\n";
 		int limit = 15;
 		int i = 0;
@@ -33,6 +49,16 @@ public class PlantUmlConverter {
 		plantUmlString += "@enduml\n";
 
 		return plantUmlString;
+	}
+
+	private static SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+		final ByteArrayOutputStream os = new ByteArrayOutputStream();
+		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
+		os.close();
+		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
+		SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
+		SVGDocument document = factory.createSVGDocument("", new ByteArrayInputStream(svg.getBytes(ENCODING)));
+		return document;
 	}
 
 }

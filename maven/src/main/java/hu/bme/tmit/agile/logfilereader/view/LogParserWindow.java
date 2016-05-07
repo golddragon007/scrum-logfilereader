@@ -5,12 +5,9 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -23,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
-import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
 import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
@@ -31,18 +27,16 @@ import org.apache.batik.swing.svg.GVTTreeBuilderAdapter;
 import org.apache.batik.swing.svg.GVTTreeBuilderEvent;
 import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
 import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
-import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
+import hu.bme.tmit.agile.logfilereader.dao.DatabaseLoader;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import util.PlantUmlConverter;
+import util.StatusPanelMessage;
 
 public class LogParserWindow {
 
-	private static final String ENCODING = "UTF-8";
 	private static final int WINDOW_VERTICAL = 100;
 	private static final int WINDOW_HORIZONTAL = 100;
 	private static final int WINDOW_HEIGHT = 600;
@@ -121,19 +115,11 @@ public class LogParserWindow {
 				File selectedFile;
 				if ((selectedFile = getSelectedFile()) != null) {
 					fileName = selectedFile.getName();
-
 					try {
 						Parser parser = new Parser();
 						parser.parse(selectedFile.getAbsolutePath());
-
-						String plantUmlString = PlantUmlConverter.convert(parser.getEventSet());
-						SVGDocument document = getSvgDocument(plantUmlString);
+						SVGDocument document = PlantUmlConverter.convert(parser.getEventSet());
 						svgCanvas.setSVGDocument(document);
-
-						// kell??
-						// svgCanvas.setDocument(svg);
-						// svgCanvas.setURI(file.toURL().toString());
-
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -141,7 +127,6 @@ public class LogParserWindow {
 					statusLabel.setText(StatusPanelMessage.CANCELLED_BY_USER);
 				}
 			}
-
 		});
 	}
 
@@ -155,27 +140,18 @@ public class LogParserWindow {
 		return null;
 	}
 
-	private SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
-		SourceStringReader reader = new SourceStringReader(plantUmlString);
-		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		// Write the first image to "os"
-		// ez kell vegul???
-		String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-		os.close();
-
-		// The XML is stored into svg
-		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
-
-		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
-		SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
-		SVGDocument document = factory.createSVGDocument("", new ByteArrayInputStream(svg.getBytes(ENCODING)));
-		return document;
-	}
-
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO load from DB
+				try {
+					DatabaseLoader dl = new DatabaseLoader();
+					TreeSet<TtcnEvent> ts = dl.getTimerOperations("WCG100200010.txt");
+					// SVGDocument document = PlantUmlConverter.convert(ts);
+					// svgCanvas.setSVGDocument(document);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
 			}
 		});
 	}

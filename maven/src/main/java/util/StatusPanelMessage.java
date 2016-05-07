@@ -1,4 +1,4 @@
-package hu.bme.tmit.agile.logfilereader.view;
+package util;
 
 public interface StatusPanelMessage {
 

@@ -1,8 +1,5 @@
 package hu.bme.tmit.agile.logfilereader.dao;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,13 +16,11 @@ public class Connector {
 	private static final String USER_PROPERTY = "user";
 	private static final String DATABASE_PROPERTY = "database";
 
-	private static final String COLUMN_NAME = "name";
-
 	private static final String DATABASE_USER_SEPARATOR = "?";
 	private static final String USER_PASSWORD_SEPARATOR = "&";
 
-	public void executeQuery(String query) {
-		
+	public ResultSet executeQuery(String query) {
+
 		PropertyHandler ph = new PropertyHandler();
 		Properties properties = ph.getProperties(CONFIG_PROPERTIES);
 
@@ -40,30 +35,10 @@ public class Connector {
 			Connection conn = getConnection(database, user, password);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query);
-
-			while (rs.next()) {
-				String name = rs.getString(COLUMN_NAME);
-				System.out.println(name);
-			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-				}
-				rs = null;
-			}
-
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException ex) {
-				}
-				stmt = null;
-			}
 		}
+		return rs;
 	}
 
 	private Connection getConnection(String database, String user, String password) throws SQLException {
