@@ -22,7 +22,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+<<<<<<< HEAD:maven/src/main/java/hu/bme/tmit/agile/logfilereader/view/LogParserWindow.java
+=======
+import hu.bme.tmit.agile.logfilereader.controller.Parser;
+import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
+import hu.bme.tmit.agile.logfilereader.model.Message;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+>>>>>>> origin/master:maven/src/main/java/hu/bme/tmit/agile/logfilereader/view/mainWindow.java
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
