@@ -24,6 +24,7 @@ import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -129,7 +130,12 @@ public class mainWindow {
 									i++;
 								}
 							}
+							if(event instanceof VerdictOperation && i < limit) {
+								source += event.getSender() + " -> " + event.getSender() + " : " + ((VerdictOperation) event).getVerdictType().toString()+"\n";
+								i++;	
+							}
 						}
+						
 
 						source += "@enduml\n";
 
