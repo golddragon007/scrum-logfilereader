@@ -7,6 +7,10 @@ public class LogTimestamp {
 	private DateTime dt;
 	private int micro = 0;
 
+	public LogTimestamp() {
+		dt = new DateTime();
+	}
+
 	public LogTimestamp(int year, int month, int day, int hour, int minute, int second, int micro) {
 		this.dt = new DateTime(year, month, day, hour, minute, second);
 		this.micro = micro;
@@ -26,11 +30,11 @@ public class LogTimestamp {
 		this.micro = micro;
 	}
 
-	public DateTime getDt() {
+	public DateTime getDateTime() {
 		return dt;
 	}
 
-	public void setDt(DateTime dt) {
+	public void setDateTime(DateTime dt) {
 		this.dt = dt;
 	}
 
@@ -53,23 +57,23 @@ public class LogTimestamp {
 	}
 
 	public boolean isEqual(LogTimestamp lt) {
-		if (dt.isEqual(lt.getDt())) {
+		if (dt.isEqual(lt.getDateTime())) {
 			return micro == lt.getMicro();
 		}
 		return false;
 	}
 
 	public boolean isBefore(LogTimestamp lt) {
-		if (dt.isEqual(lt.getDt())) {
+		if (dt.isEqual(lt.getDateTime())) {
 			return micro < lt.getMicro();
 		}
-		return dt.isBefore(lt.getDt());
+		return dt.isBefore(lt.getDateTime());
 	}
 
 	public boolean isAfter(LogTimestamp lt) {
-		if (dt.isEqual(lt.getDt())) {
+		if (dt.isEqual(lt.getDateTime())) {
 			return micro > lt.getMicro();
 		}
-		return dt.isAfter(lt.getDt());
+		return dt.isAfter(lt.getDateTime());
 	}
 }

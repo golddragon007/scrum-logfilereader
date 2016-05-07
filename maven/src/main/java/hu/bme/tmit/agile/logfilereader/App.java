@@ -14,10 +14,6 @@ import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 
 public class App {
 	public static void main(String[] args) {
-		// final String QUERY = "SELECT name FROM message";
-
-		// Connector conn = new Connector();
-		// conn.executeQuery(QUERY);
 
 		Parser parser = new Parser();
 		ParserDAO dao = new ParserDAO();
@@ -61,7 +57,7 @@ public class App {
 
 		// dao.saveTtcnEvent(cc1);
 
-		//parser.parse("logs/WCG100200016.txt");
+		// parser.parse("logs/WCG100200016.txt");
 		parser.parse("logs/WCG100200010.txt");
 		// for (TtcnEvent event : parser.getEventList()) {
 		// dao.saveTtcnEvent(event);
