@@ -28,13 +28,9 @@ public class DatabaseLoader {
 				double duration = rs.getDouble(DatabaseColumnName.TIMER_DURATION);
 				String eventTypeString = rs.getString(DatabaseColumnName.TIMER_EVENT_TYPE);
 				String tss = rs.getString(DatabaseColumnName.TIMESTAMP);
-				System.out.println(tss);
 
 				TimerOperation to = getTimerOperation(fileName, name, owner, microsec, duration, eventTypeString);
 				ts.add(to);
-
-				System.out.println(to.getName() + " " + to.getSender() + " " + to.getTimestamp().getMicro() + " "
-						+ to.getDuration() + " " + to.getEventType() + " " + to.getFileName());
 			}
 
 			try {
@@ -55,11 +51,14 @@ public class DatabaseLoader {
 		to.setDuration(duration);
 		to.setEventType(getEventType(eventTypeString));
 		to.setFileName(fileName);
+		to.setTimestamp(getLogTimestamp(microsec));
+		return to;
+	}
 
+	private LogTimestamp getLogTimestamp(int microsec) {
 		LogTimestamp lt = new LogTimestamp();
 		lt.setMicro(microsec);
-		to.setTimestamp(lt);
-		return to;
+		return lt;
 	}
 
 	private EventType getEventType(String eventTypeString) {

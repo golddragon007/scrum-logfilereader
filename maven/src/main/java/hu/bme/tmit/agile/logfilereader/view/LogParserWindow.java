@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -32,17 +31,15 @@ import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
-import hu.bme.tmit.agile.logfilereader.dao.DatabaseLoader;
-import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import util.PlantUmlConverter;
 import util.StatusPanelMessage;
 
 public class LogParserWindow {
 
-	private static final int WINDOW_VERTICAL = 100;
-	private static final int WINDOW_HORIZONTAL = 100;
-	private static final int WINDOW_HEIGHT = 600;
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_VERTICAL = 50;
+	private static final int WINDOW_HORIZONTAL = 50;
+	private static final int WINDOW_HEIGHT = 900;
+	private static final int WINDOW_WIDTH = 1200;
 
 	private static final int STATUS_PANEL_HEIGHT = 16;
 
@@ -51,8 +48,8 @@ public class LogParserWindow {
 	private JFrame frame = new JFrame("Parser and sequence drawer");;
 	private JMenu fileMenu = new JMenu("File");
 	private JMenuBar menuBar = new JMenuBar();
-	private JMenuItem openFileMenuItem = new JMenuItem("Open file");
-	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem("Load from database");
+	private JMenuItem openFileMenuItem = new JMenuItem("Open file...");
+	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem("Load from database...");
 	private JMenuItem exitMenuItem = new JMenuItem("Exit");
 	private JPanel statusPanel = new JPanel();
 	private JLabel statusLabel = new JLabel();
@@ -145,20 +142,14 @@ public class LogParserWindow {
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ParserDAO pdao = new ParserDAO(); 
+				ParserDAO pdao = new ParserDAO();
 				Object[] possibilities = pdao.getSavedFileNames();
-				
+
 				if (possibilities.length > 0) {
-					String s = (String)JOptionPane.showInputDialog(
-					                    frame,
-					                    "File name:",
-					                    "Load from DB",
-					                    JOptionPane.PLAIN_MESSAGE,
-					                    null,
-					                    possibilities,
-					                    possibilities[0]);
-	
-					//If a string was returned, say so.
+					String s = (String) JOptionPane.showInputDialog(frame, "File name:", "Load from DB",
+							JOptionPane.PLAIN_MESSAGE, null, possibilities, possibilities[0]);
+
+					// If a string was returned, say so.
 					if ((s != null) && (s.length() > 0)) {
 						try {
 							fileName = s;
@@ -167,17 +158,13 @@ public class LogParserWindow {
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}
-						
-					    return;
+
+						return;
 					}
-	
-					//If you're here, the return value was null/empty.
-				}
-				else {
-					JOptionPane.showMessageDialog(frame,
-						    "There's no saved file(s) found!",
-						    "Load from DB",
-						    JOptionPane.ERROR_MESSAGE);
+
+				} else {
+					JOptionPane.showMessageDialog(frame, "There's no saved file(s) found!", "Load from DB",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
