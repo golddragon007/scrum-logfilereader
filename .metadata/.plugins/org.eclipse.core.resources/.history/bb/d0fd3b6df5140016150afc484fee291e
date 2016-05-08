@@ -1,0 +1,86 @@
+package util;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.TreeSet;
+
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.util.XMLResourceDescriptor;
+import org.w3c.dom.svg.SVGDocument;
+
+import hu.bme.tmit.agile.logfilereader.model.Message;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
+public class PlantUmlConverter {
+
+	private static final String ENCODING = "UTF-8";
+
+	public static SVGDocument convert(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
+		String plantUmlString = getPlantUmlString(eventSet);
+		return getSvgDocument(plantUmlString);
+	}
+
+	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
+		String plantUmlString = "@startuml\n";
+		int limit = 50;
+		int i = 0;
+
+		for (TtcnEvent event : eventSet) {
+			if (event instanceof Message) {
+				if (!event.getSender().contains(":")) {
+					plantUmlString += "\"" + event.getSender() + "\" -> \"" + ((Message) event).getDestination() + "\" : "
+							+ "Simple message \n";
+					i++;
+				}
+			}
+			if (event instanceof VerdictOperation) {
+				//plantUmlString += "\"" + event.getSender() + "\" -> \"" + event.getSender() + "\" : "
+				//		+ " " + "\n";
+				if(((VerdictOperation) event).getVerdictType()==VerdictType.Pass)
+				{
+					plantUmlString += "hnote over "+"\""+ event.getSender()+ "\""+ "#00FF00" + "\" : " + ((VerdictOperation) event).getVerdictType().toString() + "\n";
+				}
+				else
+				{
+					if(((VerdictOperation) event).getVerdictType()==VerdictType.Fail)
+					{
+						plantUmlString += "hnote over "+"\""+ event.getSender()+" #FF0000" + "\" : " + ((VerdictOperation) event).getVerdictType().toString() + "\n";
+					}
+					else
+					{
+						plantUmlString += "hnote over "+"\""+ event.getSender()+" #FFFF00" + "\" : " + ((VerdictOperation) event).getVerdictType().toString() + "\n";
+					}
+						
+				}
+				i++;
+			}
+			if (i > limit) {
+				break;
+			}
+		}
+		plantUmlString += "@enduml\n";
+
+		return plantUmlString;
+	}
+
+	private static SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+		SourceStringReader reader = new SourceStringReader(plantUmlString);
+		final ByteArrayOutputStream os = new ByteArrayOutputStream();
+		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
+		os.close();
+		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
+		SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
+		SVGDocument document = factory.createSVGDocument("", new ByteArrayInputStream(svg.getBytes(ENCODING)));
+		return document;
+	}
+
+}

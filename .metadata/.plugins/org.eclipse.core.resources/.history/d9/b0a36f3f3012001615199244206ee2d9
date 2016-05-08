@@ -1,0 +1,35 @@
+package hu.bme.tmit.agile.logfilereader;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import hu.bme.tmit.agile.logfilereader.controller.VerdictParser;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
+import util.PropertyHandler;
+import util.RegexpPatterns;
+import java.util.Properties;
+
+public class testVerdictParser {
+	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
+	private static final String VERDICT_PROPERTY = "verdict";
+	private void applyRules() {
+		PropertyHandler ph = new PropertyHandler();
+		Properties properties = ph.getProperties(REGEXP_PATTERNS_PROPERTIES);
+		RegexpPatterns.verdictPattern = properties.getProperty(VERDICT_PROPERTY);
+	}
+	@Before
+	public void setUp(){
+		applyRules();
+	}
+	@Test
+	public void testParseVerdict() {
+		String testString = "SipClientLayerComponent.ttcn:238(function:receiveInternalMessage) getverdict: pass";
+		assertEquals(VerdictParser.parseVerdict(testString).getComponentName(),"SipClientLayerComponent");
+		assertEquals(VerdictParser.parseVerdict(testString).getMiscText(),"(function:receiveInternalMessage)");
+		assertEquals(VerdictParser.parseVerdict(testString).getPortNumber(),238);
+		assertEquals(VerdictParser.parseVerdict(testString).getVerdictType(),VerdictType.Pass);
+	}
+
+}

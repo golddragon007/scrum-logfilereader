@@ -1,0 +1,37 @@
+package hu.bme.tmit.agile.logfilereader.controller;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
+import util.RegexpPatterns;
+
+public class VerdictParser {
+
+	public static VerdictOperation parseVerdict(String parts) {
+		String componentName = "", miscText = "", verdict = "";
+		int portNumber;
+
+		Pattern p = Pattern.compile(RegexpPatterns.verdictPattern);
+		Matcher m = p.matcher(parts);
+		VerdictOperation vo = new VerdictOperation();
+
+		if (m.matches()) {
+			componentName = m.group(1);
+			System.out.print(componentName+" ");
+			portNumber = Integer.parseInt(m.group(2));
+			miscText = m.group(3);
+			System.out.print(miscText+" ");
+			System.out.print(portNumber+"\n");
+			verdict = m.group(4);
+
+			vo.setComponentName(componentName);
+			vo.setPortNumber(portNumber);
+			vo.setMiscText(miscText);
+			vo.setVerdictType((verdict.contains("pass")) ? VerdictType.Pass
+					: ((verdict.contains("fail")) ? VerdictType.Fail : VerdictType.Inconclusive));
+		}
+		return vo;
+	}
+}

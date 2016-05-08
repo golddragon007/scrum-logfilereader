@@ -1,0 +1,8 @@
+package hu.bme.tmit.agile.logfilereader;
+
+import hu.bme.tmit.agile.logfilereader.controller.VerdictParser;
+
+public class testVerdictParser {
+	VerdictParser vo = new VerdictParser();
+	vo.setSender(mtc);
+}

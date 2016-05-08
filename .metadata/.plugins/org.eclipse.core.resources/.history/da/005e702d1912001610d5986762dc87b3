@@ -1,0 +1,16 @@
+package hu.bme.tmit.agile.logfilereader;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+import static org.junit.Assert.assertEquals;
+import hu.bme.tmit.agile.logfilereader.model.*;
+
+
+
+public class testVerdictParser {
+	VerdictOperation vo = new VerdictOperation();
+	String testString ="2014/Oct/24 19:53:34.958918 mtc VERDICTOP SipClientLayerComponent.ttcn:238(function:receiveInternalMessage) getverdict: pass";
+	vo.
+	
+}

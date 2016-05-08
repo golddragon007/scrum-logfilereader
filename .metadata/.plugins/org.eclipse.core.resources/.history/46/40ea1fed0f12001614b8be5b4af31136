@@ -1,0 +1,10 @@
+package hu.bme.tmit.agile.logfilereader;
+
+public class testVerdictParser {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

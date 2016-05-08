@@ -1,0 +1,24 @@
+package hu.bme.tmit.agile.logfilereader;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import hu.bme.tmit.agile.logfilereader.controller.VerdictParser;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+
+public class testVerdictParser {
+
+	@Test
+	public void testParseVerdict() {
+		VerdictOperation testVo = new VerdictOperation();
+		String testString = "sipClientApi.ttcn:509(function:setSipExpectationCommand) getverdict: pass";
+
+		testVo=VerdictParser.parseVerdict(testString);
+		assertEquals(testVo.getComponentName(),"sipClientApi.ttcn");
+		assertEquals(testVo.getPortNumber(), 509);
+		assertEquals(testVo.getMiscText(),"(function:setSipExpectationCommand)");
+		assertEquals(testVo.getVerdictType(), VerdictOperation.VerdictType.Pass);
+	}
+
+}

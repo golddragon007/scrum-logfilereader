@@ -9861,7 +9861,13 @@
     },
     aspHttp := { }
 } id 1
-2014/Oct/24 19:53:25.448559 2486 TIMEROP httpNodeInterface.ttcn:62(function:httpNodeRun) Start timer timerWaitForCommand: 600 s
+2014/Oct/24 19:53:25.448559 2486 TIMEROP public void testParseVerdictInputWithHeaderText() {
+		String testString = "2014/Oct/24 19:53:25.444126 mtc VERDICTOP HttpNodeLayerComponent.ttcn:229(function:receiveInternalMessage) getverdict: pass";
+		assertEquals(VerdictParser.parseVerdict(testString).getComponentName(),null);
+		assertEquals(VerdictParser.parseVerdict(testString).getMiscText(),null);
+		assertEquals(VerdictParser.parseVerdict(testString).getPortNumber(),0);
+		assertEquals(VerdictParser.parseVerdict(testString).getVerdictType(),null);
+	}
 2014/Oct/24 19:53:25.448584 mtc PORTEVENT HttpNodeLayerComponent.ttcn:240(function:receiveInternalMessage) Receive operation on port httpNodeInternalPort[3] succeeded, message from 2486: @variables.internalPortMessageWithAspHttp : {
     internalMessage := {
         description := "COMPONENT_UP_AND_RUNNING",

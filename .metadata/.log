@@ -1,0 +1,1067 @@
+!SESSION 2016-04-04 22:02:15.534 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-04 22:03:56.547
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-06 19:29:11.363 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-06 19:29:35.045
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-06 19:38:41.762 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-06 19:38:58.828
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-07 17:45:20.688 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-07 17:45:57.335
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.osgi 2 0 2016-04-07 17:46:07.525
+!MESSAGE While loading class "org.eclipse.m2e.jdt.internal.MavenClasspathContainerInitializer", thread "Thread[Worker-10,5,main]" timed out waiting (5145ms) for thread "Thread[Worker-4,5,main]" to finish starting bundle "org.eclipse.m2e.jdt_1.6.2.20150902-0002 [242]". To avoid deadlock, thread "Thread[Worker-10,5,main]" is proceeding but "org.eclipse.m2e.jdt.internal.MavenClasspathContainerInitializer" may not be fully initialized.
+!STACK 0
+org.osgi.framework.BundleException: Unable to acquire the state change lock for the module: osgi.identity; osgi.identity="org.eclipse.m2e.jdt"; type="osgi.bundle"; version:Version="1.6.2.20150902-0002"; singleton:="true" [id=242] STARTED [STARTED]
+	at org.eclipse.osgi.container.Module.lockStateChange(Module.java:329)
+	at org.eclipse.osgi.container.Module.start(Module.java:389)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:454)
+	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:531)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:324)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:327)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:402)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:352)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:344)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:160)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.loadClass(EquinoxBundle.java:573)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.jdt.core.JavaCore.computeClasspathContainerInitializer(JavaCore.java:3345)
+	at org.eclipse.jdt.core.JavaCore.getClasspathContainerInitializer(JavaCore.java:3321)
+	at org.eclipse.jdt.internal.core.JavaModelManager.initializeContainer(JavaModelManager.java:2849)
+	at org.eclipse.jdt.internal.core.JavaModelManager$10.run(JavaModelManager.java:2774)
+	at org.eclipse.jdt.internal.core.JavaModelManager.initializeAllContainers(JavaModelManager.java:2812)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getClasspathContainer(JavaModelManager.java:1895)
+	at org.eclipse.jdt.core.JavaCore.getClasspathContainer(JavaCore.java:3298)
+	at org.eclipse.jdt.internal.core.JavaProject.resolveClasspath(JavaProject.java:2693)
+	at org.eclipse.jdt.internal.core.JavaProject.resolveClasspath(JavaProject.java:2857)
+	at org.eclipse.jdt.internal.core.ClasspathChange.generateDelta(ClasspathChange.java:235)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.resourceChanged(DeltaProcessor.java:2032)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(DeltaProcessingState.java:477)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:373)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1470)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2250)
+	at org.eclipse.core.internal.events.NotificationManager$NotifyJob.run(NotificationManager.java:43)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SESSION 2016-04-10 17:09:25.710 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-10 17:09:43.271
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-13 18:53:59.915 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-13 18:54:58.030
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-13 19:00:59.492 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-13 19:01:58.059
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-14 11:39:53.769 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-14 11:40:21.629
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-21 18:12:07.865 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.epp.logging.aeri.ide 2 16 2016-04-21 18:12:33.727
+!MESSAGE Server ‘org.eclipse.epp.logging.aeri.ide.server’ failed with exception: Service Temporarily Unavailable. ; version: 1.100.0.v20160217-0435
+!STACK 0
+org.apache.http.client.HttpResponseException: Service Temporarily Unavailable
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.HttpResponses$ProgressMonitorResponseHandler.handleResponse(HttpResponses.java:70)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.HttpResponses$ProgressMonitorResponseStringHandler.handleResponse(HttpResponses.java:92)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.HttpResponses$ProgressMonitorResponseStringHandler.handleResponse(HttpResponses.java:1)
+	at org.apache.http.client.fluent.Response.handleResponse(Response.java:90)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.HttpResponses.getContentWithProgress(HttpResponses.java:55)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.IO.refreshConfiguration(IO.java:69)
+	at org.eclipse.epp.internal.logging.aeri.ide.server.mars.ServerConnection.startUp(ServerConnection.java:101)
+	at com.google.common.util.concurrent.AbstractIdleService$2$1.run(AbstractIdleService.java:54)
+	at com.google.common.util.concurrent.Callables$3.run(Callables.java:93)
+	at java.lang.Thread.run(Unknown Source)
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-21 18:12:33.957
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.ui 4 4 2016-04-21 18:13:37.955
+!MESSAGE Unable to create part
+!SUBENTRY 1 org.eclipse.core.filebuffers 4 0 2016-04-21 18:13:37.955
+!MESSAGE Cannot determine URI for '/maven/src/main/java/hu/bme/tmit/agile/logfilereader/controller/RegexpPatterns.java'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Cannot determine URI for '/maven/src/main/java/hu/bme/tmit/agile/logfilereader/controller/RegexpPatterns.java'.
+	at org.eclipse.core.internal.filebuffers.ResourceFileBuffer.create(ResourceFileBuffer.java:238)
+	at org.eclipse.core.internal.filebuffers.TextFileBufferManager.connect(TextFileBufferManager.java:112)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.createFileInfo(TextFileDocumentProvider.java:559)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider.createFileInfo(CompilationUnitDocumentProvider.java:980)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:478)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider.connect(CompilationUnitDocumentProvider.java:1244)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4233)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:237)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1480)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.internalDoSetInput(JavaEditor.java:2590)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.doSetInput(JavaEditor.java:2563)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.doSetInput(CompilationUnitEditor.java:1392)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$19.run(AbstractTextEditor.java:3220)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:463)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:371)
+	at org.eclipse.ui.internal.WorkbenchWindow$14.run(WorkbenchWindow.java:2181)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2177)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3238)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3265)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:361)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:319)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:898)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:879)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.inject(InjectorImpl.java:121)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:345)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:264)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:162)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:104)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:73)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:55)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:129)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:971)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:640)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:746)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$0(PartRenderingEngine.java:717)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:711)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:695)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl$1.handleEvent(PartServiceImpl.java:99)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler$1.run(UIEventHandler.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:186)
+	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:145)
+	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4761)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application$1.syncExec(E4Application.java:211)
+	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:36)
+	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:197)
+	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:135)
+	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:78)
+	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:39)
+	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:85)
+	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:59)
+	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:374)
+	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:171)
+	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.hidePart(PartServiceImpl.java:1283)
+	at org.eclipse.ui.internal.WorkbenchPage.hidePart(WorkbenchPage.java:1583)
+	at org.eclipse.ui.internal.WorkbenchPage.hidePart(WorkbenchPage.java:1534)
+	at org.eclipse.ui.internal.WorkbenchPage.closeEditors(WorkbenchPage.java:1504)
+	at org.eclipse.ui.internal.WorkbenchPage.closeEditor(WorkbenchPage.java:1629)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$23.run(AbstractTextEditor.java:4333)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4155)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3772)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.block(ModalContext.java:172)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:387)
+	at org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog2.run(RefactoringWizardDialog2.java:331)
+	at org.eclipse.ltk.ui.refactoring.RefactoringWizard.internalPerformFinish(RefactoringWizard.java:637)
+	at org.eclipse.ltk.internal.ui.refactoring.ErrorWizardPage.performFinish(ErrorWizardPage.java:162)
+	at org.eclipse.ltk.ui.refactoring.RefactoringWizard.performFinish(RefactoringWizard.java:710)
+	at org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog2.okPressed(RefactoringWizardDialog2.java:468)
+	at org.eclipse.jface.dialogs.Dialog.buttonPressed(Dialog.java:466)
+	at org.eclipse.jface.dialogs.Dialog$2.widgetSelected(Dialog.java:619)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:248)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4362)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1113)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4180)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3769)
+	at org.eclipse.jface.window.Window.runEventLoop(Window.java:827)
+	at org.eclipse.jface.window.Window.open(Window.java:803)
+	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation$1.run(RefactoringWizardOpenOperation.java:187)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation.run(RefactoringWizardOpenOperation.java:202)
+	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation.run(RefactoringWizardOpenOperation.java:122)
+	at org.eclipse.ltk.internal.ui.refactoring.actions.DeleteResourcesHandler.execute(DeleteResourcesHandler.java:40)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:295)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:90)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:252)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:234)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:132)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:152)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:493)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:486)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:210)
+	at org.eclipse.ui.internal.handlers.LegacyHandlerService.executeCommandInContext(LegacyHandlerService.java:396)
+	at org.eclipse.ui.internal.ide.actions.LTKLauncher.runCommand(LTKLauncher.java:96)
+	at org.eclipse.ui.internal.ide.actions.LTKLauncher.openDeleteWizard(LTKLauncher.java:48)
+	at org.eclipse.ui.actions.DeleteResourceAction.run(DeleteResourceAction.java:454)
+	at org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction.run(DeleteAction.java:197)
+	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.dispatchRun(SelectionDispatchAction.java:275)
+	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.run(SelectionDispatchAction.java:251)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:473)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:595)
+	at org.eclipse.jface.action.ActionContributionItem.access$2(ActionContributionItem.java:511)
+	at org.eclipse.jface.action.ActionContributionItem$5.handleEvent(ActionContributionItem.java:420)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4362)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1113)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4180)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3769)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$4.run(PartRenderingEngine.java:1127)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:337)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1018)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:156)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:694)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:337)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:606)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:139)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:380)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:235)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:669)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:608)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1515)
+!SUBENTRY 2 org.eclipse.core.filebuffers 4 0 2016-04-21 18:13:37.957
+!MESSAGE Cannot determine URI for '/maven/src/main/java/hu/bme/tmit/agile/logfilereader/controller/RegexpPatterns.java'.
+!SESSION 2016-04-24 18:15:30.193 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-24 18:16:03.201
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-24 22:31:59.198 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-24 22:32:42.528
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2016-04-25 00:09:15.929
+!MESSAGE No repository found at http://zapletnev.github.io/eclipse-regexp/repository/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2016-04-25 00:09:23.969
+!MESSAGE No repository found at http://zapletnev.github.io/eclipse-regexp/repository/.
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2016-04-25 00:10:14.452
+!MESSAGE Connection to http://marketplace.eclipse.org/catalogs/api/p failed on Connection timed out: connect. Retry attempt 0 started
+!STACK 0
+java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:86)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
+	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
+	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1068)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1064)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:73)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.epp.mpc.core 4 0 2016-04-25 00:10:35.729
+!MESSAGE Cannot install remote marketplace locations: Connection failed
+
+This is most often caused by a problem with your internet connection. Please check your internet connection and retry.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Cannot complete request to http://marketplace.eclipse.org/catalogs/api/p: Unable to connect to repository http://marketplace.eclipse.org/catalogs/api/p
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:171)
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:101)
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:88)
+	at org.eclipse.epp.internal.mpc.core.service.DefaultCatalogService.listCatalogs(DefaultCatalogService.java:43)
+	at org.eclipse.epp.internal.mpc.ui.commands.MarketplaceWizardCommand$5.run(MarketplaceWizardCommand.java:278)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+Caused by: org.eclipse.core.runtime.CoreException: Unable to connect to repository http://marketplace.eclipse.org/catalogs/api/p
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.stream(RepositoryTransport.java:181)
+	at org.eclipse.oomph.p2.internal.core.CachingTransport.stream(CachingTransport.java:241)
+	at sun.reflect.GeneratedMethodAccessor100.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.epp.internal.mpc.core.util.AbstractP2TransportFactory.invokeStream(AbstractP2TransportFactory.java:35)
+	at org.eclipse.epp.internal.mpc.core.util.TransportFactory$1.stream(TransportFactory.java:113)
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:136)
+	... 5 more
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:86)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
+	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
+	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1068)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1064)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:73)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.epp.mpc.core 4 0 2016-04-25 00:10:35.733
+!MESSAGE Cannot complete request to http://marketplace.eclipse.org/catalogs/api/p: Unable to connect to repository http://marketplace.eclipse.org/catalogs/api/p
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unable to connect to repository http://marketplace.eclipse.org/catalogs/api/p
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.stream(RepositoryTransport.java:181)
+	at org.eclipse.oomph.p2.internal.core.CachingTransport.stream(CachingTransport.java:241)
+	at sun.reflect.GeneratedMethodAccessor100.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.epp.internal.mpc.core.util.AbstractP2TransportFactory.invokeStream(AbstractP2TransportFactory.java:35)
+	at org.eclipse.epp.internal.mpc.core.util.TransportFactory$1.stream(TransportFactory.java:113)
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:136)
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:101)
+	at org.eclipse.epp.internal.mpc.core.service.RemoteMarketplaceService.processRequest(RemoteMarketplaceService.java:88)
+	at org.eclipse.epp.internal.mpc.core.service.DefaultCatalogService.listCatalogs(DefaultCatalogService.java:43)
+	at org.eclipse.epp.internal.mpc.ui.commands.MarketplaceWizardCommand$5.run(MarketplaceWizardCommand.java:278)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:86)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
+	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
+	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1068)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1064)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:73)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 2 org.eclipse.equinox.p2.transport.ecf 4 1002 2016-04-25 00:10:35.733
+!MESSAGE Unable to connect to repository http://marketplace.eclipse.org/catalogs/api/p
+!STACK 0
+java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:86)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
+	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
+	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1068)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1064)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:73)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.epp.mpc.core 4 0 2016-04-25 00:10:35.734
+!MESSAGE Connection failed
+
+This is most often caused by a problem with your internet connection. Please check your internet connection and retry.
+!STACK 0
+java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient4.ECFHttpClientProtocolSocketFactory.connectSocket(ECFHttpClientProtocolSocketFactory.java:86)
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:177)
+	at org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:144)
+	at org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:131)
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1077)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer.access$0(HttpClientRetrieveFileTransfer.java:1068)
+	at org.eclipse.ecf.provider.filetransfer.httpclient4.HttpClientRetrieveFileTransfer$1.performFileTransfer(HttpClientRetrieveFileTransfer.java:1064)
+	at org.eclipse.ecf.filetransfer.FileTransferJob.run(FileTransferJob.java:73)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2016-04-25 00:10:52.502
+!MESSAGE No repository found at http://zapletnev.github.io/eclipse-regexp/repository/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2016-04-25 00:11:02.432
+!MESSAGE No repository found at http://zapletnev.github.io/eclipse-regexp/repository/.
+!SESSION 2016-04-25 11:28:24.319 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-25 11:29:12.521
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-26 11:46:29.262 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-26 11:47:04.792
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-26 17:36:54.153 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-26 17:38:49.991
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-04-26 20:43:51.195 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_77
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-04-26 20:44:07.370
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-04 17:04:30.729 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-04 17:07:22.942
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-04 18:19:48.652 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-04 18:21:18.808
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-04 19:02:05.411 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-04 19:02:21.183
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-04 20:05:19.474 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-04 20:05:34.040
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-05 12:30:00.071 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-05 12:41:46.249
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-07 09:25:40.376 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 09:26:16.268
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 09:26:16.306
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\junit\junit\4.12\junit-4.12.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 09:26:16.307
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 09:26:16.308
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\joda-time\joda-time\2.9.3\joda-time-2.9.3.jar
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-07 09:26:18.801
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\poloschka'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-07 11:05:53.804 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-07 11:06:05.821
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\poloschka'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-07 11:07:28.116 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.632
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.708
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\junit\junit\4.12\junit-4.12.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.710
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.711
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\joda-time\joda-time\2.9.3\joda-time-2.9.3.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.721
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-swing\1.7\batik-swing-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.725
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-awt-util\1.7\batik-awt-util-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.729
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-bridge\1.7\batik-bridge-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.732
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-anim\1.7\batik-anim-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.737
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-parser\1.7\batik-parser-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.741
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-script\1.7\batik-script-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.744
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-js\1.7\batik-js-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.746
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-xml\1.7\batik-xml-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.750
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\xalan\xalan\2.6.0\xalan-2.6.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.753
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-css\1.7\batik-css-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.786
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-dom\1.7\batik-dom-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.788
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-ext\1.7\batik-ext-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.791
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-gui-util\1.7\batik-gui-util-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.793
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-gvt\1.7\batik-gvt-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.803
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-svg-dom\1.7\batik-svg-dom-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.805
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\xmlgraphics\batik-util\1.7\batik-util-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.808
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\xml-apis\xml-apis\1.3.04\xml-apis-1.3.04.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.810
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\xml-apis\xml-apis-ext\1.3.04\xml-apis-ext-1.3.04.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.870
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\com\github\jeluard\maven-plantuml-plugin\7940\maven-plantuml-plugin-7940.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.912
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\net\sourceforge\plantuml\plantuml\7940\plantuml-7940.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.914
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\maven\maven-plugin-api\3.0.4\maven-plugin-api-3.0.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.920
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\maven\maven-artifact\3.0.4\maven-artifact-3.0.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.922
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\2.3.0\sisu-inject-plexus-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.924
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.926
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.4\plexus-classworlds-2.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.929
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\sisu-inject-bean\2.3.0\sisu-inject-bean-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.931
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\sisu-guice\3.1.0\sisu-guice-3.1.0-no_aop.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.933
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\sisu-guava\0.9.9\sisu-guava-0.9.9.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.937
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-containers\2.3.0\guice-bean-containers-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.939
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-inject\2.3.0\guice-bean-inject-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.941
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-shim\2.3.0\guice-plexus-shim-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.942
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.944
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\sisu-guice\3.1.0\sisu-guice-3.1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.947
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.950
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-reflect\2.3.0\guice-bean-reflect-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.954
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-locators\2.3.0\guice-bean-locators-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.977
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-binders\2.3.0\guice-bean-binders-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.980
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\javax\enterprise\cdi-api\1.0\cdi-api-1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.987
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.989
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-scanners\2.3.0\guice-bean-scanners-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.991
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-bean-converters\2.3.0\guice-bean-converters-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.992
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-metadata\2.3.0\guice-plexus-metadata-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.993
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-converters\2.3.0\guice-plexus-converters-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.995
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-locators\2.3.0\guice-plexus-locators-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.996
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-binders\2.3.0\guice-plexus-binders-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:49.998
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-scanners\2.3.0\guice-plexus-scanners-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:50.000
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\sonatype\sisu\inject\guice-plexus-lifecycles\2.3.0\guice-plexus-lifecycles-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:50.004
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\apache\maven\maven-model\3.0.4\maven-model-3.0.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 11:07:50.005
+!MESSAGE Invalid ZIP archive: C:\Users\poloschka\.m2\repository\org\codehaus\plexus\plexus-utils\3.0.8\plexus-utils-3.0.8.jar
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-07 11:07:54.563
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Pörneczi András'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-07 23:09:03.726 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.392
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\junit\junit\4.12\junit-4.12.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\joda-time\joda-time\2.9.3\joda-time-2.9.3.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-swing\1.7\batik-swing-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-awt-util\1.7\batik-awt-util-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-bridge\1.7\batik-bridge-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-anim\1.7\batik-anim-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-parser\1.7\batik-parser-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-script\1.7\batik-script-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.424
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-js\1.7\batik-js-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-xml\1.7\batik-xml-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\xalan\xalan\2.6.0\xalan-2.6.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-css\1.7\batik-css-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-dom\1.7\batik-dom-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-ext\1.7\batik-ext-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-gui-util\1.7\batik-gui-util-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-gvt\1.7\batik-gvt-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-svg-dom\1.7\batik-svg-dom-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\xmlgraphics\batik-util\1.7\batik-util-1.7.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\xml-apis\xml-apis\1.3.04\xml-apis-1.3.04.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\xml-apis\xml-apis-ext\1.3.04\xml-apis-ext-1.3.04.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\com\github\jeluard\maven-plantuml-plugin\7940\maven-plantuml-plugin-7940.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\net\sourceforge\plantuml\plantuml\7940\plantuml-7940.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\maven\maven-plugin-api\3.0.4\maven-plugin-api-3.0.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\maven\maven-artifact\3.0.4\maven-artifact-3.0.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\2.3.0\sisu-inject-plexus-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.4\plexus-classworlds-2.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.439
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\sisu-inject-bean\2.3.0\sisu-inject-bean-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.455
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\sisu-guice\3.1.0\sisu-guice-3.1.0-no_aop.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.456
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\sisu-guava\0.9.9\sisu-guava-0.9.9.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.456
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-containers\2.3.0\guice-bean-containers-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.457
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-inject\2.3.0\guice-bean-inject-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.458
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-shim\2.3.0\guice-plexus-shim-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.458
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.459
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\sisu-guice\3.1.0\sisu-guice-3.1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.459
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.460
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-reflect\2.3.0\guice-bean-reflect-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-locators\2.3.0\guice-bean-locators-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-binders\2.3.0\guice-bean-binders-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\javax\enterprise\cdi-api\1.0\cdi-api-1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-scanners\2.3.0\guice-bean-scanners-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-bean-converters\2.3.0\guice-bean-converters-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-metadata\2.3.0\guice-plexus-metadata-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-converters\2.3.0\guice-plexus-converters-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-locators\2.3.0\guice-plexus-locators-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-binders\2.3.0\guice-plexus-binders-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-scanners\2.3.0\guice-plexus-scanners-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\sonatype\sisu\inject\guice-plexus-lifecycles\2.3.0\guice-plexus-lifecycles-2.3.0.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\apache\maven\maven-model\3.0.4\maven-model-3.0.4.jar
+
+!ENTRY org.eclipse.jdt.core 4 0 2016-05-07 23:09:16.461
+!MESSAGE Invalid ZIP archive: C:\Users\Pörneczi András\.m2\repository\org\codehaus\plexus\plexus-utils\3.0.8\plexus-utils-3.0.8.jar
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-07 23:09:18.022
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\poloschka'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-05-08 09:11:57.501 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_91
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=hu_HU
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-05-08 09:12:16.561
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\poloschka'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.

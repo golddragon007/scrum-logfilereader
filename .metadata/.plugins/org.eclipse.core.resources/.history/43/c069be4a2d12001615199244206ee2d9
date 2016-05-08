@@ -1,0 +1,22 @@
+package hu.bme.tmit.agile.logfilereader;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import hu.bme.tmit.agile.logfilereader.controller.VerdictParser;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
+
+public class testVerdictParser {
+
+	@Test
+	public void testParseVerdict() {
+		String testString = "SipClientLayerComponent.ttcn:238(function:receiveInternalMessage) getverdict: pass";
+		assertEquals(VerdictParser.parseVerdict(testString).getComponentName(),"SipClientLayerComponent");
+		assertEquals(VerdictParser.parseVerdict(testString).getMiscText(),"(function:receiveInternalMessage)");
+		assertEquals(VerdictParser.parseVerdict(testString).getPortNumber(),238);
+		assertEquals(VerdictParser.parseVerdict(testString).getVerdictType(),VerdictType.Pass);
+	}
+
+}
