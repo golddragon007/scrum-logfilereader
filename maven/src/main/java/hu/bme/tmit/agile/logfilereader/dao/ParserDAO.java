@@ -23,6 +23,7 @@ public class ParserDAO {
 	 *            Message to be inserted.
 	 */
 	public void saveTtcnEvent(TtcnEvent event) {
+		//TODO: optimalizálni, egyszerre több insert menjen! lsd: http://stackoverflow.com/questions/4355046/java-insert-multiple-rows-into-mysql-with-preparedstatement
 		Connection connection = ConnectionUtils.getConnection();
 		PreparedStatement pstmt = null;
 
