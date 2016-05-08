@@ -14,6 +14,7 @@ import org.w3c.dom.svg.SVGDocument;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -41,8 +42,24 @@ public class PlantUmlConverter {
 				}
 			}
 			if (event instanceof VerdictOperation) {
-				plantUmlString += "\"" + event.getSender() + "\" -> \"" + event.getSender() + "\" : "
-						+ ((VerdictOperation) event).getVerdictType().toString() + "\n";
+				//plantUmlString += "\"" + event.getSender() + "\" -> \"" + event.getSender() + "\" : "
+				//		+ " " + "\n";
+				if(((VerdictOperation) event).getVerdictType()==VerdictType.Pass)
+				{
+					plantUmlString += "hnote over "+ event.getSender()+ "#00FF00" +  ": " + ((VerdictOperation) event).getVerdictType().toString() + "\n";
+				}
+				else
+				{
+					if(((VerdictOperation) event).getVerdictType()==VerdictType.Fail)
+					{
+						plantUmlString += "hnote over "+ event.getSender()+"#FF0000" + ": " + ((VerdictOperation) event).getVerdictType().toString() + "\n";
+					}
+					else
+					{
+						plantUmlString += "hnote over "+ event.getSender()+"#FFFF00" + ": " + ((VerdictOperation) event).getVerdictType().toString() + "\n";
+					}
+						
+				}
 				i++;
 			}
 			if (i > limit) {
