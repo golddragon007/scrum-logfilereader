@@ -252,7 +252,7 @@ public class ParserDAO {
 			}
 			// Last pstmt closer is in the final!
 		} catch (SQLException e) {
-			System.out.println("Error while inserting verdict into database : " + e.getMessage());
+			System.out.println("Error while fetching ttcn events into database : " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			ConnectionUtils.closeResource(pstmt);
@@ -260,6 +260,68 @@ public class ParserDAO {
 		}
 
 		return eventSet;
+	}
+	
+	/**
+	 * Call this if you want to know the current Ttcn exist or not.
+	 * 
+	 * @param fileName
+	 *        File Name to check.
+	 * @return
+	 * 		  Returns true if exist, returns false if not.
+	 */
+	public boolean existTtcnEvent(String fileName) throws SQLException {
+		Connection connection = ConnectionUtils.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+
+		try {
+			pstmt = connection.prepareStatement("SELECT count(*) AS db FROM component_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			res = pstmt.executeQuery();
+
+			res.next();
+			int db = res.getInt("db");
+			
+			if (db > 0) {
+				return true;
+			}
+		} finally {
+			ConnectionUtils.closeResource(pstmt);
+			ConnectionUtils.closeResource(connection);
+		}
+		
+		return false;
+	}
+	
+	
+	public void removeTtcnEvent(String fileName) throws SQLException {
+		Connection connection = ConnectionUtils.getConnection();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = connection.prepareStatement("DELETE FROM message_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			pstmt.executeQuery();
+			ConnectionUtils.closeResource(pstmt);
+			
+			pstmt = connection.prepareStatement("DELETE FROM component_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			pstmt.executeQuery();
+			ConnectionUtils.closeResource(pstmt);
+			
+			pstmt = connection.prepareStatement("DELETE FROM timer_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			pstmt.executeQuery();
+			ConnectionUtils.closeResource(pstmt);
+			
+			pstmt = connection.prepareStatement("DELETE FROM verdict_event WHERE filename = ?");
+			pstmt.setString(1, fileName);
+			pstmt.executeQuery();
+		} finally {
+			ConnectionUtils.closeResource(pstmt);
+			ConnectionUtils.closeResource(connection);
+		}
 	}
 
 }

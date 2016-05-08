@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -31,6 +33,7 @@ import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
+import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import util.PlantUmlConverter;
 import util.StatusPanelMessage;
 
@@ -50,11 +53,13 @@ public class LogParserWindow {
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenuItem openFileMenuItem = new JMenuItem("Open file...");
 	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem("Load from database...");
+	private JMenuItem saveToDatabaseMenuItem = new JMenuItem("Save to database...");
 	private JMenuItem exitMenuItem = new JMenuItem("Exit");
 	private JPanel statusPanel = new JPanel();
 	private JLabel statusLabel = new JLabel();
 
 	private String fileName;
+	private TreeSet<TtcnEvent> eventSet = null;
 
 	private JSVGCanvas svgCanvas = new JSVGCanvas();
 
@@ -99,12 +104,14 @@ public class LogParserWindow {
 	private void setFileMenu() {
 		fileMenu.add(openFileMenuItem);
 		fileMenu.add(loadFromDatabaseMenuItem);
+		fileMenu.add(saveToDatabaseMenuItem);
 		fileMenu.add(exitMenuItem);
 	}
 
 	private void addMenuItemListeners() {
 		addActionListenerToOpenFileMenuItem();
 		addActionListenerToLoadFromDatabaseMenuItem();
+		addActionListenerToSaveToDatabaseMenuItem();
 		addActionListenerToMenuItemExit();
 	}
 
@@ -117,7 +124,8 @@ public class LogParserWindow {
 					try {
 						Parser parser = new Parser();
 						parser.parse(selectedFile.getAbsolutePath());
-						SVGDocument document = PlantUmlConverter.convert(parser.getEventSet());
+						eventSet = parser.getEventSet();
+						SVGDocument document = PlantUmlConverter.convert(eventSet);
 						svgCanvas.setSVGDocument(document);
 					} catch (IOException ex) {
 						ex.printStackTrace();
@@ -153,7 +161,8 @@ public class LogParserWindow {
 					if ((s != null) && (s.length() > 0)) {
 						try {
 							fileName = s;
-							SVGDocument document = PlantUmlConverter.convert(pdao.loadTtcnEvent(s));
+							eventSet = pdao.loadTtcnEvent(s);
+							SVGDocument document = PlantUmlConverter.convert(eventSet);
 							svgCanvas.setSVGDocument(document);
 						} catch (IOException ex) {
 							ex.printStackTrace();
@@ -165,6 +174,63 @@ public class LogParserWindow {
 				} else {
 					JOptionPane.showMessageDialog(frame, "There's no saved file(s) found!", "Load from DB",
 							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+	}
+
+	private void addActionListenerToSaveToDatabaseMenuItem() {
+		saveToDatabaseMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ParserDAO pdao = new ParserDAO();
+				
+				if (fileName != null && fileName != "") {
+					try {
+						boolean exist = pdao.existTtcnEvent(fileName);
+						
+						if (exist) {
+							Object[] options = {"Overwrite it",
+		                    "Cancel"};
+							int n = JOptionPane.showOptionDialog(frame,
+							    "The current filename exist in the database, what would you like to do?",
+							    "Save to database...",
+							    JOptionPane.YES_NO_OPTION,
+							    JOptionPane.WARNING_MESSAGE,
+							    null,     //do not use a custom Icon
+							    options,  //the titles of buttons
+							    options[0]); //default button title
+							
+							if (n == 0) {
+								pdao.removeTtcnEvent(fileName);
+								
+								for (TtcnEvent event : eventSet) {
+									pdao.saveTtcnEvent(event);
+								}
+								JOptionPane.showMessageDialog(frame,
+									    "Save completted!",
+									    "Save to database...",
+									    JOptionPane.INFORMATION_MESSAGE);
+							}
+						}
+						else {
+							for (TtcnEvent event : eventSet) {
+								pdao.saveTtcnEvent(event);
+							}
+							JOptionPane.showMessageDialog(frame,
+								    "Save completted!",
+								    "Save to database...",
+								    JOptionPane.INFORMATION_MESSAGE);
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(frame,
+					    "First you need to open a file or load it from database to use this function!",
+					    "Save to database...",
+					    JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
