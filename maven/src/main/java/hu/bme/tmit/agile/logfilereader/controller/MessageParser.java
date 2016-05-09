@@ -23,10 +23,13 @@ public class MessageParser {
 
 		m.setDestination(parts[2]);
 		m.setPort(parts[9]);
-		m.setSender(Utils.removeLastCharacter(parts[13]));
+		if (parts[13].equals("system():"))
+		{
+			m.setSender(Utils.removeLastThreeCharacter(parts[13]));
+		}
 		m.setName(parts[14]);
 		m.setEventType(MessageType.Receive);
-
+		
 		return m;
 	}
 }
