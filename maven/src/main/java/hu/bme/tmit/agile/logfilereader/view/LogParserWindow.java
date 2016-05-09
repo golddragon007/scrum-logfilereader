@@ -202,10 +202,8 @@ public class LogParserWindow {
 							
 							if (n == 0) {
 								pdao.removeTtcnEvent(fileName);
-								
-								for (TtcnEvent event : eventSet) {
-									pdao.saveTtcnEvent(event);
-								}
+
+								pdao.saveTtcnEventMulti(eventSet);
 								JOptionPane.showMessageDialog(frame,
 									    "Save completted!",
 									    "Save to database...",
@@ -213,9 +211,7 @@ public class LogParserWindow {
 							}
 						}
 						else {
-							for (TtcnEvent event : eventSet) {
-								pdao.saveTtcnEvent(event);
-							}
+							pdao.saveTtcnEventMulti(eventSet);
 							JOptionPane.showMessageDialog(frame,
 								    "Save completted!",
 								    "Save to database...",
