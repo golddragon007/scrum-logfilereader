@@ -90,13 +90,22 @@ public class PlantUmlConverter {
 				+ "\n";
 	}
 
-	private static String getTimerString(TtcnEvent event) {
-		return (RNOTE_START + ((TimerOperation) event).getSender() + "\n" + ((TimerOperation) event).getName() + "\n"
+	private static String getTimerStringByType(TtcnEvent event, String color) {
+		return (RNOTE_START + ((TimerOperation) event).getSender() + color + "\n" + ((TimerOperation) event).getName() + "\n"
 				+ ((TimerOperation) event).getEventType() + " " + ((TimerOperation) event).getDuration() + " s\n"
 				+ RNOTE_END + "\n");
 	}
-
-	private static SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+	private static String getTimerString(TtcnEvent event){
+		if ( ((TimerOperation) event).getEventType()== TimerOperation.EventType.Start){
+			return getTimerStringByType(event,RGB_GREEN);
+		}else if ( ((TimerOperation) event).getEventType()== TimerOperation.EventType.Stop){
+			return getTimerStringByType(event,RGB_RED);
+		}else{
+			return getTimerStringByType(event,RGB_YELLOW);
+		}
+	}
+	
+	static SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
