@@ -27,6 +27,10 @@ public class MessageParser {
 		{
 			m.setSender(Utils.removeLastThreeCharacter(parts[13]));
 		}
+		else
+		{
+			m.setSender(parts[13]);
+		}
 		m.setName(parts[14]);
 		m.setEventType(MessageType.Receive);
 		
