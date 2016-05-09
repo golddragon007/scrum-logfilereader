@@ -72,7 +72,7 @@ public class PlantUmlConverter {
 
 	private static String getMessageString(TtcnEvent event) {
 		return ("\"" + event.getSender() + "\" -> \"" + ((Message) event).getDestination() + "\" : "
-				+ "Simple message \n");
+				+  event.getId() + ((Message) event).getName() + "\n");
 	}
 
 	private static String getVerdictString(TtcnEvent event) {

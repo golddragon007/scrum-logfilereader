@@ -320,6 +320,7 @@ public class ParserDAO {
 				final ResultSet rs = res;
 				eventSet.add(new Message() {
 					{
+						setId(rs.getInt("id"));
 						setPort(rs.getString("port"));
 						setDestination(rs.getString("destination"));
 						setParam(rs.getString("param"));
