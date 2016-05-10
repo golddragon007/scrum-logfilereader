@@ -2,13 +2,27 @@ package util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.batik.util.XMLResourceDescriptor;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGDocument;
 
 import hu.bme.tmit.agile.logfilereader.model.Message;
@@ -36,9 +50,9 @@ public class PlantUmlConverter {
 	private static final String RGB_RED = "#FF0000";
 	private static final String RGB_GREEN = "#00FF00";
 
-	public static SVGDocument convert(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
+	public static void convert(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
 		String plantUmlString = getPlantUmlString(eventSet);
-		return getSvgDocument(plantUmlString);
+		getSvgDocument(plantUmlString);
 	}
 
 	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
@@ -105,16 +119,28 @@ public class PlantUmlConverter {
 		}
 	}
 	
-	static SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+	static void getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
 		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
+		
+		String svgtemp = svg;
+		List<String> matches = new ArrayList<String>();
+		Matcher m = Pattern.compile(">[0-9]+@").matcher(svgtemp);
+		while (m.find()) {
+			matches.add(m.group());
+		}
+		for (String string : matches) {
+			String id = string.substring(1, string.length()-1);
+			svgtemp = svgtemp.replaceAll(string, " onclick='alert(\"" + id + "\")'" + string);
+		}
 		os.close();
-		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
-		SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
-		SVGDocument document = factory.createSVGDocument("", new ByteArrayInputStream(svg.getBytes(ENCODING)));
-		return document;
+
+	    PrintWriter out = new PrintWriter("temp_sequence_svg.txt");
+		out.print(svgtemp);
+		out.close();
+	    
 	}
 
 }
