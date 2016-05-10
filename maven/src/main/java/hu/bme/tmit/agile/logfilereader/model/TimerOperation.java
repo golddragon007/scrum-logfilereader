@@ -1,7 +1,5 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
-import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
-
 public class TimerOperation extends TtcnEvent {
 
 	public enum EventType {
@@ -12,17 +10,16 @@ public class TimerOperation extends TtcnEvent {
 			type = str;
 		};
 
-		//From String method will return you the Enum for the provided input string
-	    public static EventType fromString(String parameterName) {
-	        if (parameterName != null) {
-	            for (EventType objType : EventType.values()) {
-	                if (parameterName.equalsIgnoreCase(objType.type)) {
-	                    return objType;
-	                }
-	            }
-	        }
-	        return null;
-	    }
+		public static EventType getEventTypeFromString(String typeString) {
+			if (typeString != null) {
+				for (EventType timerEventType : EventType.values()) {
+					if (typeString.equalsIgnoreCase(timerEventType.type)) {
+						return timerEventType;
+					}
+				}
+			}
+			return null;
+		}
 	}
 
 	private String name;
@@ -58,11 +55,11 @@ public class TimerOperation extends TtcnEvent {
 	public String toString() {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + eventType + " " + name + " " + duration;
 	}
-	
+
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	
+
 	public String getOwner() {
 		return owner;
 	}

@@ -1,7 +1,5 @@
 package hu.bme.tmit.agile.logfilereader.model;
 
-import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
-
 public class VerdictOperation extends TtcnEvent {
 
 	public enum VerdictType {
@@ -12,17 +10,16 @@ public class VerdictOperation extends TtcnEvent {
 			type = str;
 		};
 
-		//From String method will return you the Enum for the provided input string
-	    public static VerdictType fromString(String parameterName) {
-	        if (parameterName != null) {
-	            for (VerdictType objType : VerdictType.values()) {
-	                if (parameterName.equalsIgnoreCase(objType.type)) {
-	                    return objType;
-	                }
-	            }
-	        }
-	        return null;
-	    }
+		public static VerdictType getVerdictTypeFromString(String typeString) {
+			if (typeString != null) {
+				for (VerdictType vType : VerdictType.values()) {
+					if (typeString.equalsIgnoreCase(vType.type)) {
+						return vType;
+					}
+				}
+			}
+			return null;
+		}
 	}
 
 	VerdictType verdictType;
@@ -68,7 +65,7 @@ public class VerdictOperation extends TtcnEvent {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + verdictType + " " + miscText + " "
 				+ componentName + " " + portNumber;
 	}
-	
+
 	public String getOwner() {
 		return owner;
 	}

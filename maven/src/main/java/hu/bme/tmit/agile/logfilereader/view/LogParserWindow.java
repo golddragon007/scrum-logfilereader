@@ -33,6 +33,7 @@ import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
 import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
 import org.apache.batik.swing.svg.SVGUserAgent;
 import org.apache.batik.swing.svg.SVGUserAgentAdapter;
+
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
 import hu.bme.tmit.agile.logfilereader.model.Message;
@@ -51,31 +52,35 @@ public class LogParserWindow {
 
 	private static final String USER_DIRECTORY_PROPERTY = "user.dir";
 
-	private JFrame frame = new JFrame("Parser and sequence drawer");;
-	private JMenu fileMenu = new JMenu("File");
+	private JFrame frame = new JFrame("Parser and sequence drawer");
+
 	private JMenuBar menuBar = new JMenuBar();
+	private JMenu fileMenu = new JMenu("File");
 	private JMenuItem openFileMenuItem = new JMenuItem("Open file...");
 	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem("Load from database...");
 	private JMenuItem saveToDatabaseMenuItem = new JMenuItem("Save to database...");
 	private JMenuItem exitMenuItem = new JMenuItem("Exit");
+
 	private JPanel statusPanel = new JPanel();
 	private JLabel statusLabel = new JLabel();
+
 	private JPanel treePanel = new JPanel();
 	private JTree jTree = new JTree();
 	private JScrollPane jScrollPane = new JScrollPane(jTree);
 	private JLabel paramsLabel = new JLabel();
 
-
 	private String fileName;
 	private TreeSet<TtcnEvent> eventSet = null;
-	File f;
+
+	private static final String SEQUENCE_SVG_FILENAME = "temp_sequence_svg.txt";
+	private File tempSequenceSvg;
 
 	private SVGUserAgent ua = new SVGUserAgentAdapter() {
-		public void showAlert(String id){
+		public void showAlert(String id) {
 			System.out.println(id);
-			 for (TtcnEvent ttcnEvent : eventSet) {
-				if(ttcnEvent instanceof Message){
-					if(ttcnEvent.getId().equals(Integer.parseInt(id))){
+			for (TtcnEvent ttcnEvent : eventSet) {
+				if (ttcnEvent instanceof Message) {
+					if (ttcnEvent.getId().equals(Integer.parseInt(id))) {
 						System.out.println(ttcnEvent.toString());
 						Message m = (Message) ttcnEvent;
 						paramsLabel.setText(m.getParam());
@@ -84,9 +89,8 @@ public class LogParserWindow {
 			}
 		}
 	};
-	
+
 	private JSVGCanvas svgCanvas = new JSVGCanvas(ua, true, true);
-		
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -139,7 +143,7 @@ public class LogParserWindow {
 		addActionListenerToOpenFileMenuItem();
 		addActionListenerToLoadFromDatabaseMenuItem();
 		addActionListenerToSaveToDatabaseMenuItem();
-		addActionListenerToMenuItemExit();
+		addActionListenerToExitMenuItem();
 	}
 
 	private void addActionListenerToOpenFileMenuItem() {
@@ -151,16 +155,18 @@ public class LogParserWindow {
 					fileName = selectedFile.getName();
 					try {
 						Parser parser = new Parser();
-						parser.parse(selectedFile.getAbsolutePath());						
-						
+						parser.parse(selectedFile.getAbsolutePath());
+
 						eventSet = parser.getEventSet();
 						saveToDatabase();
 						eventSet = dao.loadTtcnEvent(fileName);
-						
+
 						PlantUmlConverter.convert(eventSet);
 						svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-						f = new File("temp_sequence_svg.txt");
-						svgCanvas.setURI(f.toURI().toString());
+						tempSequenceSvg = new File(SEQUENCE_SVG_FILENAME);
+						if (tempSequenceSvg != null) {
+							svgCanvas.setURI(tempSequenceSvg.toURI().toString());
+						}
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -197,12 +203,11 @@ public class LogParserWindow {
 							fileName = s;
 							eventSet = pdao.loadTtcnEvent(s);
 							PlantUmlConverter.convert(eventSet);
-							
+
 							svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-							
-							f = new File("temp_sequence_svg.txt");
-							svgCanvas.setURI(f.toURL().toString());
-							
+
+							tempSequenceSvg = new File(SEQUENCE_SVG_FILENAME);
+							svgCanvas.setURI(tempSequenceSvg.toURI().toString());
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}
@@ -217,53 +222,46 @@ public class LogParserWindow {
 			}
 		});
 	}
-	
-	private void saveToDatabase(){
+
+	private void saveToDatabase() {
 		ParserDAO pdao = new ParserDAO();
-		
+
 		if (fileName != null && fileName != "") {
 			try {
 				boolean exist = pdao.existTtcnEvent(fileName);
-				
+
 				if (exist) {
-					Object[] options = {"Overwrite it",
-                    "Cancel"};
+					Object[] options = { "Overwrite it", "Cancel" };
 					int n = JOptionPane.showOptionDialog(frame,
-					    "The current filename exist in the database, what would you like to do?",
-					    "Save to database...",
-					    JOptionPane.YES_NO_OPTION,
-					    JOptionPane.WARNING_MESSAGE,
-					    null,     //do not use a custom Icon
-					    options,  //the titles of buttons
-					    options[0]); //default button title
-					
+							"The current filename exist in the database, what would you like to do?",
+							"Save to database...", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, // do
+																													// not
+																													// use
+																													// a
+																													// custom
+																													// Icon
+							options, // the titles of buttons
+							options[0]); // default button title
+
 					if (n == 0) {
 						pdao.removeTtcnEvent(fileName);
 
 						pdao.saveTtcnEventMulti(eventSet);
-						JOptionPane.showMessageDialog(frame,
-							    "Save completted!",
-							    "Save to database...",
-							    JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(frame, "Save completted!", "Save to database...",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
-				}
-				else {
+				} else {
 					pdao.saveTtcnEventMulti(eventSet);
-					JOptionPane.showMessageDialog(frame,
-						    "Save completted!",
-						    "Save to database...",
-						    JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Save completted!", "Save to database...",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		}
-		else {
+		} else {
 			JOptionPane.showMessageDialog(frame,
-			    "First you need to open a file or load it from database to use this function!",
-			    "Save to database...",
-			    JOptionPane.ERROR_MESSAGE);
+					"First you need to open a file or load it from database to use this function!",
+					"Save to database...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -275,7 +273,7 @@ public class LogParserWindow {
 		});
 	}
 
-	private void addActionListenerToMenuItemExit() {
+	private void addActionListenerToExitMenuItem() {
 		exitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -290,10 +288,10 @@ public class LogParserWindow {
 		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		statusPanel.add(statusLabel);
 	}
-	
-	private void setTreePanel(){
+
+	private void setTreePanel() {
 		treePanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		treePanel.setPreferredSize(new Dimension(frame.getWidth()/3, frame.getHeight()));
+		treePanel.setPreferredSize(new Dimension(frame.getWidth() / 3, frame.getHeight()));
 		treePanel.setLayout(new BoxLayout(treePanel, BoxLayout.X_AXIS));
 		treePanel.add(paramsLabel);
 	}
@@ -303,7 +301,7 @@ public class LogParserWindow {
 		addCanvasBuilderListener();
 		addCanvasRendererListener();
 	}
-	
+
 	private void addCanvasLoaderListener() {
 		svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
 			@Override
@@ -314,7 +312,7 @@ public class LogParserWindow {
 			@Override
 			public void documentLoadingCompleted(SVGDocumentLoaderEvent e) {
 				statusLabel.setText(StatusPanelMessage.DOCUMENT_LOADED);
-				f.delete();
+				tempSequenceSvg.delete();
 			}
 		});
 	}
@@ -329,7 +327,7 @@ public class LogParserWindow {
 			@Override
 			public void gvtBuildCompleted(GVTTreeBuilderEvent e) {
 				statusLabel.setText(StatusPanelMessage.BUILD_DONE);
-//				addTextClickListeners();
+				// addTextClickListeners();
 				// frame.pack();
 			}
 		});
@@ -345,10 +343,7 @@ public class LogParserWindow {
 			@Override
 			public void gvtRenderingCompleted(GVTTreeRendererEvent e) {
 				statusLabel.setText(fileName + StatusPanelMessage.PARSE_DONE + StatusPanelMessage.HINT);
-				
 			}
 		});
 	}
-	
-	
 }

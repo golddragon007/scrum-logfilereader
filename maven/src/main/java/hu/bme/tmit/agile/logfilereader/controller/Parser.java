@@ -28,9 +28,9 @@ public class Parser {
 	private static final String SENT_MESSAGE_PROPERTY = "sent";
 	private static final String RECEIVED_MESSAGE_PROPERTY = "recive";
 
-	private static boolean isMessageParam = false;
-	private static String messageParam = "";
-	private Message m;
+	private boolean isMessageParam = false;
+	private String messageParam = "";
+	private Message message;
 
 	private TreeSet<TtcnEvent> eventSet = new TreeSet<TtcnEvent>();
 
@@ -55,9 +55,8 @@ public class Parser {
 				String parts[] = line.split(" ");
 				if (EventIdentifier.matchesDate(parts[0])) {
 					if (isMessageParam) {
-						m.setParam(messageParam);
+						message.setParam(messageParam);
 						isMessageParam = false;
-						// System.out.println(message);
 						messageParam = "";
 					}
 					LogTimestamp timestamp = TimestampParser.parse(parts);
@@ -72,11 +71,9 @@ public class Parser {
 							backOfLine += (parts[i] + " ");
 
 						}
-
 						VerdictOperation vo = VerdictParser.parseVerdict(backOfLine);
 						vo = (VerdictOperation) setTtcnEventParams(fileName, timestamp, sender, vo);
 						eventSet.add(vo);
-
 					} else if (parts.length >= 20 && EventIdentifier.isCreatedComponent(parts[6], parts[7])) {
 						if (EventIdentifier.isComponentType(parts[13])) {
 							ComponentEvent ce = CreatedComponentParser.parseCreatedComponent(parts);
@@ -88,24 +85,19 @@ public class Parser {
 						ce = (ComponentEvent) setTtcnEventParams(fileName, timestamp, sender, ce);
 						eventSet.add(ce);
 					} else if (parts.length >= 13 && EventIdentifier.isSentMessage(parts[5], parts[6])) {
-						isMessageParam = true;
-						m = MessageParser.parseSentMessage(parts);
-						m.setTimestamp(timestamp);
-						m.setFileName(fileName);
-						eventSet.add(m);
+						message = MessageParser.parseSentMessage(parts);
+						setMessageParams(fileName, timestamp);
+						eventSet.add(message);
 
 					} else if (parts.length >= 17 && EventIdentifier.isReceivedMessage(parts[5], parts[6], parts[7])) {
-						isMessageParam = true;
-						m = MessageParser.parseReceivedMessage(parts);
-						m.setTimestamp(timestamp);
-						m.setFileName(fileName);
-						eventSet.add(m);
+						message = MessageParser.parseReceivedMessage(parts);
+						setMessageParams(fileName, timestamp);
+						eventSet.add(message);
 
 					}
 				} else if (isMessageParam) {
 					messageParam += line;
 					messageParam += "\n";
-					// System.out.println(message);
 				}
 			}
 		} catch (IOException e) {
@@ -120,6 +112,12 @@ public class Parser {
 		event.setSender(sender);
 		event.setTimestamp(timestamp);
 		return event;
+	}
+
+	private void setMessageParams(String fileName, LogTimestamp timestamp) {
+		message.setTimestamp(timestamp);
+		message.setFileName(fileName);
+		isMessageParam = true;
 	}
 
 	public TreeSet<TtcnEvent> getEventSet() {

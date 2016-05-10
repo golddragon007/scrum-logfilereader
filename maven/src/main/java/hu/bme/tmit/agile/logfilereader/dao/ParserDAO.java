@@ -306,7 +306,7 @@ public class ParserDAO {
 						setSender(rs.getString("name"));
 						setTimestamp(
 								new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
-						setComponentEventType(ComponentEventType.fromString(rs.getString("event_type")));
+						setComponentEventType(ComponentEventType.getComponentTypeFromString(rs.getString("event_type")));
 					}
 				});
 			}
@@ -329,7 +329,7 @@ public class ParserDAO {
 						setName(rs.getString("name"));
 						setTimestamp(
 								new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
-						setEventType(MessageType.fromString(rs.getString("event_type")));
+						setEventType(MessageType.getMessageTypeFromString(rs.getString("event_type")));
 					}
 				});
 			}
@@ -349,7 +349,7 @@ public class ParserDAO {
 						setName(rs.getString("name"));
 						setTimestamp(
 								new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
-						setEventType(EventType.fromString(rs.getString("event_type")));
+						setEventType(EventType.getEventTypeFromString(rs.getString("event_type")));
 					}
 				});
 			}
@@ -368,7 +368,7 @@ public class ParserDAO {
 						setSender(rs.getString("owner"));
 						setTimestamp(
 								new LogTimestamp(rs.getString("timestamp").substring(0, 19), rs.getInt("microsec")));
-						setVerdictType(VerdictType.fromString(rs.getString("event_type")));
+						setVerdictType(VerdictType.getVerdictTypeFromString(rs.getString("event_type")));
 					}
 				});
 			}

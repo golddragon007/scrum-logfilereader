@@ -9,18 +9,17 @@ public class ComponentEvent extends TtcnEvent {
 		ComponentEventType(String str) {
 			type = str;
 		};
-		
-		//From String method will return you the Enum for the provided input string
-	    public static ComponentEventType fromString(String parameterName) {
-	        if (parameterName != null) {
-	            for (ComponentEventType objType : ComponentEventType.values()) {
-	                if (parameterName.equalsIgnoreCase(objType.type)) {
-	                    return objType;
-	                }
-	            }
-	        }
-	        return null;
-	    }
+
+		public static ComponentEventType getComponentTypeFromString(String componentTypeString) {
+			if (componentTypeString != null) {
+				for (ComponentEventType compType : ComponentEventType.values()) {
+					if (componentTypeString.equalsIgnoreCase(compType.type)) {
+						return compType;
+					}
+				}
+			}
+			return null;
+		}
 	}
 
 	public ComponentEventType cet;
@@ -75,7 +74,7 @@ public class ComponentEvent extends TtcnEvent {
 		return timestamp.toString() + " " + sender + " " + fileName + " " + processID + " " + componentReference + " "
 				+ componentType + " " + cet + " " + testcaseName;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -83,5 +82,5 @@ public class ComponentEvent extends TtcnEvent {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

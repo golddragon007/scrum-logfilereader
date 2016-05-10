@@ -11,7 +11,7 @@ public class VerdictParser {
 
 	public static VerdictOperation parseVerdict(String parts) {
 		String componentName = "", miscText = "", verdict = "";
-		int portNumber=0;
+		int portNumber = 0;
 
 		Pattern p = Pattern.compile(RegexpPatterns.verdictPattern);
 		Matcher m = p.matcher(parts);
@@ -28,9 +28,7 @@ public class VerdictParser {
 			vo.setMiscText(miscText);
 			vo.setVerdictType((verdict.contains("pass")) ? VerdictType.Pass
 					: ((verdict.contains("fail")) ? VerdictType.Fail : VerdictType.Inconclusive));
-		}
-		else
-		{
+		} else {
 			vo.setComponentName("");
 			vo.setPortNumber(0);
 			vo.setMiscText("");
