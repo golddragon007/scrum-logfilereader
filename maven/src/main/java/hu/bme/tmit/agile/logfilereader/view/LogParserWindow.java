@@ -83,16 +83,6 @@ public class LogParserWindow {
 			System.out.println(eventSetArray[Integer.parseInt(id)]);
 			Message m = (Message) eventSetArray[Integer.parseInt(id)];
 			paramsLabel.setText(m.getParam());
-			/*
-			for (TtcnEvent ttcnEvent : eventSet) {
-				if (ttcnEvent instanceof Message) {
-					if (ttcnEvent.getId().equals(Integer.parseInt(id))) {
-						System.out.println(ttcnEvent.toString());
-						Message m = (Message) ttcnEvent;
-						paramsLabel.setText(m.getParam());
-					}
-				}
-			}*/
 		}
 	};
 
