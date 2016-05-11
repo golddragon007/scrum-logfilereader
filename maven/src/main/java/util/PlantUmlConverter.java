@@ -6,11 +6,14 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
@@ -35,8 +38,11 @@ public class PlantUmlConverter {
 	private static final String RGB_YELLOW = "#FFFF00";
 	private static final String RGB_RED = "#FF0000";
 	private static final String RGB_GREEN = "#00FF00";
+	
+	private static Map<String, String> matching = null;
 
 	public static void convert(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
+		matching = new HashMap<String, String>();
 		String plantUmlString = getPlantUmlString(eventSet);
 		getSvgDocument(plantUmlString);
 	}
@@ -45,6 +51,7 @@ public class PlantUmlConverter {
 		String plantUmlString = PLANTUML_STRING_START;
 		int limit = 50;
 		int i = 0, cycle_count = 0;
+		plantUmlString += "participant mtc\nparticipant hc\nparticipant system\n";
 
 		for (TtcnEvent event : eventSet) {
 			if (event instanceof Message) {
@@ -61,6 +68,10 @@ public class PlantUmlConverter {
 				plantUmlString += getTimerString(event);
 				i++;
 			}
+			if (event instanceof ComponentEvent) {
+				plantUmlString += getComponentString(event);
+				i++;
+			}
 			if (i > limit) {
 				break;
 			}
@@ -70,10 +81,25 @@ public class PlantUmlConverter {
 
 		return plantUmlString;
 	}
+	
+	private static String getComponentWithType(String componentName) {
+		String fromMatching = matching.get(componentName);
+		if (fromMatching != null && fromMatching != "") {
+			return "\"" + fromMatching + "\"";
+		}
+		
+		return "\"" + componentName + "\"";
+	}
 
 	private static String getMessageString(TtcnEvent event, int rowArrayId) {
-		return ("\"" + event.getSender() + "\" -> \"" + ((Message) event).getDestination() + "\" : " + rowArrayId
+		return (getComponentWithType(event.getSender()) + " -> " + getComponentWithType(((Message) event).getDestination()) + " : " + rowArrayId
 				+ ((Message) event).getName() + "\n");
+	}
+	
+	private static String getComponentString(TtcnEvent event) {
+		ComponentEvent ce = (ComponentEvent) event;
+		matching.put(Integer.toString(ce.getComponentReference()), ce.getComponentReference() + " : " + ce.getComponentType());
+		return ("Create " + getComponentWithType(Integer.toString(ce.getComponentReference())) + "\n" + ce.getSender() + " -> " + getComponentWithType(Integer.toString(ce.getComponentReference())) + " : " + ce.getComponentEventType() + "\n");
 	}
 
 	private static String getVerdictString(TtcnEvent event) {
@@ -87,7 +113,7 @@ public class PlantUmlConverter {
 	}
 
 	private static String getVerdictStringByType(TtcnEvent event, String color) {
-		return HNOTE_START + event.getSender() + color + ": " + ((VerdictOperation) event).getVerdictType().toString()
+		return HNOTE_START + getComponentWithType(event.getSender()) + color + ": " + ((VerdictOperation) event).getVerdictType().toString()
 				+ "\n";
 	}
 
@@ -102,7 +128,7 @@ public class PlantUmlConverter {
 	}
 
 	private static String getTimerStringByType(TtcnEvent event, String color) {
-		return (RNOTE_START + ((TimerOperation) event).getSender() + color + "\n" + ((TimerOperation) event).getName()
+		return (RNOTE_START + getComponentWithType(((TimerOperation) event).getSender()) + color + "\n" + ((TimerOperation) event).getName()
 				+ "\n" + ((TimerOperation) event).getEventType() + " " + ((TimerOperation) event).getDuration() + " s\n"
 				+ RNOTE_END + "\n");
 	}
