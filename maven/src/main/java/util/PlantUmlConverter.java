@@ -1,6 +1,7 @@
 package util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -36,9 +37,11 @@ public class PlantUmlConverter {
 	private static final String RGB_RED = "#FF0000";
 	private static final String RGB_GREEN = "#00FF00";
 
-	public static void convert(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
+	private static final String TEMP_SEQUENCE_SVG = "temp_sequence_svg.txt";
+
+	public static void convertToFile(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
 		String plantUmlString = getPlantUmlString(eventSet);
-		getSvgDocument(plantUmlString);
+		writeSvgToFile(plantUmlString);
 	}
 
 	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
@@ -107,26 +110,37 @@ public class PlantUmlConverter {
 				+ RNOTE_END + "\n");
 	}
 
-	private static void getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
+	private static void writeSvgToFile(String plantUmlString) throws IOException, UnsupportedEncodingException {
+		String svg = getSvgString(plantUmlString);
+		svg = addOnClickToSvg(svg);
+		writeToFile(svg);
+	}
+
+	private static String getSvgString(String plantUmlString) throws IOException {
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
+		String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
+		os.close();
+		return svg;
+	}
 
-		String svgTemp = svg;
+	private static String addOnClickToSvg(String svg) {
 		List<String> matches = new ArrayList<String>();
-		Matcher m = Pattern.compile(">[0-9]+@").matcher(svgTemp);
+		Matcher m = Pattern.compile(">[0-9]+@").matcher(svg);
 		while (m.find()) {
 			matches.add(m.group());
 		}
 		for (String string : matches) {
 			String id = string.substring(1, string.length() - 1);
-			svgTemp = svgTemp.replaceAll(string, " onclick='alert(\"" + id + "\")'" + string);
+			svg = svg.replaceAll(string, " onclick='alert(\"" + id + "\")'" + string);
 		}
-		os.close();
+		return svg;
+	}
 
-		PrintWriter out = new PrintWriter("temp_sequence_svg.txt");
-		out.print(svgTemp);
+	private static void writeToFile(String svg) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter(TEMP_SEQUENCE_SVG);
+		out.print(svg);
 		out.close();
 	}
 }
