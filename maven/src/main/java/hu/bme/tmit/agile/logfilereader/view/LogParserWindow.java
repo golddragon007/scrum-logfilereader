@@ -71,6 +71,7 @@ public class LogParserWindow {
 
 	private String fileName;
 	private TreeSet<TtcnEvent> eventSet = null;
+	private TtcnEvent[] eventSetArray = null; // Because TreeSet is a shit. (can't get a specified element by index from treeSet)
 
 	private static final String SEQUENCE_SVG_FILENAME = "temp_sequence_svg.txt";
 	private File tempSequenceSvg;
@@ -78,6 +79,11 @@ public class LogParserWindow {
 	private SVGUserAgent ua = new SVGUserAgentAdapter() {
 		public void showAlert(String id) {
 			System.out.println(id);
+			
+			System.out.println(eventSetArray[Integer.parseInt(id)]);
+			Message m = (Message) eventSetArray[Integer.parseInt(id)];
+			paramsLabel.setText(m.getParam());
+			/*
 			for (TtcnEvent ttcnEvent : eventSet) {
 				if (ttcnEvent instanceof Message) {
 					if (ttcnEvent.getId().equals(Integer.parseInt(id))) {
@@ -86,7 +92,7 @@ public class LogParserWindow {
 						paramsLabel.setText(m.getParam());
 					}
 				}
-			}
+			}*/
 		}
 	};
 
@@ -158,8 +164,7 @@ public class LogParserWindow {
 						parser.parse(selectedFile.getAbsolutePath());
 
 						eventSet = parser.getEventSet();
-						saveToDatabase();
-						eventSet = dao.loadTtcnEvent(fileName);
+						eventSetArray = eventSet.toArray(new TtcnEvent[eventSet.size()]);
 
 						PlantUmlConverter.convert(eventSet);
 						svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
@@ -202,6 +207,7 @@ public class LogParserWindow {
 						try {
 							fileName = s;
 							eventSet = pdao.loadTtcnEvent(s);
+							eventSetArray = eventSet.toArray(new TtcnEvent[eventSet.size()]);
 							PlantUmlConverter.convert(eventSet);
 
 							svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);

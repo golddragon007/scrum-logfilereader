@@ -44,12 +44,12 @@ public class PlantUmlConverter {
 	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
 		String plantUmlString = PLANTUML_STRING_START;
 		int limit = 50;
-		int i = 0;
+		int i = 0, cycle_count = 0;
 
 		for (TtcnEvent event : eventSet) {
 			if (event instanceof Message) {
 				if (!event.getSender().contains(":")) {
-					plantUmlString += getMessageString(event);
+					plantUmlString += getMessageString(event, cycle_count);
 					i++;
 				}
 			}
@@ -64,14 +64,15 @@ public class PlantUmlConverter {
 			if (i > limit) {
 				break;
 			}
+			cycle_count++;
 		}
 		plantUmlString += PLANTUML_STRING_END;
 
 		return plantUmlString;
 	}
 
-	private static String getMessageString(TtcnEvent event) {
-		return ("\"" + event.getSender() + "\" -> \"" + ((Message) event).getDestination() + "\" : " + event.getId()
+	private static String getMessageString(TtcnEvent event, int rowArrayId) {
+		return ("\"" + event.getSender() + "\" -> \"" + ((Message) event).getDestination() + "\" : " + rowArrayId
 				+ ((Message) event).getName() + "\n");
 	}
 
