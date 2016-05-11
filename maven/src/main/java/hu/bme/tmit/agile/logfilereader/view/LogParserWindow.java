@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.TreeSet;
 
@@ -43,6 +44,10 @@ import util.StatusPanelMessage;
 
 public class LogParserWindow {
 
+	private static final String MAIN_WINDOW_TITLE = "Parser and sequence drawer";
+	private static final String LOAD_FROM_DATABASE_LABEL = "Load from database...";
+	private static final String SAVE_TO_DATABASE_LABEL = "Save to database...";
+
 	private static final int WINDOW_VERTICAL = 50;
 	private static final int WINDOW_HORIZONTAL = 50;
 	private static final int WINDOW_HEIGHT = 900;
@@ -52,13 +57,13 @@ public class LogParserWindow {
 
 	private static final String USER_DIRECTORY_PROPERTY = "user.dir";
 
-	private JFrame frame = new JFrame("Parser and sequence drawer");
+	private JFrame frame = new JFrame(MAIN_WINDOW_TITLE);
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenuItem openFileMenuItem = new JMenuItem("Open file...");
-	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem("Load from database...");
-	private JMenuItem saveToDatabaseMenuItem = new JMenuItem("Save to database...");
+	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem(LOAD_FROM_DATABASE_LABEL);
+	private JMenuItem saveToDatabaseMenuItem = new JMenuItem(SAVE_TO_DATABASE_LABEL);
 	private JMenuItem exitMenuItem = new JMenuItem("Exit");
 
 	private JPanel statusPanel = new JPanel();
@@ -71,7 +76,7 @@ public class LogParserWindow {
 
 	private String fileName;
 	private TreeSet<TtcnEvent> eventSet = null;
-	private TtcnEvent[] eventSetArray = null; // Because TreeSet is a shit. (can't get a specified element by index from treeSet)
+	private TtcnEvent[] eventArray = null;
 
 	private static final String SEQUENCE_SVG_FILENAME = "temp_sequence_svg.txt";
 	private File tempSequenceSvg;
@@ -79,9 +84,8 @@ public class LogParserWindow {
 	private SVGUserAgent ua = new SVGUserAgentAdapter() {
 		public void showAlert(String id) {
 			System.out.println(id);
-			
-			System.out.println(eventSetArray[Integer.parseInt(id)]);
-			Message m = (Message) eventSetArray[Integer.parseInt(id)];
+			System.out.println(eventArray[Integer.parseInt(id)]);
+			Message m = (Message) eventArray[Integer.parseInt(id)];
 			paramsLabel.setText(m.getParam());
 		}
 	};
@@ -145,31 +149,26 @@ public class LogParserWindow {
 	private void addActionListenerToOpenFileMenuItem() {
 		openFileMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File selectedFile;
-				ParserDAO dao = new ParserDAO();
-				if ((selectedFile = getSelectedFile()) != null) {
-					fileName = selectedFile.getName();
-					try {
-						Parser parser = new Parser();
-						parser.parse(selectedFile.getAbsolutePath());
-
-						eventSet = parser.getEventSet();
-						eventSetArray = eventSet.toArray(new TtcnEvent[eventSet.size()]);
-
-						PlantUmlConverter.convert(eventSet);
-						svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-						tempSequenceSvg = new File(SEQUENCE_SVG_FILENAME);
-						if (tempSequenceSvg != null) {
-							svgCanvas.setURI(tempSequenceSvg.toURI().toString());
-						}
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					}
-				} else {
-					statusLabel.setText(StatusPanelMessage.CANCELLED_BY_USER);
-				}
+				drawSequenceFromFile();
 			}
 		});
+	}
+
+	private void drawSequenceFromFile() {
+		File selectedFile;
+		if ((selectedFile = getSelectedFile()) != null) {
+			fileName = selectedFile.getName();
+			try {
+				Parser parser = new Parser();
+				parser.parse(selectedFile.getAbsolutePath());
+				eventSet = parser.getEventSet();
+				drawSequence();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		} else {
+			statusLabel.setText(StatusPanelMessage.CANCELLED_BY_USER);
+		}
 	}
 
 	private File getSelectedFile() {
@@ -182,83 +181,49 @@ public class LogParserWindow {
 		return null;
 	}
 
+	private void drawSequence() throws UnsupportedEncodingException, IOException {
+		eventArray = eventSet.toArray(new TtcnEvent[eventSet.size()]);
+		PlantUmlConverter.convertToFile(eventSet);
+		svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
+		tempSequenceSvg = new File(SEQUENCE_SVG_FILENAME);
+		if (tempSequenceSvg != null) {
+			svgCanvas.setURI(tempSequenceSvg.toURI().toString());
+		}
+	}
+
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ParserDAO pdao = new ParserDAO();
-				Object[] possibilities = pdao.getSavedFileNames();
-
-				if (possibilities.length > 0) {
-					String s = (String) JOptionPane.showInputDialog(frame, "File name:", "Load from DB",
-							JOptionPane.PLAIN_MESSAGE, null, possibilities, possibilities[0]);
-
-					// If a string was returned, say so.
-					if ((s != null) && (s.length() > 0)) {
-						try {
-							fileName = s;
-							eventSet = pdao.loadTtcnEvent(s);
-							eventSetArray = eventSet.toArray(new TtcnEvent[eventSet.size()]);
-							PlantUmlConverter.convert(eventSet);
-
-							svgCanvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-
-							tempSequenceSvg = new File(SEQUENCE_SVG_FILENAME);
-							svgCanvas.setURI(tempSequenceSvg.toURI().toString());
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-
-						return;
-					}
-
-				} else {
-					JOptionPane.showMessageDialog(frame, "There's no saved file(s) found!", "Load from DB",
-							JOptionPane.ERROR_MESSAGE);
-				}
+				drawSequenceFromDatabase();
 			}
 		});
 	}
 
-	private void saveToDatabase() {
+	private void drawSequenceFromDatabase() {
 		ParserDAO pdao = new ParserDAO();
-
-		if (fileName != null && fileName != "") {
+		String selectedFile = getSelectedFileFromDb(pdao);
+		if ((selectedFile != null) && (selectedFile.length() > 0)) {
 			try {
-				boolean exist = pdao.existTtcnEvent(fileName);
-
-				if (exist) {
-					Object[] options = { "Overwrite it", "Cancel" };
-					int n = JOptionPane.showOptionDialog(frame,
-							"The current filename exist in the database, what would you like to do?",
-							"Save to database...", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, // do
-																													// not
-																													// use
-																													// a
-																													// custom
-																													// Icon
-							options, // the titles of buttons
-							options[0]); // default button title
-
-					if (n == 0) {
-						pdao.removeTtcnEvent(fileName);
-
-						pdao.saveTtcnEventMulti(eventSet);
-						JOptionPane.showMessageDialog(frame, "Save completted!", "Save to database...",
-								JOptionPane.INFORMATION_MESSAGE);
-					}
-				} else {
-					pdao.saveTtcnEventMulti(eventSet);
-					JOptionPane.showMessageDialog(frame, "Save completted!", "Save to database...",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				fileName = selectedFile;
+				eventSet = pdao.loadTtcnEvent(selectedFile);
+				drawSequence();
+			} catch (IOException ex) {
+				ex.printStackTrace();
 			}
-		} else {
-			JOptionPane.showMessageDialog(frame,
-					"First you need to open a file or load it from database to use this function!",
-					"Save to database...", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	private String getSelectedFileFromDb(ParserDAO pdao) {
+		Object[] storedFiles = pdao.getSavedFileNames();
+		if (storedFiles.length > 0) {
+			String selectedFile = (String) JOptionPane.showInputDialog(frame, "File name:", LOAD_FROM_DATABASE_LABEL,
+					JOptionPane.PLAIN_MESSAGE, null, storedFiles, storedFiles[0]);
+			return selectedFile;
+		} else {
+			JOptionPane.showMessageDialog(frame, "There are no saved files found!", LOAD_FROM_DATABASE_LABEL,
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
 	}
 
 	private void addActionListenerToSaveToDatabaseMenuItem() {
@@ -267,6 +232,43 @@ public class LogParserWindow {
 				saveToDatabase();
 			}
 		});
+	}
+
+	private void saveToDatabase() {
+		if (fileName != null && fileName != "") {
+			try {
+				ParserDAO pdao = new ParserDAO();
+				boolean doesFileExist = pdao.existTtcnEvent(fileName);
+
+				if (doesFileExist) {
+					Object[] facilities = { "Overwrite it", "Cancel" };
+					int selectedFacility = JOptionPane.showOptionDialog(frame,
+							"The current filename exist in the database, what would you like to do?",
+							SAVE_TO_DATABASE_LABEL, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
+							facilities, facilities[0]);
+
+					if (selectedFacility == 0) {
+						pdao.removeTtcnEvent(fileName);
+						pdao.saveTtcnEventMulti(eventSet);
+						showSaveToDbCompletedMessage();
+					}
+				} else {
+					pdao.saveTtcnEventMulti(eventSet);
+					showSaveToDbCompletedMessage();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			JOptionPane.showMessageDialog(frame,
+					"First you need to open a file or load it from database to use this function!",
+					SAVE_TO_DATABASE_LABEL, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void showSaveToDbCompletedMessage() {
+		JOptionPane.showMessageDialog(frame, "Save completed!", SAVE_TO_DATABASE_LABEL,
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void addActionListenerToExitMenuItem() {
