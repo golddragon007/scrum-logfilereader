@@ -1,6 +1,7 @@
 package hu.bme.tmit.agile.logfilereader.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Map;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -24,6 +31,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
@@ -70,7 +80,8 @@ public class LogParserWindow {
 	private JLabel statusLabel = new JLabel();
 
 	private JPanel treePanel = new JPanel();
-	private JTree jTree = new JTree();
+	private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Parameters");
+	private JTree jTree = new JTree(root);
 	private JScrollPane jScrollPane = new JScrollPane(jTree);
 	private JLabel paramsLabel = new JLabel();
 
@@ -80,13 +91,82 @@ public class LogParserWindow {
 
 	private static final String SEQUENCE_SVG_FILENAME = "temp_sequence_svg.txt";
 	private File tempSequenceSvg;
-
+	
+	private void generateTree(String text) {
+		String[] lines = text.split("\r\n|\n|\r");
+		Deque<DefaultMutableTreeNode> stack = new ArrayDeque<DefaultMutableTreeNode>();
+		
+		root.removeAllChildren();
+		
+		DefaultMutableTreeNode actualElement = root;
+		int rowCount = 0;
+		
+		//Pattern keyValueFinder = Pattern.compile("(.+) := \"?\\\\?\"?([^\"\\\\\\r\\n]*)\\\\?\"?\"?,?\\z");
+		
+		for (String line : lines) {
+			//Matcher keyValueFinderMatch = keyValueFinder.matcher(line);
+			//if (keyValueFinderMatch.find()) {
+			if (line.contains(" := ")) {
+				//String group1 = keyValueFinderMatch.group(1).trim();
+				//String group2 = keyValueFinderMatch.group(2).trim();
+				String[] groups = line.split(" := ");
+				String group1 = groups[0].trim();
+				String group2 = groups[1].trim();
+				if (group2.substring(group2.length() -1).equals(",")) {
+					group2 = group2.substring(0, group2.length() - 1);
+				}
+				
+				if (group2.equals("{")) {
+					if (group1 != null && group1 != "") {
+						if (actualElement != null) {
+							stack.push(actualElement);							
+						}
+						actualElement = new DefaultMutableTreeNode(group1);
+					}
+				}
+				else if (group2.equals("{ }")) {
+					DefaultMutableTreeNode base = new DefaultMutableTreeNode(group1);
+					base.add(new DefaultMutableTreeNode("[Empty Object]"));
+					actualElement.add(base);
+				}
+				else {
+					actualElement.add(new DefaultMutableTreeNode(group1 + " = " + group2));
+				}
+			}
+			else if ((line.trim().equals("}") || line.trim().equals("},")) && lines.length - 1 > rowCount) {
+				DefaultMutableTreeNode prev = stack.pop();
+				prev.add(actualElement);
+				actualElement = prev;
+			}
+			else if (line.trim().equals("{")) {
+				stack.push(actualElement);
+				actualElement = new DefaultMutableTreeNode("[ArrayElement]");
+			}
+			else if (line.length() > 1) {
+				actualElement.add(new DefaultMutableTreeNode(line.replaceAll("} ", "").trim()));
+			}
+			rowCount++;
+		}
+		
+		((DefaultTreeModel)jTree.getModel()).reload();
+		
+	    DefaultMutableTreeNode currentNode = root.getNextNode();
+	    do {
+	       if (currentNode.getLevel()==0) 
+	    	   jTree.expandPath(new TreePath(currentNode.getPath()));
+	       currentNode = currentNode.getNextNode();
+	       }
+	    while (currentNode != null);
+	}
+	
 	private SVGUserAgent ua = new SVGUserAgentAdapter() {
 		public void showAlert(String id) {
 			System.out.println(id);
 			System.out.println(eventArray[Integer.parseInt(id)]);
 			Message m = (Message) eventArray[Integer.parseInt(id)];
-			paramsLabel.setText(m.getParam());
+			//paramsLabel.setText(m.getParam());
+
+			generateTree(m.getParam());
 		}
 	};
 
@@ -292,6 +372,7 @@ public class LogParserWindow {
 		treePanel.setPreferredSize(new Dimension(frame.getWidth() / 3, frame.getHeight()));
 		treePanel.setLayout(new BoxLayout(treePanel, BoxLayout.X_AXIS));
 		treePanel.add(paramsLabel);
+		treePanel.add(jScrollPane);
 	}
 
 	private void addCanvasListeners() {
