@@ -19,6 +19,7 @@ import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -101,8 +102,14 @@ public class PlantUmlConverter {
 	
 	private static String getComponentString(TtcnEvent event) {
 		ComponentEvent ce = (ComponentEvent) event;
-		matching.put(Integer.toString(ce.getComponentReference()), ce.getComponentReference() + " : " + ce.getComponentType());
-		return ("Create " + getComponentWithType(Integer.toString(ce.getComponentReference())) + "\n" + ce.getSender() + " -> " + getComponentWithType(Integer.toString(ce.getComponentReference())) + " : " + ce.getComponentEventType() + "\n");
+		if (ce.getComponentEventType() == ComponentEventType.Create) {
+			matching.put(Integer.toString(ce.getComponentReference()), ce.getComponentReference() + " : " + ce.getComponentType());
+			return ("Create " + getComponentWithType(Integer.toString(ce.getComponentReference())) + "\n" + ce.getSender() + " -> " + getComponentWithType(Integer.toString(ce.getComponentReference())) + " : " + ce.getComponentEventType() + "\n");
+		}
+		else {
+			
+			return "destroy " + getComponentWithType(ce.getSender()) + "\n";
+		}
 	}
 
 	private static String getVerdictString(TtcnEvent event) {
