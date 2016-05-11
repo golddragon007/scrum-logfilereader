@@ -96,26 +96,26 @@ public class LogParserWindow {
 		String[] lines = text.split("\r\n|\n|\r");
 		Deque<DefaultMutableTreeNode> stack = new ArrayDeque<DefaultMutableTreeNode>();
 		
+		// Delete actual treeView items.
 		root.removeAllChildren();
 		
+		// Set actual working element to root element.
 		DefaultMutableTreeNode actualElement = root;
 		int rowCount = 0;
 		
-		//Pattern keyValueFinder = Pattern.compile("(.+) := \"?\\\\?\"?([^\"\\\\\\r\\n]*)\\\\?\"?\"?,?\\z");
-		
 		for (String line : lines) {
-			//Matcher keyValueFinderMatch = keyValueFinder.matcher(line);
-			//if (keyValueFinderMatch.find()) {
+			// If it is a key := value pair.
 			if (line.contains(" := ")) {
-				//String group1 = keyValueFinderMatch.group(1).trim();
-				//String group2 = keyValueFinderMatch.group(2).trim();
 				String[] groups = line.split(" := ");
-				String group1 = groups[0].trim();
-				String group2 = groups[1].trim();
+				String group1 = groups[0].trim(); // key
+				String group2 = groups[1].trim(); // value
+				
+				// Remove "," from the end of the value.
 				if (group2.substring(group2.length() -1).equals(",")) {
 					group2 = group2.substring(0, group2.length() - 1);
 				}
 				
+				// If the value is an Object or an Array.
 				if (group2.equals("{")) {
 					if (group1 != null && group1 != "") {
 						if (actualElement != null) {
@@ -124,32 +124,39 @@ public class LogParserWindow {
 						actualElement = new DefaultMutableTreeNode(group1);
 					}
 				}
+				// If the value is an empty Object or an Array.
 				else if (group2.equals("{ }")) {
 					DefaultMutableTreeNode base = new DefaultMutableTreeNode(group1);
 					base.add(new DefaultMutableTreeNode("[Empty Object]"));
 					actualElement.add(base);
 				}
+				// If it's a simple type value.
 				else {
 					actualElement.add(new DefaultMutableTreeNode(group1 + " = " + group2));
 				}
 			}
+			// If it's fall back a level.
 			else if ((line.trim().equals("}") || line.trim().equals("},")) && lines.length - 1 > rowCount) {
 				DefaultMutableTreeNode prev = stack.pop();
 				prev.add(actualElement);
 				actualElement = prev;
 			}
+			// If it's an ArrayElement, open a new level (increment level).
 			else if (line.trim().equals("{")) {
 				stack.push(actualElement);
 				actualElement = new DefaultMutableTreeNode("[ArrayElement]");
 			}
+			// Last line "only".
 			else if (line.length() > 1) {
 				actualElement.add(new DefaultMutableTreeNode(line.replaceAll("} ", "").trim()));
 			}
 			rowCount++;
 		}
 		
+		// Refresh treeView view.
 		((DefaultTreeModel)jTree.getModel()).reload();
 		
+		// Open 0 level element. (this is the root), set 1 to open the level 1 elements too, ect.
 	    DefaultMutableTreeNode currentNode = root.getNextNode();
 	    do {
 	       if (currentNode.getLevel()==0) 
