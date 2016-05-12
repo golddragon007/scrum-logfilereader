@@ -7,10 +7,6 @@ import java.util.Properties;
 
 import util.PropertyHandler;
 
-/**
- * Utility class for managing JDBC connections : creation, closing...
- * 
- */
 public class ConnectionUtils {
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 
@@ -31,11 +27,6 @@ public class ConnectionUtils {
 		}
 	}
 
-	/**
-	 * Utility method used to get a connection.
-	 * 
-	 * @return A newly created connection.
-	 */
 	public static Connection getConnection() {
 		Connection connection = null;
 		try {
@@ -56,9 +47,6 @@ public class ConnectionUtils {
 		return connection;
 	}
 
-	/**
-	 * Utility method used to close a resource after use.
-	 */
 	public static void closeResource(AutoCloseable resource) {
 		if (resource != null) {
 			try {

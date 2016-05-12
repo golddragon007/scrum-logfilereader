@@ -53,32 +53,29 @@ public class PlantUmlConverter {
 
 	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
 		String plantUmlString = PLANTUML_STRING_START;
-		int limit = 50;
-		int i = 0, cycle_count = 0;
+		int cycle_count = 0;
 		plantUmlString += "participant mtc\nparticipant hc\nparticipant system\n";
 
 		for (TtcnEvent event : eventSet) {
 			if (event instanceof Message) {
 				if (!event.getSender().contains(":")) {
 					plantUmlString += getMessageString(event, cycle_count);
-					i++;
+					
 				}
 			}
 			if (event instanceof VerdictOperation) {
 				plantUmlString += getVerdictString(event);
-				i++;
+				
 			}
 			if (event instanceof TimerOperation) {
 				plantUmlString += getTimerString(event);
-				i++;
+				
 			}
 			if (event instanceof ComponentEvent) {
 				plantUmlString += getComponentString(event);
-				i++;
+			
 			}
-			if (i > limit) {
-				break;
-			}
+			
 			cycle_count++;
 		}
 		plantUmlString += PLANTUML_STRING_END;
