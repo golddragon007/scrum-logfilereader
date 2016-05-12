@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -260,6 +261,9 @@ public class LogParserWindow {
 		final JFileChooser jFileChooser = new JFileChooser();
 		File workingDirectory = new File(System.getProperty(USER_DIRECTORY_PROPERTY));
 		jFileChooser.setCurrentDirectory(workingDirectory);
+		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt logs file", "txt");
+	    jFileChooser.setFileFilter(filter);
 		if (jFileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 			return jFileChooser.getSelectedFile();
 		}
