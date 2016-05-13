@@ -9,17 +9,16 @@ import org.junit.Test;
 
 import hu.bme.tmit.agile.logfilereader.controller.VerdictParser;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
+import util.RegexpProperties;
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
 public class VerdictParserTest {
-	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
-	private static final String VERDICT_PROPERTY = "verdict";
 
 	private void applyRules() {
 		PropertyHandler ph = new PropertyHandler();
-		Properties properties = ph.getProperties(REGEXP_PATTERNS_PROPERTIES);
-		RegexpPatterns.verdictPattern = properties.getProperty(VERDICT_PROPERTY);
+		Properties properties = ph.getProperties(RegexpProperties.REGEXP_PATTERNS_PROPERTIES);
+		RegexpPatterns.verdictPattern = properties.getProperty(RegexpProperties.VERDICT_PROPERTY);
 	}
 
 	@Before

@@ -14,19 +14,11 @@ import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
 import util.EventIdentifier;
+import util.RegexpProperties;
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
 public class Parser {
-
-	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
-
-	private static final String DATE_PROPERTY = "date";
-	private static final String TIME_PROPERTY = "time";
-	private static final String VERDICT_PROPERTY = "verdict";
-
-	private static final String SENT_MESSAGE_PROPERTY = "sent";
-	private static final String RECEIVED_MESSAGE_PROPERTY = "recive";
 
 	private boolean isMessageParam = false;
 	private String messageParam = "";
@@ -36,13 +28,13 @@ public class Parser {
 
 	private void applyParsingRules() {
 		PropertyHandler ph = new PropertyHandler();
-		Properties properties = ph.getProperties(REGEXP_PATTERNS_PROPERTIES);
+		Properties properties = ph.getProperties(RegexpProperties.REGEXP_PATTERNS_PROPERTIES);
 
-		RegexpPatterns.datePattern = properties.getProperty(DATE_PROPERTY);
-		RegexpPatterns.timePattern = properties.getProperty(TIME_PROPERTY);
-		RegexpPatterns.verdictPattern = properties.getProperty(VERDICT_PROPERTY);
-		RegexpPatterns.sentMessagePattern = properties.getProperty(SENT_MESSAGE_PROPERTY);
-		RegexpPatterns.receivedMessagePattern = properties.getProperty(RECEIVED_MESSAGE_PROPERTY);
+		RegexpPatterns.datePattern = properties.getProperty(RegexpProperties.DATE_PROPERTY);
+		RegexpPatterns.timePattern = properties.getProperty(RegexpProperties.TIME_PROPERTY);
+		RegexpPatterns.verdictPattern = properties.getProperty(RegexpProperties.VERDICT_PROPERTY);
+		RegexpPatterns.sentMessagePattern = properties.getProperty(RegexpProperties.SENT_MESSAGE_PROPERTY);
+		RegexpPatterns.receivedMessagePattern = properties.getProperty(RegexpProperties.RECEIVED_MESSAGE_PROPERTY);
 	}
 
 	public void parse(String relativePath) {

@@ -1,182 +1,37 @@
 package hu.bme.tmit.agile.logfilereader.view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.Map;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.batik.swing.JSVGCanvas;
-import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
-import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
-import org.apache.batik.swing.svg.GVTTreeBuilderAdapter;
-import org.apache.batik.swing.svg.GVTTreeBuilderEvent;
-import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
-import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
-import org.apache.batik.swing.svg.SVGUserAgent;
-import org.apache.batik.swing.svg.SVGUserAgentAdapter;
 
 import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import hu.bme.tmit.agile.logfilereader.dao.ParserDAO;
-import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import util.PlantUmlConverter;
 import util.StatusPanelMessage;
+import util.Utils;
 
-public class LogParserWindow {
+public class LogParserWindow extends LogParserWindowSkeleton {
 
-	private static final String MAIN_WINDOW_TITLE = "Parser and sequence drawer";
-	private static final String LOAD_FROM_DATABASE_LABEL = "Load from database...";
-	private static final String SAVE_TO_DATABASE_LABEL = "Save to database...";
-
-	private static final int WINDOW_VERTICAL = 50;
-	private static final int WINDOW_HORIZONTAL = 50;
-	private static final int WINDOW_HEIGHT = 900;
-	private static final int WINDOW_WIDTH = 1200;
-
-	private static final int STATUS_PANEL_HEIGHT = 16;
-
+	private static final int OVERWRITE = 0;
 	private static final String USER_DIRECTORY_PROPERTY = "user.dir";
-
-	private JFrame frame = new JFrame(MAIN_WINDOW_TITLE);
-
-	private JMenuBar menuBar = new JMenuBar();
-	private JMenu fileMenu = new JMenu("File");
-	private JMenuItem openFileMenuItem = new JMenuItem("Open file...");
-	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem(LOAD_FROM_DATABASE_LABEL);
-	private JMenuItem saveToDatabaseMenuItem = new JMenuItem(SAVE_TO_DATABASE_LABEL);
-	private JMenuItem exitMenuItem = new JMenuItem("Exit");
-
-	private JPanel statusPanel = new JPanel();
-	private JLabel statusLabel = new JLabel();
-
-	private JPanel treePanel = new JPanel();
-	private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Parameters");
-	private JTree jTree = new JTree(root);
-	private JScrollPane jScrollPane = new JScrollPane(jTree);
-	private JLabel paramsLabel = new JLabel();
-
-	private String fileName;
-	private TreeSet<TtcnEvent> eventSet = null;
-	private TtcnEvent[] eventArray = null;
-
 	private static final String SEQUENCE_SVG_FILENAME = "temp_sequence_svg.txt";
-	private File tempSequenceSvg;
-	
-	private void generateTree(String text) {
-		String[] lines = text.split("\r\n|\n|\r");
-		Deque<DefaultMutableTreeNode> stack = new ArrayDeque<DefaultMutableTreeNode>();
-		
-		
-		root.removeAllChildren();
-		
-		
-		DefaultMutableTreeNode actualElement = root;
-		int rowCount = 0;
-		
-		for (String line : lines) {
 
-			if (line.contains(" := ")) {
-				String[] groups = line.split(" := ");
-				String group1 = groups[0].trim(); 
-				String group2 = groups[1].trim(); 
-				
-
-				if (group2.substring(group2.length() -1).equals(",")) {
-					group2 = group2.substring(0, group2.length() - 1);
-				}
-				
-
-				if (group2.equals("{")) {
-					if (group1 != null && group1 != "") {
-						if (actualElement != null) {
-							stack.push(actualElement);							
-						}
-						actualElement = new DefaultMutableTreeNode(group1);
-					}
-				}
-
-				else if (group2.equals("{ }")) {
-					DefaultMutableTreeNode base = new DefaultMutableTreeNode(group1);
-					base.add(new DefaultMutableTreeNode("[Empty Object]"));
-					actualElement.add(base);
-				}
-
-				else {
-					actualElement.add(new DefaultMutableTreeNode(group1 + " = " + group2));
-				}
-			}
-
-			else if ((line.trim().equals("}") || line.trim().equals("},")) && lines.length - 1 > rowCount) {
-				DefaultMutableTreeNode prev = stack.pop();
-				prev.add(actualElement);
-				actualElement = prev;
-			}
-			
-			else if (line.trim().equals("{")) {
-				stack.push(actualElement);
-				actualElement = new DefaultMutableTreeNode("[ArrayElement]");
-			}
-
-			else if (line.length() > 1) {
-				actualElement.add(new DefaultMutableTreeNode(line.replaceAll("} ", "").trim()));
-			}
-			rowCount++;
-		}
-		
-
-		((DefaultTreeModel)jTree.getModel()).reload();
-		
-
-	    DefaultMutableTreeNode currentNode = root.getNextNode();
-	    do {
-	       if (currentNode.getLevel()==0) 
-	    	   jTree.expandPath(new TreePath(currentNode.getPath()));
-	       currentNode = currentNode.getNextNode();
-	       }
-	    while (currentNode != null);
-	}
-	
-	private SVGUserAgent ua = new SVGUserAgentAdapter() {
-		public void showAlert(String id) {
-			System.out.println(id);
-			System.out.println(eventArray[Integer.parseInt(id)]);
-			Message m = (Message) eventArray[Integer.parseInt(id)];
-			generateTree(m.getParam());
-		}
-	};
-
-	private JSVGCanvas svgCanvas = new JSVGCanvas(ua, true, true);
+	private TreeSet<TtcnEvent> eventSet = null;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -195,52 +50,8 @@ public class LogParserWindow {
 		initialize();
 	}
 
-	private void initialize() {
-		setFrame();
-		setMenuBar();
-		setFileMenu();
-		addMenuItemListeners();
-		setStatusPanel();
-		addCanvasListeners();
-		setTreePanel();
-	}
-
-	private void setFrame() {
-		frame.setBounds(WINDOW_HORIZONTAL, WINDOW_VERTICAL, WINDOW_WIDTH, WINDOW_HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setJMenuBar(menuBar);
-		frame.getContentPane().add(statusPanel, BorderLayout.SOUTH);
-		frame.add(svgCanvas, BorderLayout.CENTER);
-		frame.add(treePanel, BorderLayout.EAST);
-	}
-
-	private void setMenuBar() {
-		menuBar.add(fileMenu);
-	}
-
-	private void setFileMenu() {
-		fileMenu.add(openFileMenuItem);
-		fileMenu.add(loadFromDatabaseMenuItem);
-		fileMenu.add(saveToDatabaseMenuItem);
-		fileMenu.add(exitMenuItem);
-	}
-
-	private void addMenuItemListeners() {
-		addActionListenerToOpenFileMenuItem();
-		addActionListenerToLoadFromDatabaseMenuItem();
-		addActionListenerToSaveToDatabaseMenuItem();
-		addActionListenerToExitMenuItem();
-	}
-
-	private void addActionListenerToOpenFileMenuItem() {
-		openFileMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				drawSequenceFromFile();
-			}
-		});
-	}
-
-	private void drawSequenceFromFile() {
+	@Override
+	protected void drawSequenceFromFile() {
 		File selectedFile;
 		if ((selectedFile = getSelectedFile()) != null) {
 			fileName = selectedFile.getName();
@@ -262,8 +73,7 @@ public class LogParserWindow {
 		File workingDirectory = new File(System.getProperty(USER_DIRECTORY_PROPERTY));
 		jFileChooser.setCurrentDirectory(workingDirectory);
 		jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-	    FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt logs file", "txt");
-	    jFileChooser.setFileFilter(filter);
+		jFileChooser.setFileFilter(new FileNameExtensionFilter("log files", "txt"));
 		if (jFileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 			return jFileChooser.getSelectedFile();
 		}
@@ -280,15 +90,8 @@ public class LogParserWindow {
 		}
 	}
 
-	private void addActionListenerToLoadFromDatabaseMenuItem() {
-		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				drawSequenceFromDatabase();
-			}
-		});
-	}
-
-	private void drawSequenceFromDatabase() {
+	@Override
+	protected void drawSequenceFromDatabase() {
 		ParserDAO pdao = new ParserDAO();
 		String selectedFile = getSelectedFileFromDb(pdao);
 		if ((selectedFile != null) && (selectedFile.length() > 0)) {
@@ -315,28 +118,16 @@ public class LogParserWindow {
 		return null;
 	}
 
-	private void addActionListenerToSaveToDatabaseMenuItem() {
-		saveToDatabaseMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveToDatabase();
-			}
-		});
-	}
-
-	private void saveToDatabase() {
-		if (fileName != null && fileName != "") {
+	@Override
+	protected void saveToDatabase() {
+		if (fileName != null && !fileName.equals("")) {
 			try {
 				ParserDAO pdao = new ParserDAO();
 				boolean doesFileExist = pdao.existTtcnEvent(fileName);
 
 				if (doesFileExist) {
-					Object[] facilities = { "Overwrite it", "Cancel" };
-					int selectedFacility = JOptionPane.showOptionDialog(frame,
-							"The current filename exist in the database, what would you like to do?",
-							SAVE_TO_DATABASE_LABEL, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
-							facilities, facilities[0]);
-
-					if (selectedFacility == 0) {
+					int selectedFacility = getOverwritePermission();
+					if (selectedFacility == OVERWRITE) {
 						pdao.removeTtcnEvent(fileName);
 						pdao.saveTtcnEventMulti(eventSet);
 						showSaveToDbCompletedMessage();
@@ -355,82 +146,86 @@ public class LogParserWindow {
 		}
 	}
 
+	private int getOverwritePermission() {
+		Object[] facilities = { "Overwrite it", "Cancel" };
+		int selectedFacility = JOptionPane.showOptionDialog(frame,
+				"The current filename exist in the database, what would you like to do?", SAVE_TO_DATABASE_LABEL,
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, facilities, facilities[0]);
+		return selectedFacility;
+	}
+
 	private void showSaveToDbCompletedMessage() {
 		JOptionPane.showMessageDialog(frame, "Save completed!", SAVE_TO_DATABASE_LABEL,
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	private void addActionListenerToExitMenuItem() {
-		exitMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		});
-	}
+	@Override
+	protected void generateTree(String messageParameter) {
+		String[] lines = messageParameter.split("\r\n|\n|\r");
+		Deque<DefaultMutableTreeNode> stack = new ArrayDeque<DefaultMutableTreeNode>();
 
-	private void setStatusPanel() {
-		statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		statusPanel.setPreferredSize(new Dimension(frame.getWidth(), STATUS_PANEL_HEIGHT));
-		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
-		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		statusPanel.add(statusLabel);
-	}
+		root.removeAllChildren();
 
-	private void setTreePanel() {
-		treePanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		treePanel.setPreferredSize(new Dimension(frame.getWidth() / 3, frame.getHeight()));
-		treePanel.setLayout(new BoxLayout(treePanel, BoxLayout.X_AXIS));
-		treePanel.add(paramsLabel);
-		treePanel.add(jScrollPane);
-	}
+		DefaultMutableTreeNode actualElement = root;
+		int rowCount = 0;
 
-	private void addCanvasListeners() {
-		addCanvasLoaderListener();
-		addCanvasBuilderListener();
-		addCanvasRendererListener();
-	}
+		for (String line : lines) {
 
-	private void addCanvasLoaderListener() {
-		svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
-			@Override
-			public void documentLoadingStarted(SVGDocumentLoaderEvent e) {
-				statusLabel.setText(StatusPanelMessage.DOCUMENT_LOADING);
-			}
+			if (line.contains(" := ")) {
+				String[] groups = line.split(" := ");
+				String group1 = groups[0].trim();
+				String group2 = groups[1].trim();
 
-			@Override
-			public void documentLoadingCompleted(SVGDocumentLoaderEvent e) {
-				statusLabel.setText(StatusPanelMessage.DOCUMENT_LOADED);
-				tempSequenceSvg.delete();
-			}
-		});
-	}
+				if (group2.substring(group2.length() - 1).equals(",")) {
+					group2 = Utils.removeLastCharacter(group2);
+				}
 
-	private void addCanvasBuilderListener() {
-		svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
-			@Override
-			public void gvtBuildStarted(GVTTreeBuilderEvent e) {
-				statusLabel.setText(StatusPanelMessage.BUILDING);
+				if (group2.equals("{")) {
+					if (group1 != null && !group1.equals("")) {
+						if (actualElement != null) {
+							stack.push(actualElement);
+						}
+						actualElement = new DefaultMutableTreeNode(group1);
+					}
+				}
+
+				else if (group2.equals("{ }")) {
+					DefaultMutableTreeNode base = new DefaultMutableTreeNode(group1);
+					base.add(new DefaultMutableTreeNode("[Empty Object]"));
+					actualElement.add(base);
+				}
+
+				else {
+					actualElement.add(new DefaultMutableTreeNode(group1 + " = " + group2));
+				}
 			}
 
-			@Override
-			public void gvtBuildCompleted(GVTTreeBuilderEvent e) {
-				statusLabel.setText(StatusPanelMessage.BUILD_DONE);
-
+			else if ((line.trim().equals("}") || line.trim().equals("},")) && lines.length - 1 > rowCount) {
+				DefaultMutableTreeNode prev = stack.pop();
+				prev.add(actualElement);
+				actualElement = prev;
 			}
-		});
+
+			else if (line.trim().equals("{")) {
+				stack.push(actualElement);
+				actualElement = new DefaultMutableTreeNode("[ArrayElement]");
+			}
+
+			else if (line.length() > 1) {
+				actualElement.add(new DefaultMutableTreeNode(line.replaceAll("} ", "").trim()));
+			}
+			rowCount++;
+		}
+
+		((DefaultTreeModel) jTree.getModel()).reload();
+
+		DefaultMutableTreeNode currentNode = root.getNextNode();
+		do {
+			if (currentNode.getLevel() == 0) {
+				jTree.expandPath(new TreePath(currentNode.getPath()));
+			}
+			currentNode = currentNode.getNextNode();
+		} while (currentNode != null);
 	}
 
-	private void addCanvasRendererListener() {
-		svgCanvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
-			@Override
-			public void gvtRenderingPrepare(GVTTreeRendererEvent e) {
-				statusLabel.setText(StatusPanelMessage.RENDERING);
-			}
-
-			@Override
-			public void gvtRenderingCompleted(GVTTreeRendererEvent e) {
-				statusLabel.setText(fileName + StatusPanelMessage.PARSE_DONE + StatusPanelMessage.HINT);
-			}
-		});
-	}
 }

@@ -2,23 +2,22 @@ package hu.bme.tmit.agile.logfilereader.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.util.TreeSet;
 
 import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
@@ -27,62 +26,70 @@ import org.apache.batik.swing.svg.GVTTreeBuilderAdapter;
 import org.apache.batik.swing.svg.GVTTreeBuilderEvent;
 import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
 import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
-import org.w3c.dom.svg.SVGDocument;
+import org.apache.batik.swing.svg.SVGUserAgent;
+import org.apache.batik.swing.svg.SVGUserAgentAdapter;
 
-import hu.bme.tmit.agile.logfilereader.controller.Parser;
-import hu.bme.tmit.agile.logfilereader.dao.DatabaseLoader;
+import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
-import util.PlantUmlConverter;
 import util.StatusPanelMessage;
 
-public class LogParserWindow {
+public abstract class LogParserWindowSkeleton {
 
-	private static final int WINDOW_VERTICAL = 100;
-	private static final int WINDOW_HORIZONTAL = 100;
-	private static final int WINDOW_HEIGHT = 600;
-	private static final int WINDOW_WIDTH = 800;
+	private static final String MAIN_WINDOW_TITLE = "Parser and sequence drawer";
+	protected static final String LOAD_FROM_DATABASE_LABEL = "Load from database...";
+	protected static final String SAVE_TO_DATABASE_LABEL = "Save to database...";
+
+	private static final int WINDOW_VERTICAL = 50;
+	private static final int WINDOW_HORIZONTAL = 50;
+	private static final int WINDOW_HEIGHT = 900;
+	private static final int WINDOW_WIDTH = 1200;
 
 	private static final int STATUS_PANEL_HEIGHT = 16;
 
-	private static final String USER_DIRECTORY_PROPERTY = "user.dir";
+	protected JFrame frame = new JFrame(MAIN_WINDOW_TITLE);
 
-	private JFrame frame = new JFrame("Parser and sequence drawer");;
-	private JMenu fileMenu = new JMenu("File");
 	private JMenuBar menuBar = new JMenuBar();
-	private JMenuItem openFileMenuItem = new JMenuItem("Open file");
-	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem("Load from database");
+	private JMenu fileMenu = new JMenu("File");
+	private JMenuItem openFileMenuItem = new JMenuItem("Open file...");
+	private JMenuItem loadFromDatabaseMenuItem = new JMenuItem(LOAD_FROM_DATABASE_LABEL);
+	private JMenuItem saveToDatabaseMenuItem = new JMenuItem(SAVE_TO_DATABASE_LABEL);
 	private JMenuItem exitMenuItem = new JMenuItem("Exit");
+
 	private JPanel statusPanel = new JPanel();
-	private JLabel statusLabel = new JLabel();
+	protected JLabel statusLabel = new JLabel();
 
-	private String fileName;
+	private JPanel treePanel = new JPanel();
+	protected DefaultMutableTreeNode root = new DefaultMutableTreeNode("Parameters");
+	protected JTree jTree = new JTree(root);
+	private JScrollPane jScrollPane = new JScrollPane(jTree);
+	private JLabel paramsLabel = new JLabel();
 
-	private JSVGCanvas svgCanvas = new JSVGCanvas();
+	protected String fileName;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LogParserWindow window = new LogParserWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	protected TtcnEvent[] eventArray = null;
 
-	private LogParserWindow() {
-		initialize();
-	}
+	protected File tempSequenceSvg;
 
-	private void initialize() {
+	private SVGUserAgent ua = new SVGUserAgentAdapter() {
+		@Override
+		public void showAlert(String id) {
+			Message m = (Message) eventArray[Integer.parseInt(id)];
+			generateTree(m.getParam());
+		}
+	};
+
+	protected abstract void generateTree(String messageParameter);
+
+	protected JSVGCanvas svgCanvas = new JSVGCanvas(ua, true, true);
+
+	protected void initialize() {
 		setFrame();
 		setMenuBar();
 		setFileMenu();
 		addMenuItemListeners();
 		setStatusPanel();
 		addCanvasListeners();
+		setTreePanel();
 	}
 
 	private void setFrame() {
@@ -91,6 +98,7 @@ public class LogParserWindow {
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(statusPanel, BorderLayout.SOUTH);
 		frame.add(svgCanvas, BorderLayout.CENTER);
+		frame.add(treePanel, BorderLayout.EAST);
 	}
 
 	private void setMenuBar() {
@@ -100,86 +108,48 @@ public class LogParserWindow {
 	private void setFileMenu() {
 		fileMenu.add(openFileMenuItem);
 		fileMenu.add(loadFromDatabaseMenuItem);
+		fileMenu.add(saveToDatabaseMenuItem);
 		fileMenu.add(exitMenuItem);
 	}
 
 	private void addMenuItemListeners() {
 		addActionListenerToOpenFileMenuItem();
 		addActionListenerToLoadFromDatabaseMenuItem();
-		addActionListenerToMenuItemExit();
+		addActionListenerToSaveToDatabaseMenuItem();
+		addActionListenerToExitMenuItem();
 	}
 
 	private void addActionListenerToOpenFileMenuItem() {
 		openFileMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File selectedFile;
-				if ((selectedFile = getSelectedFile()) != null) {
-					fileName = selectedFile.getName();
-					try {
-						Parser parser = new Parser();
-						parser.parse(selectedFile.getAbsolutePath());
-						SVGDocument document = PlantUmlConverter.convert(parser.getEventSet());
-						svgCanvas.setSVGDocument(document);
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					}
-				} else {
-					statusLabel.setText(StatusPanelMessage.CANCELLED_BY_USER);
-				}
+				drawSequenceFromFile();
 			}
 		});
 	}
 
-	private File getSelectedFile() {
-		final JFileChooser jFileChooser = new JFileChooser();
-		File workingDirectory = new File(System.getProperty(USER_DIRECTORY_PROPERTY));
-		jFileChooser.setCurrentDirectory(workingDirectory);
-		if (jFileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
-			return jFileChooser.getSelectedFile();
-		}
-		return null;
-	}
+	protected abstract void drawSequenceFromFile();
 
-<<<<<<< HEAD
-=======
-	private SVGDocument getSvgDocument(String plantUmlString) throws IOException, UnsupportedEncodingException {
-		SourceStringReader reader = new SourceStringReader(plantUmlString);
-		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		// Write the first image to "os"
-		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
-		os.close();
-
-		// The XML is stored into svg
-		final String svg = new String(os.toByteArray(), Charset.forName(ENCODING));
-
-		String svgToCanvas = XMLResourceDescriptor.getXMLParserClassName();
-		SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(svgToCanvas);
-		SVGDocument document = factory.createSVGDocument("", new ByteArrayInputStream(svg.getBytes(ENCODING)));
-		return document;
-	}
-
->>>>>>> origin/master
 	private void addActionListenerToLoadFromDatabaseMenuItem() {
 		loadFromDatabaseMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					DatabaseLoader dl = new DatabaseLoader();
-					TreeSet<TtcnEvent> ts = dl.getTimerOperations("WCG100200010.txt");
-					// SVGDocument document = PlantUmlConverter.convert(ts);
-					// svgCanvas.setSVGDocument(document);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-
+				drawSequenceFromDatabase();
 			}
 		});
 	}
 
-	private void addActionListenerToMenuItemExit() {
+	protected abstract void drawSequenceFromDatabase();
+
+	private void addActionListenerToSaveToDatabaseMenuItem() {
+		saveToDatabaseMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveToDatabase();
+			}
+		});
+	}
+
+	protected abstract void saveToDatabase();
+
+	private void addActionListenerToExitMenuItem() {
 		exitMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -193,6 +163,14 @@ public class LogParserWindow {
 		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
 		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		statusPanel.add(statusLabel);
+	}
+
+	private void setTreePanel() {
+		treePanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		treePanel.setPreferredSize(new Dimension(frame.getWidth() / 3, frame.getHeight()));
+		treePanel.setLayout(new BoxLayout(treePanel, BoxLayout.X_AXIS));
+		treePanel.add(paramsLabel);
+		treePanel.add(jScrollPane);
 	}
 
 	private void addCanvasListeners() {
@@ -211,6 +189,7 @@ public class LogParserWindow {
 			@Override
 			public void documentLoadingCompleted(SVGDocumentLoaderEvent e) {
 				statusLabel.setText(StatusPanelMessage.DOCUMENT_LOADED);
+				tempSequenceSvg.delete();
 			}
 		});
 	}
@@ -225,7 +204,7 @@ public class LogParserWindow {
 			@Override
 			public void gvtBuildCompleted(GVTTreeBuilderEvent e) {
 				statusLabel.setText(StatusPanelMessage.BUILD_DONE);
-				// frame.pack();
+
 			}
 		});
 	}

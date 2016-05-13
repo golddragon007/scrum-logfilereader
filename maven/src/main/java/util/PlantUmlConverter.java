@@ -15,17 +15,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import hu.bme.tmit.agile.logfilereader.model.ComponentEvent;
+import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 import hu.bme.tmit.agile.logfilereader.model.Message;
 import hu.bme.tmit.agile.logfilereader.model.TimerOperation;
 import hu.bme.tmit.agile.logfilereader.model.TtcnEvent;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation;
-import hu.bme.tmit.agile.logfilereader.model.ComponentEvent.ComponentEventType;
 import hu.bme.tmit.agile.logfilereader.model.VerdictOperation.VerdictType;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 
 public class PlantUmlConverter {
+
+	private static final String ONCLICK_END = "\")'";
+	private static final String ONCLICK_BEGIN = " onclick='alert(\"";
+
+	private static final String PARTICIPANT_SYSTEM = "participant system";
+	private static final String PARTICIPANT_HC = "participant hc";
+	private static final String PARTICIPANT_MTC = "participant mtc";
+
+	private static final String NEW_LINE = "\n";
 
 	private static final String ENCODING = "UTF-8";
 
@@ -40,9 +49,9 @@ public class PlantUmlConverter {
 	private static final String RGB_YELLOW = "#FFFF00";
 	private static final String RGB_RED = "#FF0000";
 	private static final String RGB_GREEN = "#00FF00";
-	
+
 	private static final String TEMP_SEQUENCE_SVG = "temp_sequence_svg.txt";
-	
+
 	private static Map<String, String> matching = null;
 
 	public static void convertToFile(TreeSet<TtcnEvent> eventSet) throws UnsupportedEncodingException, IOException {
@@ -53,59 +62,57 @@ public class PlantUmlConverter {
 
 	private static String getPlantUmlString(TreeSet<TtcnEvent> eventSet) {
 		String plantUmlString = PLANTUML_STRING_START;
-		int cycle_count = 0;
-		plantUmlString += "participant mtc\nparticipant hc\nparticipant system\n";
+		int cycleCount = 0;
+		plantUmlString += PARTICIPANT_MTC + NEW_LINE + PARTICIPANT_HC + NEW_LINE + PARTICIPANT_SYSTEM + NEW_LINE;
 
 		for (TtcnEvent event : eventSet) {
 			if (event instanceof Message) {
 				if (!event.getSender().contains(":")) {
-					plantUmlString += getMessageString(event, cycle_count);
-					
+					plantUmlString += getMessageString(event, cycleCount);
 				}
 			}
 			if (event instanceof VerdictOperation) {
 				plantUmlString += getVerdictString(event);
-				
 			}
 			if (event instanceof TimerOperation) {
 				plantUmlString += getTimerString(event);
-				
 			}
 			if (event instanceof ComponentEvent) {
 				plantUmlString += getComponentString(event);
-			
 			}
-			
-			cycle_count++;
+
+			cycleCount++;
 		}
 		plantUmlString += PLANTUML_STRING_END;
 
 		return plantUmlString;
 	}
-	
+
 	private static String getComponentWithType(String componentName) {
 		String fromMatching = matching.get(componentName);
 		if (fromMatching != null && fromMatching != "") {
 			return "\"" + fromMatching + "\"";
 		}
-		
+
 		return "\"" + componentName + "\"";
 	}
 
 	private static String getMessageString(TtcnEvent event, int rowArrayId) {
-		return (getComponentWithType(event.getSender()) + " -> " + getComponentWithType(((Message) event).getDestination()) + " : " + rowArrayId
-				+ ((Message) event).getName() + "\n");
+		return (getComponentWithType(event.getSender()) + " -> "
+				+ getComponentWithType(((Message) event).getDestination()) + " : " + rowArrayId
+				+ ((Message) event).getName() + NEW_LINE);
 	}
-	
+
 	private static String getComponentString(TtcnEvent event) {
 		ComponentEvent ce = (ComponentEvent) event;
 		if (ce.getComponentEventType() == ComponentEventType.Create) {
-			matching.put(Integer.toString(ce.getComponentReference()), ce.getComponentReference() + " : " + ce.getComponentType());
-			return ("Create " + getComponentWithType(Integer.toString(ce.getComponentReference())) + "\n" + ce.getSender() + " -> " + getComponentWithType(Integer.toString(ce.getComponentReference())) + " : " + ce.getComponentEventType() + "\n");
-		}
-		else {
-			
-			return "destroy " + getComponentWithType(ce.getSender()) + "\n";
+			matching.put(Integer.toString(ce.getComponentReference()),
+					ce.getComponentReference() + " : " + ce.getComponentType());
+			return ("Create " + getComponentWithType(Integer.toString(ce.getComponentReference())) + NEW_LINE
+					+ ce.getSender() + " -> " + getComponentWithType(Integer.toString(ce.getComponentReference()))
+					+ " : " + ce.getComponentEventType() + NEW_LINE);
+		} else {
+			return "destroy " + getComponentWithType(ce.getSender()) + NEW_LINE;
 		}
 	}
 
@@ -120,8 +127,8 @@ public class PlantUmlConverter {
 	}
 
 	private static String getVerdictStringByType(TtcnEvent event, String color) {
-		return HNOTE_START + getComponentWithType(event.getSender()) + color + ": " + ((VerdictOperation) event).getVerdictType().toString()
-				+ "\n";
+		return HNOTE_START + getComponentWithType(event.getSender()) + color + ": "
+				+ ((VerdictOperation) event).getVerdictType().toString() + NEW_LINE;
 	}
 
 	private static String getTimerString(TtcnEvent event) {
@@ -135,9 +142,9 @@ public class PlantUmlConverter {
 	}
 
 	private static String getTimerStringByType(TtcnEvent event, String color) {
-		return (RNOTE_START + getComponentWithType(((TimerOperation) event).getSender()) + color + "\n" + ((TimerOperation) event).getName()
-				+ "\n" + ((TimerOperation) event).getEventType() + " " + ((TimerOperation) event).getDuration() + " s\n"
-				+ RNOTE_END + "\n");
+		return (RNOTE_START + getComponentWithType(((TimerOperation) event).getSender()) + color + NEW_LINE
+				+ ((TimerOperation) event).getName() + NEW_LINE + ((TimerOperation) event).getEventType() + " "
+				+ ((TimerOperation) event).getDuration() + " s" + NEW_LINE + RNOTE_END + NEW_LINE);
 	}
 
 	private static void writeSvgToFile(String plantUmlString) throws IOException, UnsupportedEncodingException {
@@ -163,7 +170,7 @@ public class PlantUmlConverter {
 		}
 		for (String string : matches) {
 			String id = string.substring(1, string.length() - 1);
-			svg = svg.replaceAll(string, " onclick='alert(\"" + id + "\")'" + string);
+			svg = svg.replaceAll(string, ONCLICK_BEGIN + id + ONCLICK_END + string);
 		}
 		return svg;
 	}

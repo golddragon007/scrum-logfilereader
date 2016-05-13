@@ -37,5 +37,4 @@ public class LogTimeStampTest {
 	public void isBeforeTestNotSameDate() {
 		assertTrue(lt3.isBefore(lt0));
 	}
-
 }

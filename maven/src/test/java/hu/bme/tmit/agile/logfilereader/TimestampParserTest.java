@@ -7,24 +7,20 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.bme.tmit.agile.logfilereader.controller.Parser;
 import util.EventIdentifier;
+import util.RegexpProperties;
 import util.PropertyHandler;
 import util.RegexpPatterns;
 
 public class TimestampParserTest {
 
-	private Parser parser = new Parser();
 	private final String date = "2014/Oct/24";
 	private String dateParts[], yearPattern, monthPattern, dayPattern;
 
-	private static final String DATE_PROPERTY = "date";
-	private static final String REGEXP_PATTERNS_PROPERTIES = "regexp_patterns.properties";
-
 	private void applyRules() {
 		PropertyHandler ph = new PropertyHandler();
-		Properties properties = ph.getProperties(REGEXP_PATTERNS_PROPERTIES);
-		RegexpPatterns.datePattern = properties.getProperty(DATE_PROPERTY);
+		Properties properties = ph.getProperties(RegexpProperties.REGEXP_PATTERNS_PROPERTIES);
+		RegexpPatterns.datePattern = properties.getProperty(RegexpProperties.DATE_PROPERTY);
 	}
 
 	@Before
